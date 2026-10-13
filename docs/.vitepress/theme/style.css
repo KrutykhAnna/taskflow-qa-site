@@ -51,3 +51,12 @@
 .kanban-board { margin: 16px auto; max-width: 480px; }
 .kanban-board svg { width: 100%; height: auto; display: block; }
 .kanban-board text { font-family: var(--vp-font-family-base); }
+.sdlc-cycle { margin: 16px auto; max-width: 600px; }
+.sdlc-cycle svg { width: 100%; height: auto; display: block; }
+.sdlc-cycle text { font-family: var(--vp-font-family-base); }
+.stlc-in-sdlc { margin: 16px auto; max-width: 600px; }
+.stlc-in-sdlc svg { width: 100%; height: auto; display: block; }
+.stlc-in-sdlc text { font-family: var(--vp-font-family-base); }
+.defect-cost { margin: 16px auto; max-width: 600px; }
+.defect-cost svg { width: 100%; height: auto; display: block; }
+.defect-cost text { font-family: var(--vp-font-family-base); }
