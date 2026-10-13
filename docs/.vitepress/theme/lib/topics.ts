@@ -25,6 +25,13 @@ export const TOPICS: Topic[] = [
     link: '/osnovy/02-komanda-i-roli',
   },
   {
+    id: 'osnovy/modeli-razrabotki',
+    block: 'osnovy',
+    num: 3,
+    title: 'Модели разработки',
+    link: '/osnovy/03-modeli-razrabotki',
+  },
+  {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
     num: 7,

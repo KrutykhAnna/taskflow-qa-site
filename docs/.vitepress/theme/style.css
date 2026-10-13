@@ -39,3 +39,15 @@
 .team-hub { margin: 16px auto; max-width: 600px; }
 .team-hub svg { width: 100%; height: auto; display: block; }
 .team-hub text { font-family: var(--vp-font-family-base); }
+.waterfall-steps { margin: 16px auto; max-width: 420px; }
+.waterfall-steps svg { width: 100%; height: auto; display: block; }
+.waterfall-steps text { font-family: var(--vp-font-family-base); }
+.v-model { margin: 16px auto; max-width: 520px; }
+.v-model svg { width: 100%; height: auto; display: block; }
+.v-model text { font-family: var(--vp-font-family-base); }
+.sprint-cycle { margin: 16px auto; max-width: 460px; }
+.sprint-cycle svg { width: 100%; height: auto; display: block; }
+.sprint-cycle text { font-family: var(--vp-font-family-base); }
+.kanban-board { margin: 16px auto; max-width: 480px; }
+.kanban-board svg { width: 100%; height: auto; display: block; }
+.kanban-board text { font-family: var(--vp-font-family-base); }
