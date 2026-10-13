@@ -23,6 +23,13 @@
 .tq-option.wrong { border-color: var(--vp-c-red-1); background: var(--vp-c-red-soft); }
 .tq-verdict { font-weight: 600; margin-top: 12px; }
 .tq-link, .tq-progress { font-size: 14px; color: var(--vp-c-text-2); }
-.lesson-tabs-bar { position: sticky; top: var(--vp-nav-height); z-index: 10; display: flex; gap: 4px; margin: 16px 0 8px; padding: 8px 0; background: var(--vp-c-bg); border-bottom: 1px solid var(--vp-c-divider); }
+.lesson-tabs-bar { display: flex; gap: 4px; margin: 16px 0 8px; padding: 8px 0; background: var(--vp-c-bg); border-bottom: 1px solid var(--vp-c-divider); }
 .lesson-tabs-bar button { padding: 6px 14px; border-radius: 8px; font-weight: 500; color: var(--vp-c-text-2); }
 .lesson-tabs-bar button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
+/* Липкая панель вкладок только на широких экранах: ниже 1280px VitePress показывает свою
+   локальную панель (VPLocalNav), которая перекрыла бы нашу. */
+@media (min-width: 1280px) {
+  .lesson-tabs-bar { position: sticky; top: var(--vp-nav-height); z-index: 10; }
+}
+/* Заголовок после перехода по якорю не прячется под шапкой (и под панелью вкладок). */
+.lesson-tabs :is(h2, h3) { scroll-margin-top: calc(var(--vp-nav-height) + 64px); }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
 type Tab = 'theory' | 'task' | 'questions'
 const tabs: { id: Tab; label: string }[] = [
@@ -18,7 +18,11 @@ function syncWithHash() {
   for (const t of tabs) {
     if (panels[t.id]?.contains(target)) {
       active.value = t.id
-      requestAnimationFrame(() => target.scrollIntoView())
+      // Роутер VitePress сам скроллит в rAF, пока вкладка ещё скрыта (координаты неверные).
+      // Ждём отрисовку вкладки и его скролл, затем скроллим сами (scroll-margin-top в style.css).
+      nextTick(() => {
+        requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView()))
+      })
       return
     }
   }
