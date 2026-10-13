@@ -11,6 +11,13 @@ export const BLOCKS: Block[] = [
 
 export const TOPICS: Topic[] = [
   {
+    id: 'osnovy/kto-takoy-testirovschik',
+    block: 'osnovy',
+    num: 1,
+    title: 'Кто такой тестировщик',
+    link: '/osnovy/01-kto-takoy-testirovschik',
+  },
+  {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
     num: 7,
