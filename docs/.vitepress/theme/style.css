@@ -14,7 +14,7 @@
 .tq-question { font-weight: 600; margin: 8px 0 12px; }
 .tq-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .tq-btn { border: 1px solid var(--vp-c-brand-1); color: var(--vp-c-brand-1); border-radius: 8px; padding: 6px 14px; font-size: 14px; }
-.tq-btn.primary, .tq-btn.on { background: var(--vp-c-brand-1); color: var(--vp-c-white); }
+.tq-btn.primary, .tq-btn.on { background: var(--vp-c-brand-1); color: var(--vp-c-bg); }
 .tq-btn:disabled:not(.on) { opacity: .5; }
 .tq-options { list-style: none; padding: 0; margin: 0; }
 .tq-options li { margin: 6px 0; }
@@ -23,3 +23,6 @@
 .tq-option.wrong { border-color: var(--vp-c-red-1); background: var(--vp-c-red-soft); }
 .tq-verdict { font-weight: 600; margin-top: 12px; }
 .tq-link, .tq-progress { font-size: 14px; color: var(--vp-c-text-2); }
+.lesson-tabs-bar { position: sticky; top: var(--vp-nav-height); z-index: 10; display: flex; gap: 4px; margin: 16px 0 8px; padding: 8px 0; background: var(--vp-c-bg); border-bottom: 1px solid var(--vp-c-divider); }
+.lesson-tabs-bar button { padding: 6px 14px; border-radius: 8px; font-weight: 500; color: var(--vp-c-text-2); }
+.lesson-tabs-bar button.active { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
