@@ -33,19 +33,19 @@
 
 Эти три слова часто путают. Они связаны, но означают разное. Удобно представить их как вложенные круги: самый большой — QA, внутри него QC, а внутри QC — тестирование.
 
-```mermaid
-flowchart TB
-  subgraph QA["QA — обеспечение качества"]
-    direction TB
-    subgraph QC["QC — контроль качества"]
-      direction TB
-      T["Тестирование<br/>конкретные проверки"]
-    end
-  end
-  style QA fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
-  style QC fill:#dcfce7,stroke:#16a34a,color:#14532d
-  style T fill:#fef3c7,stroke:#d97706,color:#78350f
-```
+<figure class="nested-circles">
+<svg viewBox="0 0 360 360" role="img" aria-label="Вложенные круги: QA содержит QC, QC содержит тестирование">
+  <circle cx="180" cy="180" r="172" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="180" cy="208" r="122" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <circle cx="180" cy="236" r="72" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+  <text x="180" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1e3a8a">QA</text>
+  <text x="180" y="62" text-anchor="middle" font-size="13" fill="#1e3a8a">обеспечение качества</text>
+  <text x="180" y="122" text-anchor="middle" font-size="20" font-weight="700" fill="#14532d">QC</text>
+  <text x="180" y="144" text-anchor="middle" font-size="13" fill="#14532d">контроль качества</text>
+  <text x="180" y="232" text-anchor="middle" font-size="17" font-weight="700" fill="#78350f">Тестирование</text>
+  <text x="180" y="254" text-anchor="middle" font-size="13" fill="#78350f">конкретные проверки</text>
+</svg>
+</figure>
 
 **QA (Quality Assurance, обеспечение качества)** — всё, что команда делает, чтобы ошибок было меньше с самого начала. Это про процесс: как пишутся требования, как команда договаривается, когда и что проверять.
 
