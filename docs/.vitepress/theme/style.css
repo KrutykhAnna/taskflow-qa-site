@@ -60,3 +60,9 @@
 .defect-cost { margin: 16px auto; max-width: 600px; }
 .defect-cost svg { width: 100%; height: auto; display: block; }
 .defect-cost text { font-family: var(--vp-font-family-base); }
+.build-chain { margin: 16px auto; max-width: 440px; }
+.build-chain svg { width: 100%; height: auto; display: block; }
+.build-chain text { font-family: var(--vp-font-family-base); }
+.types-map { margin: 16px auto; max-width: 420px; }
+.types-map svg { width: 100%; height: auto; display: block; }
+.types-map text { font-family: var(--vp-font-family-base); }
