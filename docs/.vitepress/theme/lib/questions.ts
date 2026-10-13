@@ -18,6 +18,8 @@ export type QuizQuestion = {
 
 export type Question = CardQuestion | QuizQuestion
 
+const ROOT_LINK = /\]\(\//
+
 const isText = (v: unknown): v is string => typeof v === 'string' && v.trim() !== ''
 
 export function parseTopicFile(
@@ -37,11 +39,17 @@ export function parseTopicFile(
     }
 
     if (!isText(r.id)) fail('нет id')
-    const id = r.id as string
+    const id = (r.id as string).trim()
     if (seen.has(id)) fail('id повторяется')
     seen.add(id)
     if (!isText(r.question)) fail('нет question')
     const question = r.question as string
+    for (const field of ['answer', 'explanation']) {
+      const v = r[field]
+      if (typeof v === 'string' && ROOT_LINK.test(v)) {
+        fail('ссылки в ответах не нужны — тренажёр сам показывает ссылку на тему')
+      }
+    }
 
     if (r.type === 'card') {
       if (!isText(r.answer)) fail('нет answer')
@@ -67,4 +75,13 @@ export function parseTopicFile(
 
     return fail(`неизвестный type "${String(r.type)}" (нужно card или quiz)`)
   })
+}
+
+export function assertUniqueIds(questions: Question[]): void {
+  const firstTopic = new Map<string, string>()
+  for (const q of questions) {
+    const prev = firstTopic.get(q.id)
+    if (prev !== undefined) throw new Error(`id ${q.id} повторяется в ${prev} и ${q.topic}`)
+    firstTopic.set(q.id, q.topic)
+  }
 }

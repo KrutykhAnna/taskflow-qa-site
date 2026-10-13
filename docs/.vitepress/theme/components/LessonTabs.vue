@@ -28,6 +28,12 @@ function syncWithHash() {
   }
 }
 
+function selectTab(id: Tab) {
+  active.value = id
+  // Сбрасываем hash, чтобы повторный клик по той же ссылке оглавления снова переключал вкладку.
+  if (location.hash) history.replaceState(history.state, '', location.pathname + location.search)
+}
+
 onMounted(() => {
   syncWithHash()
   window.addEventListener('hashchange', syncWithHash)
@@ -44,7 +50,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', syncWithHash))
         role="tab"
         :aria-selected="active === t.id"
         :class="{ active: active === t.id }"
-        @click="active = t.id"
+        @click="selectTab(t.id)"
       >{{ t.label }}</button>
     </div>
     <div v-show="active === 'theory'" :ref="(el) => (panels.theory = el as HTMLElement)"><slot name="theory" /></div>

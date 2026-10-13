@@ -1,5 +1,5 @@
 export type Block = { id: string; title: string }
-export type Topic = { id: string; block: string; title: string; link: string }
+export type Topic = { id: string; block: string; num: number; title: string; link: string }
 
 export const BLOCKS: Block[] = [
   { id: 'osnovy', title: 'Основы тестирования' },
@@ -13,6 +13,7 @@ export const TOPICS: Topic[] = [
   {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
+    num: 6,
     title: 'Техники тест-дизайна',
     link: '/osnovy/06-tehniki-test-dizayna',
   },

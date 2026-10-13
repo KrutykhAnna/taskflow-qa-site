@@ -4,7 +4,7 @@ import { withBase } from 'vitepress'
 import type { CardQuestion } from '../lib/questions'
 import { topicById } from '../lib/topics'
 
-const props = defineProps<{ q: CardQuestion; showTopic?: boolean }>()
+const props = defineProps<{ q: CardQuestion; showTopic?: boolean; selfCheck?: boolean }>()
 const emit = defineEmits<{ answered: [known: boolean] }>()
 const open = ref(false)
 const verdict = ref<boolean | null>(null)
@@ -27,7 +27,7 @@ function mark(known: boolean) {
       <p v-if="showTopic && topic" class="tq-link">
         Тема: <a :href="withBase(topic.link)">{{ topic.title }}</a>
       </p>
-      <div class="tq-actions">
+      <div v-if="selfCheck" class="tq-actions">
         <button class="tq-btn" :class="{ on: verdict === true }" :disabled="verdict !== null" @click="mark(true)">Знал(а)</button>
         <button class="tq-btn" :class="{ on: verdict === false }" :disabled="verdict !== null" @click="mark(false)">Не знал(а)</button>
       </div>

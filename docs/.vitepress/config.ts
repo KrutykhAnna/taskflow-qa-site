@@ -1,5 +1,16 @@
 import { defineConfig } from 'vitepress'
+import { BLOCKS, TOPICS } from './theme/lib/topics'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+
+const sidebar = BLOCKS.map((b, i) => {
+  const topics = TOPICS.filter((t) => t.block === b.id).sort((x, y) => x.num - y.num)
+  return {
+    text: `${i + 1}. ${b.title}`,
+    items: topics.length
+      ? [{ text: 'Обзор блока', link: `/${b.id}/` }, ...topics.map((t) => ({ text: t.title, link: t.link }))]
+      : [{ text: 'Скоро', link: `/${b.id}/` }],
+  }
+})
 
 export default withMermaid(
   defineConfig({
@@ -12,19 +23,7 @@ export default withMermaid(
         { text: 'Курс', link: '/osnovy/' },
         { text: 'Тренажёр интервью', link: '/trainer' },
       ],
-      sidebar: [
-        {
-          text: '1. Основы тестирования',
-          items: [
-            { text: 'Обзор блока', link: '/osnovy/' },
-            { text: 'Техники тест-дизайна', link: '/osnovy/06-tehniki-test-dizayna' },
-          ],
-        },
-        { text: '2. Клиент-сервер и API', items: [{ text: 'Скоро', link: '/api/' }] },
-        { text: '3. Базы данных и SQL', items: [{ text: 'Скоро', link: '/bd/' }] },
-        { text: '4. Web', items: [{ text: 'Скоро', link: '/web/' }] },
-        { text: '5. Мобильное через web', items: [{ text: 'Скоро', link: '/mobile/' }] },
-      ],
+      sidebar,
       search: {
         provider: 'local',
         options: {

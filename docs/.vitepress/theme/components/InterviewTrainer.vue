@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { data as bank } from '../../../questions/questions.data'
 import type { Question } from '../lib/questions'
-import { pickSession, type SessionFilter } from '../lib/session'
+import { pickSession, shuffleOptions, type SessionFilter } from '../lib/session'
 import { BLOCKS, TOPICS, topicById } from '../lib/topics'
 import QuestionCard from './QuestionCard.vue'
 import QuizQuestion from './QuizQuestion.vue'
@@ -20,7 +20,7 @@ const session = ref<Question[] | null>(null)
 const results = ref<Record<string, boolean>>({})
 
 function start(filter: SessionFilter) {
-  session.value = pickSession(bank, filter)
+  session.value = pickSession(bank, filter).map((q) => (q.type === 'quiz' ? shuffleOptions(q) : q))
   results.value = {}
 }
 function record(id: string, known: boolean) {
@@ -67,7 +67,7 @@ const toRepeat = computed(() =>
     <template v-else>
       <p class="tq-progress">Отвечено {{ Object.keys(results).length }} из {{ session.length }}</p>
       <template v-for="q in session" :key="q.id">
-        <QuestionCard v-if="q.type === 'card'" :q="q" show-topic @answered="record(q.id, $event)" />
+        <QuestionCard v-if="q.type === 'card'" :q="q" show-topic self-check @answered="record(q.id, $event)" />
         <QuizQuestion v-else :q="q" show-topic @answered="record(q.id, $event)" />
       </template>
 

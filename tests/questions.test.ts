@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parseTopicFile } from '../docs/.vitepress/theme/lib/questions'
+import { parseTopicFile, assertUniqueIds, type Question } from '../docs/.vitepress/theme/lib/questions'
 
 const render = (md: string) => `<p>${md}</p>`
 const T = 'osnovy/tehniki-test-dizayna'
@@ -53,5 +53,51 @@ describe('parseTopicFile', () => {
   it('повторяющийся id — ошибка', () => {
     const q = { id: 'g', type: 'card', question: 'Q', answer: 'A' }
     expect(() => parseTopicFile([q, q], T, render)).toThrow(/вопрос g:/)
+  })
+})
+
+describe('id: trim и ссылки', () => {
+  it('обрезает пробелы в id', () => {
+    const [q] = parseTopicFile([{ id: ' a ', type: 'card', question: 'Q', answer: 'A' }], T, render)
+    expect(q.id).toBe('a')
+  })
+
+  it('дубликат после trim — ошибка', () => {
+    expect(() =>
+      parseTopicFile(
+        [
+          { id: 'a', type: 'card', question: 'Q', answer: 'A' },
+          { id: ' a', type: 'card', question: 'Q', answer: 'A' },
+        ],
+        T,
+        render,
+      ),
+    ).toThrow('id повторяется')
+  })
+
+  it('запрещает корневые ссылки в answer', () => {
+    expect(() =>
+      parseTopicFile([{ id: 'a', type: 'card', question: 'Q', answer: 'см. [x](/osnovy/)' }], T, render),
+    ).toThrow('ссылки в ответах не нужны')
+  })
+
+  it('запрещает корневые ссылки в explanation', () => {
+    expect(() =>
+      parseTopicFile(
+        [{ id: 'a', type: 'quiz', question: 'Q', options: ['x', 'y'], correct: 0, explanation: '[x](/a)' }],
+        T,
+        render,
+      ),
+    ).toThrow('ссылки в ответах не нужны')
+  })
+})
+
+describe('assertUniqueIds', () => {
+  const c = (id: string, topic: string): Question => ({ id, topic, type: 'card', question: id, answerHtml: '' })
+  it('пропускает уникальные', () => {
+    expect(() => assertUniqueIds([c('a', 't1'), c('b', 't2')])).not.toThrow()
+  })
+  it('бросает на дубликате между темами', () => {
+    expect(() => assertUniqueIds([c('a', 't1'), c('a', 't2')])).toThrow('id a повторяется в t1 и t2')
   })
 })
