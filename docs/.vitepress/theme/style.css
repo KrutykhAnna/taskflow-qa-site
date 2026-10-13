@@ -66,3 +66,9 @@
 .types-map { margin: 16px auto; max-width: 420px; }
 .types-map svg { width: 100%; height: auto; display: block; }
 .types-map text { font-family: var(--vp-font-family-base); }
+.doc-compare { margin: 16px auto; max-width: 440px; }
+.doc-compare svg { width: 100%; height: auto; display: block; }
+.doc-compare text { font-family: var(--vp-font-family-base); }
+.doc-levels { margin: 16px auto; max-width: 440px; }
+.doc-levels svg { width: 100%; height: auto; display: block; }
+.doc-levels text { font-family: var(--vp-font-family-base); }

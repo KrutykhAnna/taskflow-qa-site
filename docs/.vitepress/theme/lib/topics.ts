@@ -46,6 +46,13 @@ export const TOPICS: Topic[] = [
     link: '/osnovy/05-vidy-testirovaniya',
   },
   {
+    id: 'osnovy/testovaya-dokumentaciya',
+    block: 'osnovy',
+    num: 6,
+    title: 'Тестовая документация',
+    link: '/osnovy/06-testovaya-dokumentaciya',
+  },
+  {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
     num: 7,
