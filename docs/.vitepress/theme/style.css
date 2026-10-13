@@ -36,3 +36,6 @@
 .nested-circles { margin: 16px auto; max-width: 360px; }
 .nested-circles svg { width: 100%; height: auto; display: block; }
 .nested-circles text { font-family: var(--vp-font-family-base); }
+.team-hub { margin: 16px auto; max-width: 600px; }
+.team-hub svg { width: 100%; height: auto; display: block; }
+.team-hub text { font-family: var(--vp-font-family-base); }

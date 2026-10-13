@@ -41,22 +41,44 @@
 
 ## Тестировщик в центре
 
-Тестировщик связан почти со всеми в команде. На схеме у каждой стрелки подпись: **слева от косой черты — что тестировщик получает, справа — что отдаёт**.
+Тестировщик связан почти со всеми в команде. В каждой карточке на схеме: **что ты получаешь от этого человека и что отдаёшь ему**.
 
-```mermaid
-flowchart LR
-  T(["Тестировщик"])
-  PO["Владелец продукта<br/>PO / PM"] <-->|"приоритеты / вопросы, риски"| T
-  BA["Аналитик<br/>BA / SA"] <-->|"требования / неясные места"| T
-  DS["Дизайнер"] <-->|"макеты / расхождения с макетом"| T
-  T <-->|"сборка, исправления / баг-репорты"| DEV["Разработчики<br/>frontend и backend"]
-  T <-->|"устройство системы / вопросы"| TL["Тимлид"]
-  T <-->|"рабочий стенд / «стенд упал»"| OPS["DevOps"]
-  classDef tester fill:#fef3c7,stroke:#d97706,color:#78350f,font-weight:bold
-  classDef role fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
-  class T tester
-  class PO,BA,DS,DEV,TL,OPS role
-```
+<figure class="team-hub">
+<svg viewBox="0 0 600 520" role="img" aria-label="Тестировщик в центре команды и что он получает и отдаёт каждой роли">
+  <line x1="300" y1="260" x2="110" y2="85" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="300" y1="260" x2="490" y2="85" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="300" y1="260" x2="95" y2="260" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="300" y1="260" x2="505" y2="260" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="300" y1="260" x2="110" y2="435" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="300" y1="260" x2="490" y2="435" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="20" y="45" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="110" y="71" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Владелец продукта</text>
+  <text x="110" y="93" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: приоритеты</text>
+  <text x="110" y="112" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: риски</text>
+  <rect x="400" y="45" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="490" y="71" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Аналитик</text>
+  <text x="490" y="93" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: требования</text>
+  <text x="490" y="112" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: вопросы</text>
+  <rect x="5" y="220" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="95" y="246" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Дизайнер</text>
+  <text x="95" y="268" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: макеты</text>
+  <text x="95" y="287" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: расхождения</text>
+  <rect x="415" y="220" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="505" y="246" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Разработчики</text>
+  <text x="505" y="268" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: сборку</text>
+  <text x="505" y="287" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: баг-репорты</text>
+  <rect x="20" y="395" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="110" y="421" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">Тимлид</text>
+  <text x="110" y="443" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: схему системы</text>
+  <text x="110" y="462" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: вопросы</text>
+  <rect x="400" y="395" width="180" height="80" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="490" y="421" text-anchor="middle" font-size="16" font-weight="700" fill="#1e3a8a">DevOps</text>
+  <text x="490" y="443" text-anchor="middle" font-size="13" fill="#1e3a8a">получаешь: стенд</text>
+  <text x="490" y="462" text-anchor="middle" font-size="13" fill="#1e3a8a">отдаёшь: «стенд упал»</text>
+  <rect x="220" y="230" width="160" height="60" rx="30" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+  <text x="300" y="266" text-anchor="middle" font-size="18" font-weight="700" fill="#78350f">Тестировщик</text>
+</svg>
+</figure>
 
 Обрати внимание: тестировщик не только «принимает» работу у разработчиков. Он участвует с самого начала — задаёт вопросы по требованиям ещё до того, как написан код. Такой вопрос стоит дешевле, чем баг, найденный потом.
 
