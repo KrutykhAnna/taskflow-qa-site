@@ -13,9 +13,9 @@ export const TOPICS: Topic[] = [
   {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
-    num: 6,
+    num: 7,
     title: 'Техники тест-дизайна',
-    link: '/osnovy/06-tehniki-test-dizayna',
+    link: '/osnovy/07-tehniki-test-dizayna',
   },
 ]
 
