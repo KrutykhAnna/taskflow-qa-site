@@ -18,6 +18,13 @@ export const TOPICS: Topic[] = [
     link: '/osnovy/01-kto-takoy-testirovschik',
   },
   {
+    id: 'osnovy/komanda-i-roli',
+    block: 'osnovy',
+    num: 2,
+    title: 'Команда и роли',
+    link: '/osnovy/02-komanda-i-roli',
+  },
+  {
     id: 'osnovy/tehniki-test-dizayna',
     block: 'osnovy',
     num: 7,
