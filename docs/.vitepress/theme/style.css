@@ -101,3 +101,15 @@
 .url-anatomy { margin: 16px auto; max-width: 440px; }
 .url-anatomy svg { width: 100%; height: auto; display: block; }
 .url-anatomy text { font-family: var(--vp-font-family-base); }
+
+.osi-tcpip { margin: 16px auto; max-width: 440px; }
+.osi-tcpip svg { width: 100%; height: auto; display: block; }
+.osi-tcpip text { font-family: var(--vp-font-family-base); }
+
+.encapsulation { margin: 16px auto; max-width: 440px; }
+.encapsulation svg { width: 100%; height: auto; display: block; }
+.encapsulation text { font-family: var(--vp-font-family-base); }
+
+.tcp-handshake { margin: 16px auto; max-width: 440px; }
+.tcp-handshake svg { width: 100%; height: auto; display: block; }
+.tcp-handshake text { font-family: var(--vp-font-family-base); }
