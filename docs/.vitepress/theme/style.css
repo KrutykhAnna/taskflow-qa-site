@@ -165,3 +165,11 @@
 .session-vs-token { margin: 16px auto; max-width: 440px; }
 .session-vs-token svg { width: 100%; height: auto; display: block; }
 .session-vs-token text { font-family: var(--vp-font-family-base); }
+
+.security-layers { margin: 16px auto; max-width: 440px; }
+.security-layers svg { width: 100%; height: auto; display: block; }
+.security-layers text { font-family: var(--vp-font-family-base); }
+
+.idor { margin: 16px auto; max-width: 440px; }
+.idor svg { width: 100%; height: auto; display: block; }
+.idor text { font-family: var(--vp-font-family-base); }
