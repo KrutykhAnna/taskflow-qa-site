@@ -141,3 +141,15 @@
 .gateway-errors { margin: 16px auto; max-width: 440px; }
 .gateway-errors svg { width: 100%; height: auto; display: block; }
 .gateway-errors text { font-family: var(--vp-font-family-base); }
+
+.api-styles { margin: 16px auto; max-width: 440px; }
+.api-styles svg { width: 100%; height: auto; display: block; }
+.api-styles text { font-family: var(--vp-font-family-base); }
+
+.json-xml { margin: 16px auto; max-width: 440px; }
+.json-xml svg { width: 100%; height: auto; display: block; }
+.json-xml text { font-family: var(--vp-font-family-base); }
+
+.breaking-changes { margin: 16px auto; max-width: 440px; }
+.breaking-changes svg { width: 100%; height: auto; display: block; }
+.breaking-changes text { font-family: var(--vp-font-family-base); }
