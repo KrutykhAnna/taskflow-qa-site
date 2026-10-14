@@ -9,9 +9,9 @@
 | 2 | [Команда и роли](./02-komanda-i-roli) | готов |
 | 3 | [Модели разработки](./03-modeli-razrabotki) | готов |
 | 4 | [SDLC и STLC](./04-sdlc-i-stlc) | готов |
-| 5 | [Виды тестирования](./05-vidy-testirovaniya) | готов |
-| 6 | [Тестовая документация](./06-testovaya-dokumentaciya) | готов |
-| 7 | [Техники тест-дизайна](./07-tehniki-test-dizayna) | готов |
-| 8 | [Баг-репорт](./08-bag-report) | готов |
-| 9 | [Оценка задач](./09-ocenka-zadach) | готов |
-| 10 | [Тестовые окружения](./10-testovye-okruzheniya) | готов |
+| 6 | [Виды тестирования](./06-vidy-testirovaniya) | готов |
+| 7 | [Тестовая документация](./07-testovaya-dokumentaciya) | готов |
+| 8 | [Техники тест-дизайна](./08-tehniki-test-dizayna) | готов |
+| 9 | [Баг-репорт](./09-bag-report) | готов |
+| 10 | [Оценка задач](./10-ocenka-zadach) | готов |
+| 11 | [Тестовые окружения](./11-testovye-okruzheniya) | готов |
