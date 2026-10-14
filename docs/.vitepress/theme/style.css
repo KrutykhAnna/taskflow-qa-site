@@ -173,3 +173,11 @@
 .idor { margin: 16px auto; max-width: 440px; }
 .idor svg { width: 100%; height: auto; display: block; }
 .idor text { font-family: var(--vp-font-family-base); }
+
+.endpoint-checks { margin: 16px auto; max-width: 440px; }
+.endpoint-checks svg { width: 100%; height: auto; display: block; }
+.endpoint-checks text { font-family: var(--vp-font-family-base); }
+
+.sort-order { margin: 16px auto; max-width: 440px; }
+.sort-order svg { width: 100%; height: auto; display: block; }
+.sort-order text { font-family: var(--vp-font-family-base); }
