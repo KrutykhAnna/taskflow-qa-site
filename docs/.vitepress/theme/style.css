@@ -78,3 +78,6 @@
 .bug-lifecycle { margin: 16px auto; max-width: 440px; }
 .bug-lifecycle svg { width: 100%; height: auto; display: block; }
 .bug-lifecycle text { font-family: var(--vp-font-family-base); }
+.estimate-fork { margin: 16px auto; max-width: 440px; }
+.estimate-fork svg { width: 100%; height: auto; display: block; }
+.estimate-fork text { font-family: var(--vp-font-family-base); }

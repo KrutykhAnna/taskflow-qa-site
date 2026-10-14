@@ -66,6 +66,13 @@ export const TOPICS: Topic[] = [
     title: 'Баг-репорт',
     link: '/osnovy/08-bag-report',
   },
+  {
+    id: 'osnovy/ocenka-zadach',
+    block: 'osnovy',
+    num: 9,
+    title: 'Оценка задач',
+    link: '/osnovy/09-ocenka-zadach',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
