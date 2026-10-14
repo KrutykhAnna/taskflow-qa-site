@@ -87,6 +87,9 @@
 .trace-matrix { margin: 16px auto; max-width: 440px; }
 .trace-matrix svg { width: 100%; height: auto; display: block; }
 .trace-matrix text { font-family: var(--vp-font-family-base); }
+.any-method { margin: 16px auto; max-width: 440px; }
+.any-method svg { width: 100%; height: auto; display: block; }
+.any-method text { font-family: var(--vp-font-family-base); }
 .build-path { margin: 16px auto; max-width: 440px; }
 .build-path svg { width: 100%; height: auto; display: block; }
 .build-path text { font-family: var(--vp-font-family-base); }
