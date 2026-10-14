@@ -129,3 +129,15 @@
 .idempotency { margin: 16px auto; max-width: 440px; }
 .idempotency svg { width: 100%; height: auto; display: block; }
 .idempotency text { font-family: var(--vp-font-family-base); }
+
+.status-classes { margin: 16px auto; max-width: 440px; }
+.status-classes svg { width: 100%; height: auto; display: block; }
+.status-classes text { font-family: var(--vp-font-family-base); }
+
+.auth-codes { margin: 16px auto; max-width: 440px; }
+.auth-codes svg { width: 100%; height: auto; display: block; }
+.auth-codes text { font-family: var(--vp-font-family-base); }
+
+.gateway-errors { margin: 16px auto; max-width: 440px; }
+.gateway-errors svg { width: 100%; height: auto; display: block; }
+.gateway-errors text { font-family: var(--vp-font-family-base); }
