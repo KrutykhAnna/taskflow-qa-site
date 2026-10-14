@@ -153,3 +153,15 @@
 .breaking-changes { margin: 16px auto; max-width: 440px; }
 .breaking-changes svg { width: 100%; height: auto; display: block; }
 .breaking-changes text { font-family: var(--vp-font-family-base); }
+
+.authn-authz { margin: 16px auto; max-width: 440px; }
+.authn-authz svg { width: 100%; height: auto; display: block; }
+.authn-authz text { font-family: var(--vp-font-family-base); }
+
+.jwt-parts { margin: 16px auto; max-width: 440px; }
+.jwt-parts svg { width: 100%; height: auto; display: block; }
+.jwt-parts text { font-family: var(--vp-font-family-base); }
+
+.session-vs-token { margin: 16px auto; max-width: 440px; }
+.session-vs-token svg { width: 100%; height: auto; display: block; }
+.session-vs-token text { font-family: var(--vp-font-family-base); }
