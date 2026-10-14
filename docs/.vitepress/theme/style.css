@@ -121,3 +121,11 @@
 .request-timing { margin: 16px auto; max-width: 440px; }
 .request-timing svg { width: 100%; height: auto; display: block; }
 .request-timing text { font-family: var(--vp-font-family-base); }
+
+.put-vs-patch { margin: 16px auto; max-width: 440px; }
+.put-vs-patch svg { width: 100%; height: auto; display: block; }
+.put-vs-patch text { font-family: var(--vp-font-family-base); }
+
+.idempotency { margin: 16px auto; max-width: 440px; }
+.idempotency svg { width: 100%; height: auto; display: block; }
+.idempotency text { font-family: var(--vp-font-family-base); }
