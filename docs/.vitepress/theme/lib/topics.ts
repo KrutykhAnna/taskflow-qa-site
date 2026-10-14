@@ -94,6 +94,13 @@ export const TOPICS: Topic[] = [
     title: 'Как протестировать что угодно',
     link: '/osnovy/12-protestirovat-chto-ugodno',
   },
+  {
+    id: 'api/klient-server-i-url',
+    block: 'api',
+    num: 1,
+    title: 'Клиент-сервер и URL',
+    link: '/api/01-klient-server-i-url',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)

@@ -93,3 +93,11 @@
 .build-path { margin: 16px auto; max-width: 440px; }
 .build-path svg { width: 100%; height: auto; display: block; }
 .build-path text { font-family: var(--vp-font-family-base); }
+
+.client-server { margin: 16px auto; max-width: 440px; }
+.client-server svg { width: 100%; height: auto; display: block; }
+.client-server text { font-family: var(--vp-font-family-base); }
+
+.url-anatomy { margin: 16px auto; max-width: 440px; }
+.url-anatomy svg { width: 100%; height: auto; display: block; }
+.url-anatomy text { font-family: var(--vp-font-family-base); }
