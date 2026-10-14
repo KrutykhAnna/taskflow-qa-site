@@ -81,6 +81,9 @@
 .estimate-fork { margin: 16px auto; max-width: 440px; }
 .estimate-fork svg { width: 100%; height: auto; display: block; }
 .estimate-fork text { font-family: var(--vp-font-family-base); }
+.req-levels { margin: 16px auto; max-width: 440px; }
+.req-levels svg { width: 100%; height: auto; display: block; }
+.req-levels text { font-family: var(--vp-font-family-base); }
 .build-path { margin: 16px auto; max-width: 440px; }
 .build-path svg { width: 100%; height: auto; display: block; }
 .build-path text { font-family: var(--vp-font-family-base); }

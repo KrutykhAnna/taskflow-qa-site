@@ -39,6 +39,13 @@ export const TOPICS: Topic[] = [
     link: '/osnovy/04-sdlc-i-stlc',
   },
   {
+    id: 'osnovy/trebovaniya',
+    block: 'osnovy',
+    num: 5,
+    title: 'Требования и их тестирование',
+    link: '/osnovy/05-trebovaniya',
+  },
+  {
     id: 'osnovy/vidy-testirovaniya',
     block: 'osnovy',
     num: 6,
