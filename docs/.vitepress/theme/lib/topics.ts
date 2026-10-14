@@ -108,6 +108,13 @@ export const TOPICS: Topic[] = [
     title: 'Сетевые модели OSI и TCP/IP',
     link: '/api/02-setevye-modeli',
   },
+  {
+    id: 'api/http-zapros-i-otvet',
+    block: 'api',
+    num: 3,
+    title: 'HTTP: запрос и ответ',
+    link: '/api/03-http-zapros-i-otvet',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
