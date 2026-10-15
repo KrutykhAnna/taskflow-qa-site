@@ -217,3 +217,11 @@
 .access-matrix { margin: 16px auto; max-width: 440px; }
 .access-matrix svg { width: 100%; height: auto; display: block; }
 .access-matrix text { font-family: var(--vp-font-family-base); }
+
+.er-taskflow { margin: 16px auto; max-width: 440px; }
+.er-taskflow svg { width: 100%; height: auto; display: block; }
+.er-taskflow text { font-family: var(--vp-font-family-base); }
+
+.db-terms { margin: 16px auto; max-width: 440px; }
+.db-terms svg { width: 100%; height: auto; display: block; }
+.db-terms text { font-family: var(--vp-font-family-base); }
