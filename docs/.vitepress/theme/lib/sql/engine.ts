@@ -1,48 +1,20 @@
-// Браузерная часть движка. Всё тяжёлое (sql.js, wasm, скрипты датасетов) грузится
-// динамическим import() при первом обращении — только на страницах с SQL-компонентами
-// и только в браузере (вызывать из onMounted или обработчиков, не при SSR).
-import type { Database, SqlJsStatic } from 'sql.js'
-import { openDatabase } from './engine-core'
-import type { DatasetId } from './datasets'
+// Браузерная точка входа SQL-движка. sql.js, wasm и датасеты живут в Web Worker
+// (sql.worker.ts), который создаётся при первом обращении — только в браузере
+// (вызывать из onMounted или обработчиков, не при SSR) и только на страницах с SQL-компонентами.
+import { SqlClient, type WorkerLike } from './client'
 
-export { runSql, describeSchema, type RunResult, type SchemaTable } from './engine-core'
+export type { DbHandle, RunOutcome } from './client'
+export type { RunResult, SchemaTable } from './engine-core'
 
-let sqlPromise: Promise<SqlJsStatic> | null = null
+let client: SqlClient | null = null
 
-/** Одна инициализация sql.js на страницу. Wasm отдаётся с нашего сайта (без CDN). */
-export function loadSqlJs(): Promise<SqlJsStatic> {
-  if (typeof window === 'undefined') return Promise.reject(new Error('sql.js загружается только в браузере'))
-  sqlPromise ??= Promise.all([import('sql.js'), import('sql.js/dist/sql-wasm-browser.wasm?url')])
-    .then(([mod, wasm]) => mod.default({ locateFile: () => wasm.default }))
-    .catch((e) => {
-      sqlPromise = null // дать шанс повторить, например после обрыва сети
-      throw e
-    })
-  return sqlPromise
-}
-
-// ?raw — каждый скрипт отдельным чанком, грузится при первом открытии своей базы.
-const DATASET_LOADERS: Record<DatasetId, () => Promise<string>> = {
-  taskflow: () => import('./datasets/taskflow.sql?raw').then((m) => m.default),
-  shop: () => import('./datasets/shop.sql?raw').then((m) => m.default),
-}
-
-const scripts = new Map<DatasetId, Promise<string>>()
-
-function datasetScript(id: DatasetId): Promise<string> {
-  let p = scripts.get(id)
-  if (!p) {
-    p = DATASET_LOADERS[id]()
-    p.catch(() => scripts.delete(id))
-    scripts.set(id, p)
-  }
-  return p
-}
-
-/** Свежая база датасета: каждая проверка и каждый «Сбросить базу» — с чистого листа. */
-export async function openDataset(id: DatasetId): Promise<Database> {
-  const [SQL, script] = await Promise.all([loadSqlJs(), datasetScript(id)])
-  return openDatabase(SQL, script)
+/** Один воркер и один клиент на страницу. */
+export function getSqlClient(): SqlClient {
+  if (typeof window === 'undefined') throw new Error('SQL-движок работает только в браузере')
+  client ??= new SqlClient(
+    () => new Worker(new URL('./sql.worker.ts', import.meta.url), { type: 'module', name: 'sql' }) as unknown as WorkerLike,
+  )
+  return client
 }
 
 /** Текст ошибки загрузки для пользователя. */

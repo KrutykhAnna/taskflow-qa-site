@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, shallowRef, useId } from 'vue'
-import type { Database } from 'sql.js'
 import { DATASETS, isDatasetId, type DatasetId } from '../lib/sql/datasets'
-import { describeSchema, loadErrorText, openDataset, runSql, type RunResult, type SchemaTable } from '../lib/sql/engine'
+import { getSqlClient, loadErrorText, type DbHandle, type RunResult, type SchemaTable } from '../lib/sql/engine'
 import SqlResult from './SqlResult.vue'
 import SqlSchema from './SqlSchema.vue'
 
@@ -17,20 +16,28 @@ const valid = isDatasetId(props.dataset)
 const ds = valid ? (props.dataset as DatasetId) : 'taskflow'
 const inputId = useId()
 const sql = ref(props.query?.trim() || STARTERS[ds])
-const db = shallowRef<Database | null>(null)
+const db = shallowRef<DbHandle | null>(null)
 const schema = shallowRef<SchemaTable[] | null>(null)
 const loadError = ref<string | null>(null)
 const busy = ref(false)
 const result = shallowRef<RunResult | null>(null)
 const notice = ref('')
+let unmounted = false
 
-// sql.js и база грузятся только в браузере (onMounted / по кнопке): engine.ts тянет их через import().
-async function open(): Promise<Database | null> {
+// Движок (Web Worker с sql.js) создаётся только в браузере: в onMounted или по кнопке.
+// Новая база открывается до закрытия старой: если открыть не вышло, старая остаётся рабочей.
+async function open(): Promise<DbHandle | null> {
   try {
-    const fresh = await openDataset(ds)
-    db.value?.close()
+    const client = getSqlClient()
+    const fresh = await client.open(ds)
+    if (unmounted) {
+      client.close(fresh)
+      return null
+    }
+    const tables = await client.schema(fresh)
+    if (db.value) client.close(db.value)
     db.value = fresh
-    schema.value = describeSchema(fresh)
+    schema.value = tables
     loadError.value = null
     return fresh
   } catch (e) {
@@ -39,38 +46,49 @@ async function open(): Promise<Database | null> {
   }
 }
 
-onMounted(() => {
-  if (valid) void open()
-})
-onBeforeUnmount(() => db.value?.close())
-
-async function run() {
+// Всё, что трогает базу, — под busy: «Выполнить» до окончания загрузки не откроет вторую базу.
+async function exclusive(fn: () => Promise<void>) {
   if (busy.value) return
   busy.value = true
-  notice.value = ''
   try {
-    const d = db.value ?? (await open())
-    if (!d) return
-    result.value = runSql(d, sql.value)
-    // запрос мог создать или удалить таблицу — схема должна это показать
-    if (result.value.kind !== 'error') schema.value = describeSchema(d)
+    await fn()
   } finally {
     busy.value = false
   }
 }
 
-async function reset() {
-  if (busy.value) return
-  busy.value = true
-  try {
+onMounted(() => {
+  if (valid) void exclusive(async () => void (await open()))
+})
+onBeforeUnmount(() => {
+  unmounted = true
+  if (db.value) getSqlClient().close(db.value)
+})
+
+const run = () =>
+  exclusive(async () => {
+    notice.value = ''
+    const d = db.value ?? (await open())
+    if (!d) return
+    try {
+      const client = getSqlClient()
+      const out = await client.run(d, sql.value)
+      result.value = out.result
+      if (out.reopened && out.result.kind !== 'error') notice.value = 'База была пересоздана с исходными данными (движок перезапускался).'
+      // запрос мог создать или удалить таблицу — схема должна это показать
+      if (out.result.kind !== 'error' || out.reopened) schema.value = await client.schema(d)
+    } catch (e) {
+      loadError.value = loadErrorText(e)
+    }
+  })
+
+const reset = () =>
+  exclusive(async () => {
     if (await open()) {
       result.value = null
       notice.value = 'База сброшена к исходным данным.'
     }
-  } finally {
-    busy.value = false
-  }
-}
+  })
 
 function onKey(e: KeyboardEvent) {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
@@ -104,7 +122,7 @@ function onKey(e: KeyboardEvent) {
         <button type="button" class="tq-btn primary" :disabled="busy" @click="run">Выполнить</button>
         <button type="button" class="tq-btn" :disabled="busy" @click="reset">Сбросить базу</button>
       </div>
-      <p v-if="loadError && !schema" class="sql-error" role="alert">{{ loadError }}</p>
+      <p v-if="loadError" class="sql-error" role="alert">{{ loadError }}</p>
       <p v-if="notice" class="sql-meta" aria-live="polite">{{ notice }}</p>
       <SqlResult :result="result" />
     </template>
