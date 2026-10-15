@@ -1,0 +1,56 @@
+# Задачи по теме «Подзапросы, EXISTS, CASE».
+- id: sub-01
+  topic: subquery
+  level: junior
+  dataset: shop
+  kind: select
+  title: Дороже средней цены
+  text: |
+    Выведи `name` и `price` товаров, которые стоят дороже средней цены всех товаров.
+  solution: |
+    SELECT name, price
+    FROM products
+    WHERE price > (SELECT AVG(price) FROM products);
+  hint: |
+    Агрегат нельзя написать прямо в `WHERE`, но можно сравнить со скалярным подзапросом — запросом
+    в скобках, который возвращает одно значение.
+
+- id: sub-02
+  topic: subquery
+  level: interview
+  dataset: shop
+  kind: select
+  title: Вторая по величине зарплата
+  text: |
+    Классика собеседований: найди вторую по величине зарплату среди сотрудников. Выведи одно
+    число. Учти, что одинаковые зарплаты бывают и у самых высокооплачиваемых.
+  solution: |
+    SELECT MAX(salary) AS second_salary
+    FROM employees
+    WHERE salary < (SELECT MAX(salary) FROM employees);
+  hint: |
+    `ORDER BY salary DESC LIMIT 1 OFFSET 1` вернёт ту же максимальную зарплату, если она есть
+    у двоих. Нужно либо убрать повторы (`DISTINCT`), либо искать максимум среди тех, кто меньше
+    максимума.
+
+- id: sub-03
+  topic: subquery
+  level: middle
+  dataset: taskflow
+  kind: select
+  title: Кто писал комментарии
+  text: |
+    Выведи `id`, `first_name`, `last_name` пользователей, у которых есть хотя бы один
+    неудалённый комментарий. Каждый пользователь — один раз.
+  solution: |
+    SELECT u.id, u.first_name, u.last_name
+    FROM users u
+    WHERE EXISTS (
+      SELECT 1
+      FROM comments c
+      WHERE c.author_id = u.id
+        AND c.deleted_at IS NULL
+    );
+  hint: |
+    Обычный `JOIN` размножит пользователя по числу его комментариев. `EXISTS` только проверяет,
+    есть ли хоть одна подходящая строка, — дублей не будет. Подойдёт и `IN (SELECT author_id …)`.

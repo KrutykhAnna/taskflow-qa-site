@@ -1,0 +1,53 @@
+# Задачи по теме «SELECT». Формат — см. lib/sql/tasks.ts и раздел «Как добавить задачу» в отчёте.
+- id: sel-01
+  topic: select
+  level: junior
+  dataset: taskflow
+  kind: select
+  title: Активные пользователи
+  text: |
+    Выведи `email` всех пользователей, которые могут войти в систему: активны (`is_active = 1`)
+    и не удалены.
+  solution: |
+    SELECT email
+    FROM users
+    WHERE is_active = 1
+      AND deleted_at IS NULL;
+  hint: |
+    В TaskFlow пользователей не удаляют физически — проставляют `deleted_at`. Удалённую строку
+    видно в таблице, пока не отфильтруешь её условием `deleted_at IS NULL`.
+
+- id: sel-02
+  topic: select
+  level: junior
+  dataset: taskflow
+  kind: select
+  title: Задачи без исполнителя
+  text: |
+    Найди неудалённые задачи, у которых нет исполнителя. Выведи `id` и `title`.
+  solution: |
+    SELECT id, title
+    FROM tasks
+    WHERE assignee_id IS NULL
+      AND deleted_at IS NULL;
+  hint: |
+    Сравнение `assignee_id = NULL` никогда не бывает истинным — даже для NULL. Для проверки на
+    «пусто» есть отдельный оператор.
+
+- id: sel-03
+  topic: select
+  level: middle
+  dataset: shop
+  kind: select
+  title: Пять самых дорогих товаров
+  text: |
+    Выведи `name` и `price` пяти самых дорогих товаров — от самого дорогого к дешёвому.
+  solution: |
+    SELECT name, price
+    FROM products
+    ORDER BY price DESC
+    LIMIT 5;
+  ordered: true
+  hint: |
+    Сначала отсортируй, потом ограничь количество строк. В PostgreSQL то же самое пишется так же
+    (`LIMIT`), в SQL Server — `TOP`, в стандарте — `FETCH FIRST 5 ROWS ONLY`.

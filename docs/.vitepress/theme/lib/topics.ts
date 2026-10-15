@@ -1,5 +1,7 @@
 export type Block = { id: string; title: string }
 export type Topic = { id: string; block: string; num: number; title: string; link: string }
+/** Страница блока, которая не урок (задачник и т. п.): в сайдбаре — после уроков. */
+export type ExtraPage = { block: string; title: string; link: string }
 
 export const BLOCKS: Block[] = [
   { id: 'osnovy', title: 'Основы тестирования' },
@@ -185,6 +187,10 @@ export const TOPICS: Topic[] = [
     title: 'Практикум: API-фича целиком',
     link: '/api/13-praktikum-api-fichi',
   },
+]
+
+export const EXTRA_PAGES: ExtraPage[] = [
+  { block: 'bd', title: 'Задачник SQL', link: '/bd/zadachnik' },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
