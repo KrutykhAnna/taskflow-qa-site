@@ -3,7 +3,7 @@
 // и только в браузере (вызывать из onMounted или обработчиков, не при SSR).
 import type { Database, SqlJsStatic } from 'sql.js'
 import { openDatabase } from './engine-core'
-import { DATASET_LOADERS, type DatasetId } from './datasets'
+import type { DatasetId } from './datasets'
 
 export { runSql, describeSchema, type RunResult, type SchemaTable } from './engine-core'
 
@@ -19,6 +19,12 @@ export function loadSqlJs(): Promise<SqlJsStatic> {
       throw e
     })
   return sqlPromise
+}
+
+// ?raw — каждый скрипт отдельным чанком, грузится при первом открытии своей базы.
+const DATASET_LOADERS: Record<DatasetId, () => Promise<string>> = {
+  taskflow: () => import('./datasets/taskflow.sql?raw').then((m) => m.default),
+  shop: () => import('./datasets/shop.sql?raw').then((m) => m.default),
 }
 
 const scripts = new Map<DatasetId, Promise<string>>()

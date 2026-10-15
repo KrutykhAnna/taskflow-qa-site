@@ -67,3 +67,10 @@ describe('expectedResult', () => {
     expect(r).toMatchObject({ kind: 'table', rows: [[1, 1.5], [2, 0], [3, 3]] })
   })
 })
+
+describe('checkAnswer: результат студента', () => {
+  it('возвращается для показа под вердиктом', () => {
+    expect(check(sel, 'SELECT name FROM t').result).toMatchObject({ kind: 'table', total: 3 })
+    expect(check(dml, 'UPDATE t SET score = 0 WHERE id = 2').result).toEqual({ kind: 'changes', changes: 1, statements: 1 })
+  })
+})
