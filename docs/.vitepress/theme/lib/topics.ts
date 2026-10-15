@@ -164,6 +164,13 @@ export const TOPICS: Topic[] = [
     title: 'Postman и curl',
     link: '/api/10-postman-i-curl',
   },
+  {
+    id: 'api/monolit-mikroservisy',
+    block: 'api',
+    num: 11,
+    title: 'Монолит, микросервисы, интеграции',
+    link: '/api/11-monolit-mikroservisy',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)

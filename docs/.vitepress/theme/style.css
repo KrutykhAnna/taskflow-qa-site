@@ -193,3 +193,11 @@
 .chaining { margin: 16px auto; max-width: 440px; }
 .chaining svg { width: 100%; height: auto; display: block; }
 .chaining text { font-family: var(--vp-font-family-base); }
+
+.mono-vs-micro { margin: 16px auto; max-width: 440px; }
+.mono-vs-micro svg { width: 100%; height: auto; display: block; }
+.mono-vs-micro text { font-family: var(--vp-font-family-base); }
+
+.correlation-chain { margin: 16px auto; max-width: 440px; }
+.correlation-chain svg { width: 100%; height: auto; display: block; }
+.correlation-chain text { font-family: var(--vp-font-family-base); }
