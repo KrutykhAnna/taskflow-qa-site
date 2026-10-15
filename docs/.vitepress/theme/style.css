@@ -181,3 +181,15 @@
 .sort-order { margin: 16px auto; max-width: 440px; }
 .sort-order svg { width: 100%; height: auto; display: block; }
 .sort-order text { font-family: var(--vp-font-family-base); }
+
+.var-scopes { margin: 16px auto; max-width: 440px; }
+.var-scopes svg { width: 100%; height: auto; display: block; }
+.var-scopes text { font-family: var(--vp-font-family-base); }
+
+.env-vs-stand { margin: 16px auto; max-width: 440px; }
+.env-vs-stand svg { width: 100%; height: auto; display: block; }
+.env-vs-stand text { font-family: var(--vp-font-family-base); }
+
+.chaining { margin: 16px auto; max-width: 440px; }
+.chaining svg { width: 100%; height: auto; display: block; }
+.chaining text { font-family: var(--vp-font-family-base); }
