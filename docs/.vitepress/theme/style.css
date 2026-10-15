@@ -201,3 +201,11 @@
 .correlation-chain { margin: 16px auto; max-width: 440px; }
 .correlation-chain svg { width: 100%; height: auto; display: block; }
 .correlation-chain text { font-family: var(--vp-font-family-base); }
+
+.polling-vs-ws { margin: 16px auto; max-width: 440px; }
+.polling-vs-ws svg { width: 100%; height: auto; display: block; }
+.polling-vs-ws text { font-family: var(--vp-font-family-base); }
+
+.ws-lifecycle { margin: 16px auto; max-width: 440px; }
+.ws-lifecycle svg { width: 100%; height: auto; display: block; }
+.ws-lifecycle text { font-family: var(--vp-font-family-base); }

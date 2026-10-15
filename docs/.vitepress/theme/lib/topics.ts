@@ -171,6 +171,13 @@ export const TOPICS: Topic[] = [
     title: 'Монолит, микросервисы, интеграции',
     link: '/api/11-monolit-mikroservisy',
   },
+  {
+    id: 'api/websocket',
+    block: 'api',
+    num: 12,
+    title: 'WebSocket и данные в реальном времени',
+    link: '/api/12-websocket',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
