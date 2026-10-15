@@ -178,6 +178,13 @@ export const TOPICS: Topic[] = [
     title: 'WebSocket и данные в реальном времени',
     link: '/api/12-websocket',
   },
+  {
+    id: 'api/praktikum-api-fichi',
+    block: 'api',
+    num: 13,
+    title: 'Практикум: API-фича целиком',
+    link: '/api/13-praktikum-api-fichi',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)

@@ -209,3 +209,11 @@
 .ws-lifecycle { margin: 16px auto; max-width: 440px; }
 .ws-lifecycle svg { width: 100%; height: auto; display: block; }
 .ws-lifecycle text { font-family: var(--vp-font-family-base); }
+
+.feature-flow { margin: 16px auto; max-width: 440px; }
+.feature-flow svg { width: 100%; height: auto; display: block; }
+.feature-flow text { font-family: var(--vp-font-family-base); }
+
+.access-matrix { margin: 16px auto; max-width: 440px; }
+.access-matrix svg { width: 100%; height: auto; display: block; }
+.access-matrix text { font-family: var(--vp-font-family-base); }
