@@ -92,6 +92,20 @@ describe('датасет taskflow', () => {
     expect(count('users u', 'NOT EXISTS (SELECT 1 FROM project_members m WHERE m.user_id = u.id)')).toBeGreaterThan(0)
     expect(count('tasks t', 'NOT EXISTS (SELECT 1 FROM comments c WHERE c.task_id = t.id)')).toBeGreaterThan(0)
   })
+  it('audit_log: каждое *.delete указывает на удалённую сущность, время совпадает с deleted_at', () => {
+    const rows = db().exec("SELECT action, entity_type, entity_id, created_at FROM audit_log WHERE action LIKE '%.delete'")[0].values
+    expect(rows.length).toBeGreaterThan(0)
+    const table: Record<string, string> = { task: 'tasks', comment: 'comments', user: 'users', project: 'projects' }
+    for (const [action, type, id, at] of rows) {
+      if (type === 'label') continue // метки удаляются физически
+      expect(table[String(type)], `${action}: неизвестный entity_type ${type}`).toBeDefined()
+      const deletedAt = one(db(), `SELECT deleted_at FROM ${table[String(type)]} WHERE id = ${Number(id)}`)
+      expect(deletedAt, `${action} ${type} ${id}`).toBe(at)
+    }
+  })
+  it('audit_log: id растут вместе со временем', () => {
+    expect(count('audit_log a', 'EXISTS (SELECT 1 FROM audit_log b WHERE b.id > a.id AND b.created_at < a.created_at)')).toBe(0)
+  })
   it('даты — ISO-текст UTC', () => {
     expect(count('tasks', "created_at NOT GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z'")).toBe(0)
   })
