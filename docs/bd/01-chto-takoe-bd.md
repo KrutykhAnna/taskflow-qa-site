@@ -70,43 +70,43 @@ API показывает то, что сервер решил показать. 
 <svg viewBox="0 0 440 384" role="img" aria-label="Таблица tasks в виде сетки: столбцы id, title, project_id, assignee_id и три строки-задачи. Строка — одна задача, например «Настроить CI». Столбец title — одно поле у всех задач. id — первичный ключ, project_id — внешний ключ на projects, assignee_id — внешний ключ на users. У задачи «Настроить CI» в assignee_id стоит NULL: исполнитель не назначен">
   <rect x="0" y="0" width="440" height="384" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
   <text x="20" y="30" font-size="16" font-weight="700" fill="#1f2937">Таблица tasks — 4 столбца из 9</text>
-  <text x="32.0" y="66" font-size="13" font-weight="700" fill="#4c1d95" text-anchor="middle">PK</text>
-  <text x="283.0" y="66" font-size="13" font-weight="700" fill="#4c1d95" text-anchor="middle">FK → projects</text>
-  <text x="381.0" y="66" font-size="13" font-weight="700" fill="#4c1d95" text-anchor="middle">FK → users</text>
+  <text x="32.0" y="66" font-size="14" font-weight="700" fill="#4c1d95" text-anchor="middle">PK</text>
+  <text x="268.0" y="66" font-size="14" font-weight="700" fill="#4c1d95" text-anchor="middle">FK → projects</text>
+  <text x="376.0" y="66" font-size="14" font-weight="700" fill="#4c1d95" text-anchor="middle">FK → users</text>
   <rect x="10" y="84" width="44" height="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
   <text x="18" y="105" font-size="14" font-weight="700" fill="#1f2937">id</text>
-  <rect x="54" y="84" width="180" height="32" fill="#bae6fd" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="54" y="84" width="160" height="32" fill="#bae6fd" stroke="#94a3b8" stroke-width="1"/>
   <text x="62" y="105" font-size="14" font-weight="700" fill="#1f2937">title</text>
-  <rect x="234" y="84" width="98" height="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
-  <text x="242" y="105" font-size="14" font-weight="700" fill="#1f2937">project_id</text>
-  <rect x="332" y="84" width="98" height="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
-  <text x="340" y="105" font-size="14" font-weight="700" fill="#1f2937">assignee_id</text>
+  <rect x="214" y="84" width="108" height="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="222" y="105" font-size="14" font-weight="700" fill="#1f2937">project_id</text>
+  <rect x="322" y="84" width="108" height="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="330" y="105" font-size="14" font-weight="700" fill="#1f2937">assignee_id</text>
   <rect x="10" y="116" width="44" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
   <text x="18" y="137" font-size="14" fill="#1f2937">1</text>
-  <rect x="54" y="116" width="180" height="32" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="54" y="116" width="160" height="32" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
   <text x="62" y="137" font-size="14" fill="#1f2937">Создать регистрацию</text>
-  <rect x="234" y="116" width="98" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="242" y="137" font-size="14" fill="#1f2937">1</text>
-  <rect x="332" y="116" width="98" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="340" y="137" font-size="14" fill="#1f2937">2</text>
+  <rect x="214" y="116" width="108" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="222" y="137" font-size="14" fill="#1f2937">1</text>
+  <rect x="322" y="116" width="108" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="330" y="137" font-size="14" fill="#1f2937">2</text>
   <rect x="10" y="148" width="44" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
   <text x="18" y="169" font-size="14" fill="#1f2937">5</text>
-  <rect x="54" y="148" width="180" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="54" y="148" width="160" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
   <text x="62" y="169" font-size="14" fill="#1f2937">Настроить CI</text>
-  <rect x="234" y="148" width="98" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
-  <text x="242" y="169" font-size="14" fill="#1f2937">1</text>
-  <rect x="332" y="148" width="98" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
-  <text x="340" y="169" font-size="14" font-weight="700" font-style="italic" fill="#991b1b">NULL</text>
+  <rect x="214" y="148" width="108" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
+  <text x="222" y="169" font-size="14" fill="#1f2937">1</text>
+  <rect x="322" y="148" width="108" height="32" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
+  <text x="330" y="169" font-size="14" font-weight="700" font-style="italic" fill="#991b1b">NULL</text>
   <rect x="10" y="180" width="44" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
   <text x="18" y="201" font-size="14" fill="#1f2937">7</text>
-  <rect x="54" y="180" width="180" height="32" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="54" y="180" width="160" height="32" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
   <text x="62" y="201" font-size="14" fill="#1f2937">Корзина покупок</text>
-  <rect x="234" y="180" width="98" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="242" y="201" font-size="14" fill="#1f2937">4</text>
-  <rect x="332" y="180" width="98" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="340" y="201" font-size="14" fill="#1f2937">4</text>
+  <rect x="214" y="180" width="108" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="222" y="201" font-size="14" fill="#1f2937">4</text>
+  <rect x="322" y="180" width="108" height="32" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="330" y="201" font-size="14" fill="#1f2937">4</text>
   <rect x="10" y="148" width="420" height="32" fill="none" stroke="#d97706" stroke-width="2.5"/>
-  <rect x="54" y="84" width="180" height="128" fill="none" stroke="#0284c7" stroke-width="2.5"/>
+  <rect x="54" y="84" width="160" height="128" fill="none" stroke="#0284c7" stroke-width="2.5"/>
   <rect x="20" y="233" width="18" height="16" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
   <text x="48" y="246" font-size="14" fill="#1f2937">строка (запись) — одна задача</text>
   <rect x="20" y="259" width="18" height="16" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
@@ -140,7 +140,7 @@ API показывает то, что сервер решил показать. 
 - **Первичный ключ** (PK, primary key) — столбец, по которому строку находят однозначно. Уникален и не бывает `NULL`. В TaskFlow почти у всех таблиц это `id`.
 - **Составной ключ** — первичный ключ из нескольких столбцов. У `project_members` ключ — пара `(project_id, user_id)`: один пользователь в одном проекте записан только один раз. Своего `id` у таблицы нет — он не нужен.
 - **Внешний ключ** (FK, foreign key) — столбец, который ссылается на первичный ключ другой таблицы. `tasks.project_id` ссылается на `projects.id`. База не даст сохранить задачу с `project_id = 999`, если проекта 999 нет.
-- **Уникальность** — правило «значение не повторяется». Похоже на первичный ключ, но столбец может быть не главным, а в некоторых случаях допускать `NULL`. В TaskFlow уникально имя метки `labels.name`.
+- **Уникальность** — правило «значение не повторяется». Похоже на первичный ключ, но таких ограничений у таблицы может быть много, и в PostgreSQL уникальный столбец допускает `NULL` (подробнее — в уроке про ограничения). В TaskFlow уникально имя метки `labels.name`.
 
 Ещё одно слово, которое ты увидишь в DBeaver, — **индекс**. Это «оглавление» для столбца: по нему база ищет быстрее, не перебирая все строки. Уникальный индекс заодно запрещает повторы. Подробно — в уроке про ограничения и индексы.
 
@@ -148,7 +148,7 @@ API показывает то, что сервер решил показать. 
 
 | Тип | Где в TaskFlow | Что важно тестировщику |
 |---|---|---|
-| `integer`, `serial` | `id` всех таблиц, все `..._id` | `serial` — целое число, которое база сама увеличивает на 1 для новой строки. Номера не переиспользуются: удалили строку 5 — следующая всё равно 8 |
+| `integer`, `serial` | `id` всех таблиц, все `..._id` | `serial` — целое число, которое база сама увеличивает на 1 для новой строки. Номера не переиспользуются: удалили строку 5 — следующая получит новый номер, а не 5 |
 | `varchar(n)` | `projects.name` — `varchar(100)`, `users.first_name` — `varchar(50)`, `comments.text` — `varchar(500)` | Строка не длиннее `n` символов. Длиннее — база откажет |
 | `text` | В TaskFlow нет | Строка без ограничения длины. Ограничение тогда должно быть в коде |
 | `boolean` | `users.is_active` | `true` / `false` (и `NULL`, если столбец это разрешает) |
@@ -204,43 +204,43 @@ API показывает то, что сервер решил показать. 
   <rect x="10" y="48" width="180" height="170" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
   <text x="22" y="69" font-size="15" font-weight="700" fill="#0c4a6e">users</text>
   <line x1="10" y1="78" x2="190" y2="78" stroke="#0284c7" stroke-width="1"/>
-  <text x="22" y="96" font-size="12" font-weight="700" fill="#0c4a6e">PK</text>
-  <text x="64" y="96" font-size="14" fill="#1f2937">id</text>
-  <text x="64" y="118" font-size="14" fill="#1f2937">email</text>
-  <text x="64" y="140" font-size="14" fill="#1f2937">first_name</text>
-  <text x="64" y="162" font-size="14" fill="#1f2937">role · enum</text>
-  <text x="64" y="184" font-size="14" fill="#1f2937">is_active</text>
-  <text x="64" y="206" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
+  <text x="22" y="96" font-size="14" font-weight="700" fill="#0c4a6e">PK</text>
+  <text x="74" y="96" font-size="14" fill="#1f2937">id</text>
+  <text x="74" y="118" font-size="14" fill="#1f2937">email</text>
+  <text x="74" y="140" font-size="14" fill="#1f2937">first_name</text>
+  <text x="74" y="162" font-size="14" fill="#1f2937">role · enum</text>
+  <text x="74" y="184" font-size="14" fill="#1f2937">is_active</text>
+  <text x="74" y="206" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
   <rect x="250" y="48" width="180" height="104" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
   <text x="262" y="69" font-size="15" font-weight="700" fill="#78350f">project_members</text>
   <line x1="250" y1="78" x2="430" y2="78" stroke="#d97706" stroke-width="1"/>
-  <text x="262" y="96" font-size="12" font-weight="700" fill="#78350f">PK FK</text>
-  <text x="304" y="96" font-size="14" fill="#1f2937">project_id</text>
-  <text x="262" y="118" font-size="12" font-weight="700" fill="#78350f">PK FK</text>
-  <text x="304" y="118" font-size="14" fill="#1f2937">user_id</text>
-  <text x="304" y="140" font-size="14" fill="#1f2937">role · enum</text>
+  <text x="262" y="96" font-size="14" font-weight="700" fill="#78350f">PK FK</text>
+  <text x="314" y="96" font-size="14" fill="#1f2937">project_id</text>
+  <text x="262" y="118" font-size="14" font-weight="700" fill="#78350f">PK FK</text>
+  <text x="314" y="118" font-size="14" fill="#1f2937">user_id</text>
+  <text x="314" y="140" font-size="14" fill="#1f2937">role · enum</text>
   <rect x="10" y="290" width="180" height="170" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
   <text x="22" y="311" font-size="15" font-weight="700" fill="#4c1d95">tasks</text>
   <line x1="10" y1="320" x2="190" y2="320" stroke="#7c3aed" stroke-width="1"/>
-  <text x="22" y="338" font-size="12" font-weight="700" fill="#4c1d95">PK</text>
-  <text x="64" y="338" font-size="14" fill="#1f2937">id</text>
-  <text x="22" y="360" font-size="12" font-weight="700" fill="#4c1d95">FK</text>
-  <text x="64" y="360" font-size="14" fill="#1f2937">project_id</text>
-  <text x="22" y="382" font-size="12" font-weight="700" fill="#4c1d95">FK</text>
-  <text x="64" y="382" font-size="14" fill="#1f2937">assignee_id</text>
-  <text x="64" y="404" font-size="14" fill="#1f2937">title</text>
-  <text x="64" y="426" font-size="14" fill="#1f2937">status</text>
-  <text x="64" y="448" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
+  <text x="22" y="338" font-size="14" font-weight="700" fill="#4c1d95">PK</text>
+  <text x="74" y="338" font-size="14" fill="#1f2937">id</text>
+  <text x="22" y="360" font-size="14" font-weight="700" fill="#4c1d95">FK</text>
+  <text x="74" y="360" font-size="14" fill="#1f2937">project_id</text>
+  <text x="22" y="382" font-size="14" font-weight="700" fill="#4c1d95">FK</text>
+  <text x="74" y="382" font-size="14" fill="#1f2937">assignee_id</text>
+  <text x="74" y="404" font-size="14" fill="#1f2937">title</text>
+  <text x="74" y="426" font-size="14" fill="#1f2937">status</text>
+  <text x="74" y="448" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
   <rect x="250" y="290" width="180" height="148" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
   <text x="262" y="311" font-size="15" font-weight="700" fill="#14532d">projects</text>
   <line x1="250" y1="320" x2="430" y2="320" stroke="#16a34a" stroke-width="1"/>
-  <text x="262" y="338" font-size="12" font-weight="700" fill="#14532d">PK</text>
-  <text x="304" y="338" font-size="14" fill="#1f2937">id</text>
-  <text x="262" y="360" font-size="12" font-weight="700" fill="#14532d">FK</text>
-  <text x="304" y="360" font-size="14" fill="#1f2937">owner_id</text>
-  <text x="304" y="382" font-size="14" fill="#1f2937">name</text>
-  <text x="304" y="404" font-size="14" fill="#1f2937">status</text>
-  <text x="304" y="426" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
+  <text x="262" y="338" font-size="14" font-weight="700" fill="#14532d">PK</text>
+  <text x="314" y="338" font-size="14" fill="#1f2937">id</text>
+  <text x="262" y="360" font-size="14" font-weight="700" fill="#14532d">FK</text>
+  <text x="314" y="360" font-size="14" fill="#1f2937">owner_id</text>
+  <text x="314" y="382" font-size="14" fill="#1f2937">name</text>
+  <text x="314" y="404" font-size="14" fill="#1f2937">status</text>
+  <text x="314" y="426" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
   <line x1="190.0" y1="100.0" x2="250.0" y2="100.0" stroke="#334155" stroke-width="2"/>
   <line x1="199.0" y1="107.0" x2="199.0" y2="93.0" stroke="#334155" stroke-width="2"/>
   <line x1="236.0" y1="100.0" x2="250.0" y2="92.0" stroke="#334155" stroke-width="2"/>
@@ -253,7 +253,7 @@ API показывает то, что сервер решил показать. 
   <line x1="93.0" y1="227.0" x2="107.0" y2="227.0" stroke="#334155" stroke-width="2"/>
   <line x1="100.0" y1="276.0" x2="108.0" y2="290.0" stroke="#334155" stroke-width="2"/>
   <line x1="100.0" y1="276.0" x2="92.0" y2="290.0" stroke="#334155" stroke-width="2"/>
-  <text x="108" y="250" font-size="13" fill="#1f2937" text-anchor="start">assignee_id</text>
+  <text x="108" y="250" font-size="14" fill="#1f2937" text-anchor="start">assignee_id</text>
   <line x1="250.0" y1="360.0" x2="190.0" y2="360.0" stroke="#334155" stroke-width="2"/>
   <line x1="241.0" y1="353.0" x2="241.0" y2="367.0" stroke="#334155" stroke-width="2"/>
   <line x1="204.0" y1="360.0" x2="190.0" y2="368.0" stroke="#334155" stroke-width="2"/>
@@ -262,7 +262,7 @@ API показывает то, что сервер решил показать. 
   <line x1="180.3" y1="229.2" x2="189.4" y2="218.5" stroke="#334155" stroke-width="2"/>
   <line x1="251.4" y1="280.9" x2="267.2" y2="283.9" stroke="#334155" stroke-width="2"/>
   <line x1="251.4" y1="280.9" x2="256.8" y2="296.1" stroke="#334155" stroke-width="2"/>
-  <text x="234" y="236" font-size="13" fill="#1f2937" text-anchor="start">owner_id</text>
+  <text x="234" y="236" font-size="14" fill="#1f2937" text-anchor="start">owner_id</text>
   <line x1="14" y1="484" x2="426" y2="484" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
   <line x1="20.0" y1="510.0" x2="90.0" y2="510.0" stroke="#334155" stroke-width="2"/>
   <line x1="29.0" y1="517.0" x2="29.0" y2="503.0" stroke="#334155" stroke-width="2"/>
@@ -282,53 +282,53 @@ API показывает то, что сервер решил показать. 
   <rect x="10" y="48" width="180" height="82" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
   <text x="22" y="69" font-size="15" font-weight="700" fill="#0c4a6e">users</text>
   <line x1="10" y1="78" x2="190" y2="78" stroke="#0284c7" stroke-width="1"/>
-  <text x="22" y="96" font-size="12" font-weight="700" fill="#0c4a6e">PK</text>
-  <text x="64" y="96" font-size="14" fill="#1f2937">id</text>
-  <text x="64" y="118" font-size="14" fill="#1f2937">…</text>
+  <text x="22" y="96" font-size="14" font-weight="700" fill="#0c4a6e">PK</text>
+  <text x="74" y="96" font-size="14" fill="#1f2937">id</text>
+  <text x="74" y="118" font-size="14" fill="#1f2937">…</text>
   <rect x="250" y="48" width="180" height="170" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
   <text x="262" y="69" font-size="15" font-weight="700" fill="#1f2937">audit_log</text>
   <line x1="250" y1="78" x2="430" y2="78" stroke="#64748b" stroke-width="1"/>
-  <text x="262" y="96" font-size="12" font-weight="700" fill="#1f2937">PK</text>
-  <text x="304" y="96" font-size="14" fill="#1f2937">id</text>
-  <text x="262" y="118" font-size="12" font-weight="700" fill="#1f2937">FK</text>
-  <text x="304" y="118" font-size="14" fill="#1f2937">user_id</text>
-  <text x="304" y="140" font-size="14" fill="#1f2937">action</text>
-  <text x="304" y="162" font-size="14" fill="#1f2937">entity_type</text>
-  <text x="304" y="184" font-size="14" fill="#1f2937">entity_id</text>
-  <text x="304" y="206" font-size="14" fill="#1f2937">details · json</text>
+  <text x="262" y="96" font-size="14" font-weight="700" fill="#1f2937">PK</text>
+  <text x="314" y="96" font-size="14" fill="#1f2937">id</text>
+  <text x="262" y="118" font-size="14" font-weight="700" fill="#1f2937">FK</text>
+  <text x="314" y="118" font-size="14" fill="#1f2937">user_id</text>
+  <text x="314" y="140" font-size="14" fill="#1f2937">action</text>
+  <text x="314" y="162" font-size="14" fill="#1f2937">entity_type</text>
+  <text x="314" y="184" font-size="14" fill="#1f2937">entity_id</text>
+  <text x="314" y="206" font-size="14" fill="#1f2937">details · json</text>
   <rect x="10" y="250" width="180" height="148" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
   <text x="22" y="271" font-size="15" font-weight="700" fill="#7f1d1d">comments</text>
   <line x1="10" y1="280" x2="190" y2="280" stroke="#dc2626" stroke-width="1"/>
-  <text x="22" y="298" font-size="12" font-weight="700" fill="#7f1d1d">PK</text>
-  <text x="64" y="298" font-size="14" fill="#1f2937">id</text>
-  <text x="22" y="320" font-size="12" font-weight="700" fill="#7f1d1d">FK</text>
-  <text x="64" y="320" font-size="14" fill="#1f2937">task_id</text>
-  <text x="22" y="342" font-size="12" font-weight="700" fill="#7f1d1d">FK</text>
-  <text x="64" y="342" font-size="14" fill="#1f2937">author_id</text>
-  <text x="64" y="364" font-size="14" fill="#1f2937">text</text>
-  <text x="64" y="386" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
+  <text x="22" y="298" font-size="14" font-weight="700" fill="#7f1d1d">PK</text>
+  <text x="74" y="298" font-size="14" fill="#1f2937">id</text>
+  <text x="22" y="320" font-size="14" font-weight="700" fill="#7f1d1d">FK</text>
+  <text x="74" y="320" font-size="14" fill="#1f2937">task_id</text>
+  <text x="22" y="342" font-size="14" font-weight="700" fill="#7f1d1d">FK</text>
+  <text x="74" y="342" font-size="14" fill="#1f2937">author_id</text>
+  <text x="74" y="364" font-size="14" fill="#1f2937">text</text>
+  <text x="74" y="386" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
   <rect x="250" y="250" width="180" height="126" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
   <text x="262" y="271" font-size="15" font-weight="700" fill="#4c1d95">tasks</text>
   <line x1="250" y1="280" x2="430" y2="280" stroke="#7c3aed" stroke-width="1"/>
-  <text x="262" y="298" font-size="12" font-weight="700" fill="#4c1d95">PK</text>
-  <text x="304" y="298" font-size="14" fill="#1f2937">id</text>
-  <text x="262" y="320" font-size="12" font-weight="700" fill="#4c1d95">FK</text>
-  <text x="304" y="320" font-size="14" fill="#1f2937">project_id</text>
-  <text x="304" y="342" font-size="14" fill="#1f2937">title</text>
-  <text x="304" y="364" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
+  <text x="262" y="298" font-size="14" font-weight="700" fill="#4c1d95">PK</text>
+  <text x="314" y="298" font-size="14" fill="#1f2937">id</text>
+  <text x="262" y="320" font-size="14" font-weight="700" fill="#4c1d95">FK</text>
+  <text x="314" y="320" font-size="14" fill="#1f2937">project_id</text>
+  <text x="314" y="342" font-size="14" fill="#1f2937">title</text>
+  <text x="314" y="364" font-size="14" fill="#991b1b" font-style="italic">deleted_at</text>
   <rect x="10" y="440" width="180" height="82" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
   <text x="22" y="461" font-size="15" font-weight="700" fill="#1f2937">labels</text>
   <line x1="10" y1="470" x2="190" y2="470" stroke="#64748b" stroke-width="1"/>
-  <text x="22" y="488" font-size="12" font-weight="700" fill="#1f2937">PK</text>
-  <text x="64" y="488" font-size="14" fill="#1f2937">id</text>
-  <text x="64" y="510" font-size="14" fill="#1f2937">name · уник.</text>
+  <text x="22" y="488" font-size="14" font-weight="700" fill="#1f2937">PK</text>
+  <text x="74" y="488" font-size="14" fill="#1f2937">id</text>
+  <text x="74" y="510" font-size="14" fill="#1f2937">name · уник.</text>
   <rect x="250" y="440" width="180" height="82" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
   <text x="262" y="461" font-size="15" font-weight="700" fill="#78350f">task_labels</text>
   <line x1="250" y1="470" x2="430" y2="470" stroke="#d97706" stroke-width="1"/>
-  <text x="262" y="488" font-size="12" font-weight="700" fill="#78350f">PK FK</text>
-  <text x="304" y="488" font-size="14" fill="#1f2937">task_id</text>
-  <text x="262" y="510" font-size="12" font-weight="700" fill="#78350f">PK FK</text>
-  <text x="304" y="510" font-size="14" fill="#1f2937">label_id</text>
+  <text x="262" y="488" font-size="14" font-weight="700" fill="#78350f">PK FK</text>
+  <text x="314" y="488" font-size="14" fill="#1f2937">task_id</text>
+  <text x="262" y="510" font-size="14" font-weight="700" fill="#78350f">PK FK</text>
+  <text x="314" y="510" font-size="14" fill="#1f2937">label_id</text>
   <line x1="190.0" y1="92.0" x2="250.0" y2="92.0" stroke="#334155" stroke-width="2"/>
   <line x1="199.0" y1="99.0" x2="199.0" y2="85.0" stroke="#334155" stroke-width="2"/>
   <line x1="236.0" y1="92.0" x2="250.0" y2="84.0" stroke="#334155" stroke-width="2"/>
@@ -337,7 +337,7 @@ API показывает то, что сервер решил показать. 
   <line x1="93.0" y1="139.0" x2="107.0" y2="139.0" stroke="#334155" stroke-width="2"/>
   <line x1="100.0" y1="236.0" x2="108.0" y2="250.0" stroke="#334155" stroke-width="2"/>
   <line x1="100.0" y1="236.0" x2="92.0" y2="250.0" stroke="#334155" stroke-width="2"/>
-  <text x="108" y="190" font-size="13" fill="#1f2937" text-anchor="start">author_id</text>
+  <text x="108" y="190" font-size="14" fill="#1f2937" text-anchor="start">author_id</text>
   <line x1="250.0" y1="300.0" x2="190.0" y2="300.0" stroke="#334155" stroke-width="2"/>
   <line x1="241.0" y1="293.0" x2="241.0" y2="307.0" stroke="#334155" stroke-width="2"/>
   <line x1="204.0" y1="300.0" x2="190.0" y2="308.0" stroke="#334155" stroke-width="2"/>
@@ -403,7 +403,7 @@ CREATE UNIQUE INDEX ix_users_email_active_unique
 
 Два живых пользователя с одним email быть не могут. Живой и удалённый — могут. Так спецификация TaskFlow и обещает: email освобождается после удаления.
 
-Где тут место для багов в любом проекте: уникальность сделали обычной, и повторная регистрация после удаления падает. Или проверку уникальности в коде написали без учёта удалённых — и код отвечает «email занят», хотя база бы пропустила.
+Где тут место для багов в любом проекте: уникальность сделали обычной, и повторная регистрация после удаления падает.
 
 ### Мидл: каскадное удаление в базе и мягкое удаление в API
 
@@ -505,7 +505,7 @@ SELECT id, email FROM users WHERE is_active = true ORDER BY id LIMIT 3;
 
 TaskFlow должен быть запущен — по `README.md` репозитория, ветка `training-public`. База слушает порт `5432` на твоём компьютере.
 
-1. Открой DBeaver. **File → New Database Connection** (или кнопка с вилкой и плюсом на панели).
+1. Открой DBeaver. **File → New → Database Connection** (или кнопка с вилкой и плюсом на панели).
 2. Выбери **PostgreSQL** → **Next**.
 3. Заполни поля:
 
@@ -532,7 +532,7 @@ TaskFlow должен быть запущен — по `README.md` репози�
 
 - **Дерево слева**: подключение → **Databases** → `taskflow` → **Schemas** → `public` → **Tables**. Там таблицы TaskFlow и служебная `alembic_version`.
 - **Открой таблицу** двойным щелчком. Вкладки сверху:
-  - **Properties** — структура. Внутри: **Columns** (столбцы, типы, `Not Null`, значения по умолчанию), **Constraints** (первичный ключ и уникальность), **Foreign Keys** (внешние ключи), **Indexes** (индексы), **DDL** — команда `CREATE TABLE`, которой можно создать эту таблицу. В DDL видно всё сразу, включая условия индексов;
+  - **Properties** — структура. Внутри, слева в списке: **Columns** (столбцы, типы, `Not Null`, значения по умолчанию), **Constraints** (первичный ключ и уникальность), **Foreign Keys** (внешние ключи), **Indexes** (индексы), **DDL** — команда `CREATE TABLE`, которой можно создать эту таблицу. В DDL видно всё сразу, включая условия индексов;
   - **Data** — сами строки. Тут же можно отредактировать ячейку — поэтому и нужен режим только чтения;
   - **ER Diagram** — схема связей этой таблицы. Схема всей базы — правой кнопкой по схеме `public` → **View Diagram**.
 - **SQL-редактор**: правой кнопкой по подключению → **SQL Editor → Open SQL script** (или `Ctrl+]`). Напиши запрос и нажми **`Ctrl+Enter`** — выполнится запрос, на котором стоит курсор. Результат появится внизу. На macOS в некоторых версиях — `Cmd+Enter`.
@@ -580,14 +580,13 @@ TaskFlow должен быть запущен — по `README.md` репози�
 
 - Удаление, скорее всего, мягкое: строка осталась с отметкой «удалено».
 - На `email` стоит **обычная** уникальность. Она не знает про мягкое удаление и считает удалённую строку занятой.
-- Или уникальность в базе правильная, но код регистрации проверяет «есть ли такой email» без учёта удалённых.
 
 **Что делать.**
 
 1. Найти пользователя в базе по email: строка есть? Отметка удаления стоит?
 2. Посмотреть в DBeaver индексы таблицы пользователей: уникальность по `email` — с условием «только неудалённые» или без?
 3. Уточнить у аналитика, что должно быть по требованиям: email освобождается после удаления или нет. Бывает, что не освобождается намеренно — например, из-за правил хранения данных.
-4. Если должен освобождаться — баг с указанием, где именно проверка: в индексе базы или в коде.
+4. Если должен освобождаться — баг: «email удалённого пользователя не освобождается, уникальность не учитывает мягкое удаление».
 5. Добавить в чек-лист мягкого удаления: «повторное создание с тем же уникальным значением».
 
 **Чего не делать.**
@@ -762,7 +761,7 @@ SELECT email, first_name, last_name, role FROM users;
 ```sql
 SELECT id, email FROM users WHERE role = 'ADMIN';
 ```
-Попробуй ещё `WHERE role = 'admin'` — и прочитай ошибку. Это enum-тип не пропускает неизвестное значение.
+Попробуй ещё `WHERE role = 'admin'` — и прочитай ошибку. Так enum-тип не пропускает неизвестное значение.
 :::
 
 **Задача 4.** Какие пользователи неактивны — не могут войти? Покажи email, имя и фамилию.
