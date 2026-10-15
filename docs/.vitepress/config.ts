@@ -1,15 +1,14 @@
 import { defineConfig } from 'vitepress'
-import { BLOCKS, EXTRA_PAGES, TOPICS } from './theme/lib/topics'
+import { BLOCKS, TOPICS } from './theme/lib/topics'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 const sidebar = BLOCKS.map((b, i) => {
   const topics = TOPICS.filter((t) => t.block === b.id).sort((x, y) => x.num - y.num)
-  const extras = EXTRA_PAGES.filter((p) => p.block === b.id).map((p) => ({ text: p.title, link: p.link }))
   return {
     text: `${i + 1}. ${b.title}`,
     items: topics.length
-      ? [{ text: 'Обзор блока', link: `/${b.id}/` }, ...topics.map((t) => ({ text: t.title, link: t.link })), ...extras]
-      : [{ text: 'Скоро', link: `/${b.id}/` }, ...extras],
+      ? [{ text: 'Обзор блока', link: `/${b.id}/` }, ...topics.map((t) => ({ text: t.title, link: t.link }))]
+      : [{ text: 'Скоро', link: `/${b.id}/` }],
   }
 })
 
