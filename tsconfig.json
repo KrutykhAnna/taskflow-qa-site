@@ -7,5 +7,5 @@
     "skipLibCheck": true,
     "types": ["vitepress/client", "node"]
   },
-  "include": ["docs/**/*.ts", "docs/**/*.vue", "tests/**/*.ts"]
+  "include": ["docs/**/*.ts", "docs/**/*.vue", "docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue", "tests/**/*.ts"]
 }
