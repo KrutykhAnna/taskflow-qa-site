@@ -218,7 +218,7 @@
 .access-matrix svg { width: 100%; height: auto; display: block; }
 .access-matrix text { font-family: var(--vp-font-family-base); }
 
-/* SQL-песочница и задачник */
+/* Задачник SQL и учебные базы */
 .sql-box { border: 1px solid var(--vp-c-divider); border-radius: 12px; padding: 16px 20px; margin: 16px 0; background: var(--vp-c-bg-soft); min-width: 0; }
 .sql-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .sql-head-title { font-size: 14px; color: var(--vp-c-text-2); }
@@ -226,20 +226,8 @@
 .sql-task-title { font-weight: 600; margin: 8px 0 4px; }
 .sql-task-text > :first-child { margin-top: 4px; }
 .sql-meta { font-size: 14px; color: var(--vp-c-text-2); margin: 8px 0; }
-.sql-label { display: block; font-size: 14px; font-weight: 500; margin: 12px 0 4px; }
-.sql-kbd { font-weight: 400; color: var(--vp-c-text-3); font-size: 12px; margin-left: 6px; }
-.sql-input {
-  display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 96px;
-  font-family: var(--vp-font-family-mono); font-size: 14px; line-height: 1.5; tab-size: 2;
-  padding: 10px 12px; border: 1px solid var(--vp-c-divider); border-radius: 8px;
-  background: var(--vp-c-bg); color: var(--vp-c-text-1);
-}
-.sql-input:focus { outline: 2px solid var(--vp-c-brand-1); outline-offset: 1px; border-color: transparent; }
-.sql-box .tq-btn:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+.sql-box .tq-btn:focus-visible, .sql-task-list .tq-btn:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
 .sql-error { color: var(--vp-c-danger-1); background: var(--vp-c-danger-soft); border-radius: 8px; padding: 8px 12px; font-size: 14px; margin: 8px 0; overflow-wrap: anywhere; }
-.sql-verdict { font-weight: 600; border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
-.sql-verdict.ok { color: var(--vp-c-green-1); background: var(--vp-c-green-soft); }
-.sql-verdict.fail { color: var(--vp-c-danger-1); background: var(--vp-c-danger-soft); }
 /* Таблица результата: прокрутка внутри блока, а не страницы */
 .sql-table-wrap { max-width: 100%; max-height: 420px; overflow: auto; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg); }
 .vp-doc .sql-table-wrap table.sql-table { display: table; margin: 0; border-collapse: collapse; width: max-content; min-width: 100%; font-size: 13px; }

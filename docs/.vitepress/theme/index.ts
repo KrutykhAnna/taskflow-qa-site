@@ -10,9 +10,8 @@ export default {
   enhanceApp({ app }) {
     app.component('InterviewTrainer', InterviewTrainer)
     app.component('LessonTabs', LessonTabs)
-    // SQL-компоненты — асинхронные: их код и задачи грузятся отдельным чанком только на страницах,
-    // где они есть; sql.js, wasm и датасеты — ещё позже, при первом запуске (lib/sql/engine.ts).
-    app.component('SqlPlayground', defineAsyncComponent(() => import('./components/SqlPlayground.vue')))
+    // SQL-компоненты статичные (SQL в браузере не выполняется), но асинхронные:
+    // задачи и их ожидаемые результаты грузятся отдельным чанком только на страницах, где они есть.
     app.component('SqlTask', defineAsyncComponent(() => import('./components/SqlTask.vue')))
     app.component('SqlTaskList', defineAsyncComponent(() => import('./components/SqlTaskList.vue')))
   },

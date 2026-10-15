@@ -34,7 +34,7 @@ const level = ref<Level | 'all'>('all')
           @click="level = l.id"
         >{{ l.title }} ({{ l.count }})</button>
       </div>
-      <!-- v-show, а не фильтрация списка: при смене фильтра набранные запросы не теряются -->
+      <!-- v-show, а не фильтрация списка: при смене фильтра открытые спойлеры не закрываются -->
       <SqlTask v-for="t in tasks" v-show="level === 'all' || t.level === level" :key="t.id" :id="t.id" />
     </template>
   </div>
