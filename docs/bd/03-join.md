@@ -5,7 +5,7 @@
 
 ## Простыми словами
 
-У тебя два списка. В первом — задачи, и у каждой записан **номер** исполнителя: «Логин — 2», «JWT — 3». Во втором — сотрудники с номерами: «2 — Иван», «3 — Анна». Чтобы получить «Логин — Иван», ты берёшь номер из первого списка и ищешь его во втором.
+У тебя два списка. В первом — задачи, и у каждой записан **номер** исполнителя: «Регистрация — 2», «JWT — 3». Во втором — сотрудники с номерами: «2 — Иван», «3 — Анна». Чтобы получить «Регистрация — Иван», ты берёшь номер из первого списка и ищешь его во втором.
 
 `JOIN` делает то же самое: склеивает строки двух таблиц по общему номеру. Задача + сотрудник с тем же номером = одна строка результата, где видно и название задачи, и имя исполнителя.
 
@@ -100,7 +100,7 @@ JOIN users u ON u.id = t.assignee_id;
 В TaskFlow у задачи «Настроить CI» исполнителя нет: `assignee_id IS NULL`. Условие `u.id = NULL` для неё — UNKNOWN, пары нет. Запрос выше вернёт все задачи, **кроме** неё. Ошибки не будет. Результат выглядит как «список задач», и в нём просто на одну меньше.
 
 <figure class="join-pairs">
-<svg viewBox="0 0 440 496" role="img" aria-label="Слева таблица tasks: Логин с assignee_id 2, JWT с assignee_id 3, CI с assignee_id NULL. Справа таблица users: 3 Анна, 7 Ольга, 2 Иван. Линии соединяют Логин с Иваном и JWT с Анной. У CI пары нет, у Ольги тоже. Ниже результат INNER JOIN — две строки: Логин и Иван, JWT и Анна. Результат LEFT JOIN — три строки: те же две и CI с NULL вместо имени">
+<svg viewBox="0 0 440 496" role="img" aria-label="Слева таблица tasks: Регистрация с assignee_id 2, JWT с assignee_id 3, CI с assignee_id NULL. Справа таблица users: 3 Анна, 7 Ольга, 2 Иван. Линии соединяют Регистрация с Иваном и JWT с Анной. У CI пары нет, у Ольги тоже. Ниже результат INNER JOIN — две строки: Регистрация и Иван, JWT и Анна. Результат LEFT JOIN — три строки: те же две и CI с NULL вместо имени">
   <rect x="0" y="0" width="440" height="496" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
   <text x="20" y="30" font-size="15" font-weight="700" fill="#1f2937">Пары по условию t.assignee_id = u.id</text>
   <text x="20" y="60" font-size="14" font-weight="700" fill="#1f2937">tasks t</text>
@@ -110,7 +110,7 @@ JOIN users u ON u.id = t.assignee_id;
   <text x="24" y="90" font-size="14" font-weight="700" fill="#1f2937">title</text>
   <text x="128" y="90" font-size="14" font-weight="700" fill="#1f2937">assignee_id</text>
   <rect x="16" y="100" width="210" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
-  <text x="24" y="120" font-size="14" fill="#1f2937">Логин</text>
+  <text x="24" y="120" font-size="14" fill="#1f2937">Регистрация</text>
   <text x="128" y="120" font-size="14" fill="#1f2937">2</text>
   <rect x="16" y="130" width="210" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="150" font-size="14" fill="#1f2937">JWT</text>
@@ -140,28 +140,28 @@ JOIN users u ON u.id = t.assignee_id;
   <text x="16" y="284" font-size="14" font-weight="700" fill="#1f2937">INNER JOIN — 2 строки</text>
   <rect x="16" y="296" width="196" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="316" font-size="14" font-weight="700" fill="#1f2937">title</text>
-  <text x="104" y="316" font-size="14" font-weight="700" fill="#1f2937">first_name</text>
+  <text x="132" y="316" font-size="14" font-weight="700" fill="#1f2937">first_name</text>
   <rect x="16" y="326" width="196" height="30" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="24" y="346" font-size="14" fill="#1f2937">Логин</text>
-  <text x="104" y="346" font-size="14" fill="#1f2937">Иван</text>
+  <text x="24" y="346" font-size="14" fill="#1f2937">Регистрация</text>
+  <text x="132" y="346" font-size="14" fill="#1f2937">Иван</text>
   <rect x="16" y="356" width="196" height="30" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="376" font-size="14" fill="#1f2937">JWT</text>
-  <text x="104" y="376" font-size="14" fill="#1f2937">Анна</text>
-  <line x1="96" y1="296" x2="96" y2="386" stroke="#94a3b8" stroke-width="1"/>
+  <text x="132" y="376" font-size="14" fill="#1f2937">Анна</text>
+  <line x1="124" y1="296" x2="124" y2="386" stroke="#94a3b8" stroke-width="1"/>
   <text x="228" y="284" font-size="14" font-weight="700" fill="#1f2937">LEFT JOIN — 3 строки</text>
   <rect x="228" y="296" width="196" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
   <text x="236" y="316" font-size="14" font-weight="700" fill="#1f2937">title</text>
-  <text x="316" y="316" font-size="14" font-weight="700" fill="#1f2937">first_name</text>
+  <text x="344" y="316" font-size="14" font-weight="700" fill="#1f2937">first_name</text>
   <rect x="228" y="326" width="196" height="30" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
-  <text x="236" y="346" font-size="14" fill="#1f2937">Логин</text>
-  <text x="316" y="346" font-size="14" fill="#1f2937">Иван</text>
+  <text x="236" y="346" font-size="14" fill="#1f2937">Регистрация</text>
+  <text x="344" y="346" font-size="14" fill="#1f2937">Иван</text>
   <rect x="228" y="356" width="196" height="30" fill="#ffffff" stroke="#94a3b8" stroke-width="1"/>
   <text x="236" y="376" font-size="14" fill="#1f2937">JWT</text>
-  <text x="316" y="376" font-size="14" fill="#1f2937">Анна</text>
+  <text x="344" y="376" font-size="14" fill="#1f2937">Анна</text>
   <rect x="228" y="386" width="196" height="30" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
   <text x="236" y="406" font-size="14" fill="#1f2937">CI</text>
-  <text x="316" y="406" font-size="14" fill="#6b7280">NULL</text>
-  <line x1="308" y1="296" x2="308" y2="416" stroke="#94a3b8" stroke-width="1"/>
+  <text x="344" y="406" font-size="14" fill="#6b7280">NULL</text>
+  <line x1="336" y1="296" x2="336" y2="416" stroke="#94a3b8" stroke-width="1"/>
   <text x="20" y="444" font-size="14" fill="#991b1b">INNER потерял CI молча, без ошибки.</text>
   <text x="20" y="464" font-size="14" fill="#1f2937">Ольги нет ни там, ни там: LEFT хранит</text>
   <text x="20" y="484" font-size="14" fill="#1f2937">все строки только левой таблицы.</text>
@@ -387,34 +387,34 @@ ORDER BY p.name, u.last_name;
 У проекта несколько задач. Соединяешь проекты с задачами — каждый проект повторяется столько раз, сколько у него задач:
 
 <figure class="join-dup">
-<svg viewBox="0 0 440 432" role="img" aria-label="Слева таблица projects с одной строкой: id 1, TaskFlow Backend. Справа таблица tasks с тремя задачами этого проекта: Логин, JWT, CI, у всех project_id 1. От строки проекта идут три линии — к каждой задаче. Ниже результат JOIN: три строки, в каждой повторяется TaskFlow Backend и одна из задач. Проект один, а строк три">
+<svg viewBox="0 0 440 432" role="img" aria-label="Слева таблица projects с одной строкой: id 1, TaskFlow Backend. Справа таблица tasks с тремя задачами этого проекта: Регистрация, JWT, CI, у всех project_id 1. От строки проекта идут три линии — к каждой задаче. Ниже результат JOIN: три строки, в каждой повторяется TaskFlow Backend и одна из задач. Проект один, а строк три">
   <rect x="0" y="0" width="440" height="432" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
   <text x="20" y="30" font-size="15" font-weight="700" fill="#1f2937">1 проект × 3 задачи = 3 строки</text>
   <text x="16" y="60" font-size="14" font-weight="700" fill="#1f2937">projects p</text>
-  <text x="262" y="60" font-size="14" font-weight="700" fill="#1f2937">tasks t</text>
-  <rect x="16" y="70" width="200" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="226" y="60" font-size="14" font-weight="700" fill="#1f2937">tasks t</text>
+  <rect x="16" y="70" width="170" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="90" font-size="14" font-weight="700" fill="#1f2937">id</text>
   <text x="56" y="90" font-size="14" font-weight="700" fill="#1f2937">name</text>
-  <rect x="16" y="100" width="200" height="30" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="16" y="100" width="170" height="30" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="120" font-size="14" fill="#1f2937">1</text>
   <text x="56" y="120" font-size="14" fill="#1f2937">TaskFlow Backend</text>
   <line x1="48" y1="70" x2="48" y2="130" stroke="#94a3b8" stroke-width="1"/>
-  <rect x="262" y="70" width="162" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
-  <text x="270" y="90" font-size="14" font-weight="700" fill="#1f2937">project_id</text>
-  <text x="358" y="90" font-size="14" font-weight="700" fill="#1f2937">title</text>
-  <rect x="262" y="100" width="162" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
-  <text x="270" y="120" font-size="14" fill="#1f2937">1</text>
-  <text x="358" y="120" font-size="14" fill="#1f2937">Логин</text>
-  <rect x="262" y="130" width="162" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
-  <text x="270" y="150" font-size="14" fill="#1f2937">1</text>
-  <text x="358" y="150" font-size="14" fill="#1f2937">JWT</text>
-  <rect x="262" y="160" width="162" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
-  <text x="270" y="180" font-size="14" fill="#1f2937">1</text>
-  <text x="358" y="180" font-size="14" fill="#1f2937">CI</text>
-  <line x1="350" y1="70" x2="350" y2="190" stroke="#94a3b8" stroke-width="1"/>
-  <line x1="216" y1="115" x2="262" y2="115" stroke="#d97706" stroke-width="2.5"/>
-  <line x1="216" y1="115" x2="262" y2="145" stroke="#d97706" stroke-width="2.5"/>
-  <line x1="216" y1="115" x2="262" y2="175" stroke="#d97706" stroke-width="2.5"/>
+  <rect x="226" y="70" width="198" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="234" y="90" font-size="14" font-weight="700" fill="#1f2937">project_id</text>
+  <text x="328" y="90" font-size="14" font-weight="700" fill="#1f2937">title</text>
+  <rect x="226" y="100" width="198" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
+  <text x="234" y="120" font-size="14" fill="#1f2937">1</text>
+  <text x="328" y="120" font-size="14" fill="#1f2937">Регистрация</text>
+  <rect x="226" y="130" width="198" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
+  <text x="234" y="150" font-size="14" fill="#1f2937">1</text>
+  <text x="328" y="150" font-size="14" fill="#1f2937">JWT</text>
+  <rect x="226" y="160" width="198" height="30" fill="#e0f2fe" stroke="#94a3b8" stroke-width="1"/>
+  <text x="234" y="180" font-size="14" fill="#1f2937">1</text>
+  <text x="328" y="180" font-size="14" fill="#1f2937">CI</text>
+  <line x1="320" y1="70" x2="320" y2="190" stroke="#94a3b8" stroke-width="1"/>
+  <line x1="186" y1="115" x2="226" y2="115" stroke="#d97706" stroke-width="2.5"/>
+  <line x1="186" y1="115" x2="226" y2="145" stroke="#d97706" stroke-width="2.5"/>
+  <line x1="186" y1="115" x2="226" y2="175" stroke="#d97706" stroke-width="2.5"/>
   <line x1="14" y1="210" x2="426" y2="210" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="16" y="238" font-size="14" font-weight="700" fill="#1f2937">Результат JOIN</text>
   <rect x="16" y="250" width="408" height="30" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
@@ -422,7 +422,7 @@ ORDER BY p.name, u.last_name;
   <text x="228" y="270" font-size="14" font-weight="700" fill="#1f2937">t.title</text>
   <rect x="16" y="280" width="408" height="30" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="300" font-size="14" fill="#1f2937">TaskFlow Backend</text>
-  <text x="228" y="300" font-size="14" fill="#1f2937">Логин</text>
+  <text x="228" y="300" font-size="14" fill="#1f2937">Регистрация</text>
   <rect x="16" y="310" width="408" height="30" fill="#fef3c7" stroke="#94a3b8" stroke-width="1"/>
   <text x="24" y="330" font-size="14" fill="#1f2937">TaskFlow Backend</text>
   <text x="228" y="330" font-size="14" fill="#1f2937">JWT</text>
@@ -720,6 +720,8 @@ WHERE t.assignee_id IS NOT NULL
 <!-- TODO: ссылки на песочницы PostgreSQL от автора -->
 
 **Как работать с задачами.** Сначала напиши запрос сам и выполни. Не получается — открой подсказку. Потом сверься с эталоном. Если твой запрос другой, а результат тот же — это нормально.
+
+В части 1 и части 3 есть запросы к проектам `1` и `2` и задаче `1` по номеру. Если ты удалял их в блоке 2 — возьми другой действующий проект или задачу.
 
 **Привычка на весь урок:** перед каждым запросом с `JOIN` посмотри, сколько строк в главной таблице без соединения. После — сравни. Разница должна быть объяснима.
 
@@ -1218,7 +1220,17 @@ JOIN tasks t ON t.id = c.task_id
 WHERE c.deleted_at IS NULL
   AND t.deleted_at IS NOT NULL;
 ```
-Ожидается пусто. Заодно сравни время: у комментариев удалённой задачи `deleted_at` должен совпадать с `deleted_at` задачи — так видно, что их пометил каскад, а не кто-то позже руками.
+Ожидается пусто. Чтобы увидеть, как сработал каскад, посмотри и удалённые комментарии удалённых задач:
+
+```sql
+SELECT c.id, c.deleted_at AS comment_deleted_at, t.id AS task_id, t.deleted_at AS task_deleted_at
+FROM comments c
+JOIN tasks t ON t.id = c.task_id
+WHERE c.deleted_at IS NOT NULL
+  AND t.deleted_at IS NOT NULL
+ORDER BY t.id, c.id;
+```
+У комментариев, которые удалил каскад, `deleted_at` совпадает с `deleted_at` задачи. Комментарий, удалённый раньше задачи, отдельно, — со своим, более ранним временем.
 :::
 
 **Задача 27** (с собеседования). Все действующие задачи с именем исполнителя. Имя показывай только у **неудалённого** пользователя: если исполнитель удалён — `NULL`, но задача остаётся в списке. Задачи без исполнителя — тоже в списке. Напиши два варианта — с `u.deleted_at IS NULL` в `WHERE` и в `ON` — и объясни разницу.
@@ -1749,7 +1761,7 @@ JOIN employees e ON e.id = o.employee_id
 WHERE e.fired_at IS NOT NULL
 ORDER BY o.id;
 ```
-2 строки — заказы Юлии Ким. Заказ 8 оформлен до увольнения — это нормально. Заказ 12 — через два дня **после**. Это находка: как уволенная сотрудница оформила заказ? Её доступ не закрыли или заказ привязали к ней по ошибке? Сравнивать даты двух таблиц — частая проверка, которую делают через `JOIN`.
+2 строки — заказы Юлии Ким. Заказ 8 оформлен до увольнения — это нормально. Заказ 12 — почти через два дня **после**. Это находка: как уволенная сотрудница оформила заказ? Её доступ не закрыли или заказ привязали к ней по ошибке? Сравнивать даты двух таблиц — частая проверка, которую делают через `JOIN`.
 :::
 
 **Задача 46** (мидл). Все 14 заказов: номер, менеджер, который его оформил, и руководитель этого менеджера. Сначала присоедини менеджера через `INNER JOIN` — сколько строк? Потом исправь.
@@ -1898,7 +1910,7 @@ ORDER BY t.id;
 Ожидаю: то же число задач, `projectName` у всех — название проекта 1, имена исполнителей совпадают. У задачи без исполнителя в API все три поля исполнителя — `null`. `LEFT JOIN` к `users` обязателен: с `INNER` такая задача пропала бы из моей проверки, и я бы решил, что API вернул «лишнюю» задачу. Учти пагинацию: если задач больше `limit`, сравнивай с `total`.
 :::
 
-**Ситуация 5.** `POST /api/v1/projects/{id}/members` с телом `{"userId": 6, "role": "VIEWER"}` — добавить участника в свой проект. Ответ `201`.
+**Ситуация 5.** `POST /api/v1/projects/{projectId}/members` с телом `{"userId": 6, "role": "VIEWER"}` — добавить участника в свой проект. `{projectId}` — `id` твоего проекта. Возьми пользователя, которого ещё нет в проекте: повторное добавление вернёт `409`. Ответ `201`.
 
 ::: details Эталон
 ```sql
@@ -1906,16 +1918,16 @@ SELECT pm.project_id, p.name, pm.user_id, u.first_name, u.last_name, pm.role, pm
 FROM project_members pm
 JOIN projects p ON p.id = pm.project_id
 JOIN users u    ON u.id = pm.user_id
-WHERE pm.project_id = 15          -- id своего проекта
+WHERE pm.project_id = {projectId}          -- id своего проекта
 ORDER BY pm.user_id;
 
 SELECT user_id, action, entity_type, entity_id, details, created_at
 FROM audit_log
-WHERE entity_type = 'project' AND entity_id = 15
+WHERE entity_type = 'project' AND entity_id = {projectId}          -- id своего проекта
 ORDER BY id DESC
 LIMIT 3;
 ```
-Ожидаю: появилась ровно одна новая строка — пользователь 6 с ролью `VIEWER`, остальные участники не изменились. Тело ответа `201` совпадает с этой строкой: `userId`, `role`, имя и фамилия. Сразу после — `GET /projects/15/members`: новый участник в списке. В журнале — `project_member.add`, в `details` — `userId` и `role`. Багом будет: другая роль, вторая строка того же пользователя, изменилась роль другого участника.
+Ожидаю: появилась ровно одна новая строка — пользователь 6 с ролью `VIEWER`, остальные участники не изменились. Тело ответа `201` совпадает с этой строкой: `userId`, `role`, имя и фамилия. Сразу после — `GET /projects/{projectId}/members`: новый участник в списке. В журнале — `project_member.add`, в `details` — `userId` и `role`. Багом будет: другая роль, вторая строка того же пользователя, изменилась роль другого участника.
 :::
 
 **Ситуация 6.** `PATCH /api/v1/users/me` с телом `{"firstName": "Иннокентий"}` — ты сменил имя. Где ещё должно поменяться имя?
@@ -1923,24 +1935,26 @@ LIMIT 3;
 ::: details Эталон
 ```sql
 -- сам пользователь
-SELECT id, first_name, last_name FROM users WHERE id = 2;   -- свой id
+SELECT id, first_name, last_name FROM users WHERE id = /* свой id */ 2;
 
 -- где это имя показывает API
 SELECT c.id, c.task_id, u.first_name
 FROM comments c
 JOIN users u ON u.id = c.author_id
-WHERE c.author_id = 2 AND c.deleted_at IS NULL;
+WHERE c.author_id = /* свой id */ 2 AND c.deleted_at IS NULL;
 
 SELECT pm.project_id, u.first_name, pm.role
 FROM project_members pm
 JOIN users u ON u.id = pm.user_id
-WHERE pm.user_id = 2;
+WHERE pm.user_id = /* свой id */ 2;
 
 SELECT t.id, t.title, u.first_name
 FROM tasks t
 JOIN users u ON u.id = t.assignee_id
-WHERE t.assignee_id = 2 AND t.deleted_at IS NULL;
+WHERE t.assignee_id = /* свой id */ 2 AND t.deleted_at IS NULL;
 ```
+Вместо `2` подставь свой `id` — тот, под которым ты выполнил `PATCH`. Если запросы вернули пусто, у тебя нет комментариев, участия или назначенных задач — тогда сравнивать не с чем. Войди пользователем, у которого всё это есть, — например, Иваном (`id = 2`), — или сначала создай комментарий, участие и задачу через API.
+
 Имя хранится в одном месте — `users`. Все три списка собирают его через `JOIN` в момент запроса. Значит, после `PATCH` новое имя должно сразу появиться в `GET /tasks/{taskId}/comments`, `GET /projects/{id}/members` и `GET /tasks`. Если где-то в API осталось старое имя, а в базе новое — где-то хранится копия или кэш. Это баг, и в отчёте важно указать, в каком именно ответе.
 :::
 
