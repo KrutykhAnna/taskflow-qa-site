@@ -225,3 +225,11 @@
 .db-terms { margin: 16px auto; max-width: 440px; }
 .db-terms svg { width: 100%; height: auto; display: block; }
 .db-terms text { font-family: var(--vp-font-family-base); }
+
+.sql-order { margin: 16px auto; max-width: 440px; }
+.sql-order svg { width: 100%; height: auto; display: block; }
+.sql-order text { font-family: var(--vp-font-family-base); }
+
+.null-logic { margin: 16px auto; max-width: 440px; }
+.null-logic svg { width: 100%; height: auto; display: block; }
+.null-logic text { font-family: var(--vp-font-family-base); }
