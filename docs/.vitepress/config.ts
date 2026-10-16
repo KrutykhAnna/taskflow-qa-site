@@ -6,6 +6,8 @@ const sidebar = BLOCKS.map((b, i) => {
   const topics = TOPICS.filter((t) => t.block === b.id).sort((x, y) => x.num - y.num)
   return {
     text: `${i + 1}. ${b.title}`,
+    // Блоки свёрнуты; VitePress сам раскрывает блок с открытой страницей.
+    collapsed: true,
     items: topics.length
       ? [{ text: 'Обзор блока', link: `/${b.id}/` }, ...topics.map((t) => ({ text: t.title, link: t.link }))]
       : [{ text: 'Скоро', link: `/${b.id}/` }],

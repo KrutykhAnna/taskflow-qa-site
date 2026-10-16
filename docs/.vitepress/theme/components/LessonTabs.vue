@@ -19,6 +19,7 @@ function syncWithHash() {
   for (const t of tabs) {
     if (panels[t.id]?.contains(target)) {
       active.value = t.id
+      syncOutline()
       // Роутер VitePress сам скроллит в rAF, пока вкладка ещё скрыта (координаты неверные).
       // Ждём отрисовку вкладки и его скролл, затем скроллим сами (scroll-margin-top в style.css).
       nextTick(() => {
@@ -39,8 +40,23 @@ function stickyOffset(): number {
   return offset
 }
 
+// Оглавление «На этой странице» общее на всю страницу: прячем пункты скрытых вкладок.
+function syncOutline() {
+  nextTick(() => {
+    const panel = panels[active.value]
+    if (!panel) return
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('.VPDocAsideOutline a.outline-link, .VPLocalNavOutlineDropdown a.outline-link')) {
+      const id = decodeURIComponent(link.hash.slice(1))
+      const target = id ? document.getElementById(id) : null
+      const li = link.closest('li')
+      if (li) li.style.display = target && !panel.contains(target) ? 'none' : ''
+    }
+  })
+}
+
 function selectTab(id: Tab) {
   active.value = id
+  syncOutline()
   // Сбрасываем hash, чтобы повторный клик по той же ссылке оглавления снова переключал вкладку.
   if (location.hash) history.replaceState(history.state, '', location.pathname + location.search)
   // Если панель вкладок уже прокручена выше экрана — новая вкладка открывается с начала, а не с середины.
@@ -51,11 +67,19 @@ function selectTab(id: Tab) {
   })
 }
 
+let outlineObserver: MutationObserver | undefined
 onMounted(() => {
   syncWithHash()
+  syncOutline()
+  // Оглавление дорисовывается после монтирования (и в мобильном выпадающем списке — при открытии).
+  outlineObserver = new MutationObserver(() => syncOutline())
+  outlineObserver.observe(document.body, { childList: true, subtree: true })
   window.addEventListener('hashchange', syncWithHash)
 })
-onBeforeUnmount(() => window.removeEventListener('hashchange', syncWithHash))
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncWithHash)
+  outlineObserver?.disconnect()
+})
 </script>
 
 <template>
@@ -70,8 +94,8 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', syncWithHash))
         @click="selectTab(t.id)"
       >{{ t.label }}</button>
     </div>
-    <div v-show="active === 'theory'" :ref="(el) => (panels.theory = el as HTMLElement)"><slot name="theory" /></div>
-    <div v-show="active === 'task'" :ref="(el) => (panels.task = el as HTMLElement)"><slot name="task" /></div>
-    <div v-show="active === 'questions'" :ref="(el) => (panels.questions = el as HTMLElement)"><slot name="questions" /></div>
+    <div v-show="active === 'theory'" class="lesson-tab-panel" :ref="(el) => (panels.theory = el as HTMLElement)"><slot name="theory" /></div>
+    <div v-show="active === 'task'" class="lesson-tab-panel" :ref="(el) => (panels.task = el as HTMLElement)"><slot name="task" /></div>
+    <div v-show="active === 'questions'" class="lesson-tab-panel" :ref="(el) => (panels.questions = el as HTMLElement)"><slot name="questions" /></div>
   </div>
 </template>

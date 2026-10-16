@@ -15,6 +15,9 @@ const fixed = computed(() =>
 )
 const blocksWithQuestions = BLOCKS.filter((b) => bank.some((q) => q.topic.startsWith(`${b.id}/`)))
 const topicsWithQuestions = TOPICS.filter((t) => bank.some((q) => q.topic === t.id))
+const topicGroups = blocksWithQuestions
+  .map((b) => ({ block: b, topics: topicsWithQuestions.filter((t) => t.block === b.id) }))
+  .filter((g) => g.topics.length)
 
 const session = ref<Question[] | null>(null)
 const results = ref<Record<string, boolean>>({})
@@ -58,8 +61,11 @@ const toRepeat = computed(() =>
         <button v-for="b in blocksWithQuestions" :key="b.id" class="tq-btn" @click="start({ kind: 'block', block: b.id })">{{ b.title }}</button>
       </div>
       <h3>По теме</h3>
-      <div class="tq-actions">
-        <button v-for="t in topicsWithQuestions" :key="t.id" class="tq-btn" @click="start({ kind: 'topic', topic: t.id })">{{ t.title }}</button>
+      <div v-for="g in topicGroups" :key="g.block.id" class="tq-topic-group">
+        <h4>{{ g.block.title }}</h4>
+        <div class="tq-actions">
+          <button v-for="t in g.topics" :key="t.id" class="tq-btn" @click="start({ kind: 'topic', topic: t.id })">{{ t.title }}</button>
+        </div>
       </div>
     </template>
 

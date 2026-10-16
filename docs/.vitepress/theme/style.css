@@ -8,6 +8,17 @@
   --vp-c-brand-2: #818cf8;
   --vp-c-brand-3: #6366f1;
 }
+/* Основная кнопка: насыщенный фон вместо бледного brand-3 — белый текст читается. */
+:root {
+  --vp-button-brand-bg: #4f46e5;
+  --vp-button-brand-hover-bg: #4338ca;
+  --vp-button-brand-active-bg: #3730a3;
+}
+.dark {
+  --vp-button-brand-bg: #4f46e5;
+  --vp-button-brand-hover-bg: #6366f1;
+  --vp-button-brand-active-bg: #4338ca;
+}
 
 .tq { border: 1px solid var(--vp-c-divider); border-radius: 12px; padding: 16px 20px; margin: 16px 0; background: var(--vp-c-bg-soft); }
 .tq-badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
@@ -31,6 +42,8 @@
 @media (min-width: 1280px) {
   .lesson-tabs-bar { position: sticky; top: var(--vp-nav-height); z-index: 10; }
 }
+/* Первый заголовок вкладки без верхней линии: под панелью вкладок уже есть своя. */
+.vp-doc .lesson-tab-panel > h2:first-child { border-top: 0; margin-top: 24px; padding-top: 0; }
 /* Заголовок после перехода по якорю не прячется под шапкой (и под панелью вкладок). */
 .lesson-tabs :is(h2, h3) { scroll-margin-top: calc(var(--vp-nav-height) + 64px); }
 .nested-circles { margin: 16px auto; max-width: 360px; }
@@ -241,3 +254,18 @@
 .join-dup { margin: 16px auto; max-width: 440px; }
 .join-dup svg { width: 100%; height: auto; display: block; }
 .join-dup text { font-family: var(--vp-font-family-base); }
+
+/* Главная: программа курса по блокам */
+.course-blocks { max-width: 1152px; margin: 48px auto 64px; padding: 0; }
+.vp-doc .course-blocks h2 { font-size: 24px; font-weight: 600; margin: 0 0 16px; padding-top: 0; border-top: 0; }
+.course-blocks-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.course-block { display: block; border: 1px solid var(--vp-c-bg-soft); border-radius: 12px; padding: 20px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); text-decoration: none; transition: border-color .2s; }
+a.course-block:hover { border-color: var(--vp-c-brand-1); }
+.vp-doc a.course-block, .vp-doc a.course-block:hover { color: var(--vp-c-text-1); text-decoration: none; }
+.vp-doc a.course-block .course-block-title { color: var(--vp-c-brand-1); }
+.course-block-num { font-size: 13px; color: var(--vp-c-text-2); }
+.course-block-title { font-weight: 600; margin: 4px 0 8px; line-height: 1.4; }
+.course-block-meta { font-size: 14px; color: var(--vp-c-text-2); }
+.course-block.soon { opacity: .6; }
+/* Тренажёр: темы, сгруппированные по блокам */
+.tq-topic-group h4 { margin: 20px 0 4px; font-size: 15px; color: var(--vp-c-text-2); }

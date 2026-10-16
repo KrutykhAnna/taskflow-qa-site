@@ -1,12 +1,13 @@
-export type Block = { id: string; title: string }
+// status: готов / в работе (уроки добавляются) / скоро (уроков ещё нет) — для главной страницы.
+export type Block = { id: string; title: string; status: 'done' | 'progress' | 'soon' }
 export type Topic = { id: string; block: string; num: number; title: string; link: string }
 
 export const BLOCKS: Block[] = [
-  { id: 'osnovy', title: 'Основы тестирования' },
-  { id: 'api', title: 'Клиент-сервер и API' },
-  { id: 'bd', title: 'Базы данных и SQL' },
-  { id: 'web', title: 'Web' },
-  { id: 'mobile', title: 'Мобильное через web' },
+  { id: 'osnovy', title: 'Основы тестирования', status: 'done' },
+  { id: 'api', title: 'Клиент-сервер и API', status: 'done' },
+  { id: 'bd', title: 'Базы данных и SQL', status: 'progress' },
+  { id: 'web', title: 'Web', status: 'soon' },
+  { id: 'mobile', title: 'Мобильное через web', status: 'soon' },
 ]
 
 export const TOPICS: Topic[] = [
