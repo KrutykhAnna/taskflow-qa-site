@@ -23,10 +23,10 @@
   type: quiz
   question: Как в PostgreSQL записать условие «статус не равен CANCELLED»?
   options:
-    - "Только `status != 'CANCELLED'`, оператор `<>` устарел"
-    - "Только `status <> 'CANCELLED'`, оператор `!=` даст ошибку"
-    - "`status <> 'CANCELLED'` или `status != 'CANCELLED'` — одно и то же"
-    - "`status NOT 'CANCELLED'` — отдельного оператора нет"
+    - "Только `status != 'CANCELLED'`, а оператор `<>` устарел и не работает"
+    - "Только `status <> 'CANCELLED'`, а оператор `!=` в PostgreSQL даст ошибку"
+    - "Оба варианта, `<>` и `!=`, — в PostgreSQL это одно и то же"
+    - "`status NOT 'CANCELLED'` — отдельного оператора «не равно» в SQL нет"
   correct: 2
   explanation: |
     В PostgreSQL `<>` и `!=` равнозначны. `<>` — запись из стандарта SQL,
@@ -43,9 +43,9 @@
     Какое условие равносильно `WHERE category IN ('Обувь', 'Одежда')`?
   options:
     - "`category = 'Обувь' OR category = 'Одежда'`"
-    - "`category = 'Обувь' AND category = 'Одежда'`"
+    - "`category = 'Обувь' AND category = 'Одежда' AND category IS NOT NULL`"
     - "`category LIKE 'Обувь%' OR category LIKE 'Одежда%'`"
-    - "`category BETWEEN 'Обувь' AND 'Одежда'`"
+    - "`category BETWEEN 'Обувь' AND 'Одежда' AND category IS NOT NULL`"
   correct: 0
   explanation: |
     `IN` — короткая запись нескольких `OR` по одному столбцу. Удобно ещё
@@ -115,8 +115,8 @@
   type: quiz
   question: Какой запрос вернёт 5 самых новых заказов?
   options:
-    - "`SELECT * FROM orders LIMIT 5`"
-    - "`SELECT * FROM orders ORDER BY created_at, id LIMIT 5`"
+    - "`SELECT * FROM orders WHERE created_at IS NOT NULL LIMIT 5`"
+    - "`SELECT * FROM orders ORDER BY created_at ASC, id ASC LIMIT 5 OFFSET 0`"
     - "`SELECT * FROM orders ORDER BY created_at DESC, id DESC LIMIT 5`"
     - "`SELECT * FROM orders LIMIT 5 ORDER BY created_at DESC, id DESC`"
   correct: 2
@@ -125,7 +125,7 @@
     поэтому получаются пять самых новых. `id DESC` вторым столбцом делает
     порядок однозначным, если у заказов одинаковое время.
 
-    Без `ORDER BY` — какие-то пять строк. `ORDER BY created_at, id` без `DESC` —
+    Без `ORDER BY` — какие-то пять строк, условие на `NULL` этого не меняет. `ASC` —
     пять самых старых. `LIMIT` перед `ORDER BY` — синтаксическая ошибка:
     порядок частей запроса фиксированный.
 
@@ -239,10 +239,10 @@
     В PostgreSQL выполняют `ORDER BY finished_at` — у части строк
     `finished_at` равен `NULL`. Где окажутся эти строки?
   options:
-    - "В начале списка — `NULL` считается меньше любого значения"
+    - "В начале списка — в PostgreSQL `NULL` считается меньше любого значения"
     - "В случайных местах — `NULL` нельзя сравнить, порядок не определён"
-    - "В конце списка, а при `ORDER BY finished_at DESC` — в начале"
-    - "Их не будет в результате — сортировка отбрасывает `NULL`"
+    - "В конце, а при сортировке по убыванию — в начале списка"
+    - "Их не будет в результате — сортировка отбрасывает строки с `NULL`"
   correct: 2
   explanation: |
     В PostgreSQL `NULL` при сортировке считается больше любого значения.
@@ -389,10 +389,11 @@
     ```sql
     SELECT DISTINCT ON (task_id) task_id, id, text, created_at
     FROM comments
+    WHERE deleted_at IS NULL
     ORDER BY task_id, created_at DESC, id DESC;
     ```
 
-    Это последний комментарий к каждой задаче.
+    Это последний действующий комментарий к каждой задаче.
 
     Правило: столбцы из `DISTINCT ON` стоят первыми в `ORDER BY`, дальше —
     порядок, который решает, какая строка «первая». Без него база выберет
