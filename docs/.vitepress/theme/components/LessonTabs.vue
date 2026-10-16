@@ -8,6 +8,7 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'questions', label: 'Вопросы' },
 ]
 const active = ref<Tab>('theory')
+const root = ref<HTMLElement>()
 const panels: Partial<Record<Tab, HTMLElement>> = {}
 
 function syncWithHash() {
@@ -28,10 +29,26 @@ function syncWithHash() {
   }
 }
 
+// Высота закреплённых сверху панелей VitePress: шапка и, на узких экранах, локальная панель.
+function stickyOffset(): number {
+  let offset = 0
+  for (const sel of ['.VPNav', '.VPLocalNav']) {
+    const el = document.querySelector<HTMLElement>(sel)
+    if (el && getComputedStyle(el).position !== 'static') offset += el.getBoundingClientRect().height
+  }
+  return offset
+}
+
 function selectTab(id: Tab) {
   active.value = id
   // Сбрасываем hash, чтобы повторный клик по той же ссылке оглавления снова переключал вкладку.
   if (location.hash) history.replaceState(history.state, '', location.pathname + location.search)
+  // Если панель вкладок уже прокручена выше экрана — новая вкладка открывается с начала, а не с середины.
+  nextTick(() => {
+    if (!root.value) return
+    const top = root.value.getBoundingClientRect().top - stickyOffset()
+    if (top < 0) window.scrollTo({ top: window.scrollY + top })
+  })
 }
 
 onMounted(() => {
@@ -42,7 +59,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', syncWithHash))
 </script>
 
 <template>
-  <div class="lesson-tabs">
+  <div ref="root" class="lesson-tabs">
     <div class="lesson-tabs-bar" role="tablist">
       <button
         v-for="t in tabs"
