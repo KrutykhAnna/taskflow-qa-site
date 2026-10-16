@@ -15,6 +15,8 @@ const sidebar = BLOCKS.map((b, i) => {
 export default withMermaid(
   defineConfig({
     lang: 'ru-RU',
+    // сайт публикуется на GitHub Pages по адресу /taskflow-qa-site/; локально — VITEPRESS_BASE=/
+    base: process.env.VITEPRESS_BASE ?? '/taskflow-qa-site/',
     title: 'TaskFlow QA',
     description: 'Ручное тестирование на примере TaskFlow',
     cleanUrls: true,
