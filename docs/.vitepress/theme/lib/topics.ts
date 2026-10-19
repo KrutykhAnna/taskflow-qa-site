@@ -180,11 +180,18 @@ export const TOPICS: Topic[] = [
     link: '/api/12-websocket',
   },
   {
-    id: 'api/praktikum-api-fichi',
+    id: 'api/integracii',
     block: 'api',
     num: 13,
+    title: 'Интеграции: синхронные и асинхронные, внутренние и внешние',
+    link: '/api/13-integracii',
+  },
+  {
+    id: 'api/praktikum-api-fichi',
+    block: 'api',
+    num: 14,
     title: 'Практикум: API-фича целиком',
-    link: '/api/13-praktikum-api-fichi',
+    link: '/api/14-praktikum-api-fichi',
   },
   {
     id: 'bd/chto-takoe-bd',

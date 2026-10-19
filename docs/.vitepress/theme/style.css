@@ -255,6 +255,26 @@
 .join-dup svg { width: 100%; height: auto; display: block; }
 .join-dup text { font-family: var(--vp-font-family-base); }
 
+.integ-axes { margin: 16px auto; max-width: 440px; }
+.integ-axes svg { width: 100%; height: auto; display: block; }
+.integ-axes text { font-family: var(--vp-font-family-base); }
+
+.integ-fanout { margin: 16px auto; max-width: 440px; }
+.integ-fanout svg { width: 100%; height: auto; display: block; }
+.integ-fanout text { font-family: var(--vp-font-family-base); }
+
+.integ-card { margin: 16px auto; max-width: 440px; }
+.integ-card svg { width: 100%; height: auto; display: block; }
+.integ-card text { font-family: var(--vp-font-family-base); }
+
+.integ-prodcons { margin: 16px auto; max-width: 440px; }
+.integ-prodcons svg { width: 100%; height: auto; display: block; }
+.integ-prodcons text { font-family: var(--vp-font-family-base); }
+
+.integ-whois { margin: 16px auto; max-width: 440px; }
+.integ-whois svg { width: 100%; height: auto; display: block; }
+.integ-whois text { font-family: var(--vp-font-family-base); }
+
 /* Главная: программа курса по блокам */
 .course-blocks { max-width: 1152px; margin: 48px auto 64px; padding: 0; }
 .vp-doc .course-blocks h2 { font-size: 24px; font-weight: 600; margin: 0 0 16px; padding-top: 0; border-top: 0; }
