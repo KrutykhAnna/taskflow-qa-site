@@ -298,6 +298,10 @@
 .mongo-vs-sql { margin: 16px auto; max-width: 440px; }
 .mongo-vs-sql svg { width: 100%; height: auto; display: block; }
 .mongo-vs-sql text { font-family: var(--vp-font-family-base); }
+
+.bdp-lifecycle { margin: 16px auto; max-width: 440px; }
+.bdp-lifecycle svg { width: 100%; height: auto; display: block; }
+.bdp-lifecycle text { font-family: var(--vp-font-family-base); }
 .mongo-vs-sql text.code { font-family: var(--vp-font-family-mono); white-space: pre; }
 
 .integ-axes { margin: 16px auto; max-width: 440px; }

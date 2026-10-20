@@ -5,7 +5,7 @@ export type Topic = { id: string; block: string; num: number; title: string; lin
 export const BLOCKS: Block[] = [
   { id: 'osnovy', title: 'Основы тестирования', status: 'done' },
   { id: 'api', title: 'Клиент-сервер и API', status: 'done' },
-  { id: 'bd', title: 'Базы данных и SQL', status: 'progress' },
+  { id: 'bd', title: 'Базы данных и SQL', status: 'done' },
   { id: 'web', title: 'Web', status: 'soon' },
   { id: 'mobile', title: 'Мобильное через web', status: 'soon' },
 ]
@@ -248,6 +248,13 @@ export const TOPICS: Topic[] = [
     num: 8,
     title: 'MongoDB и нереляционные базы',
     link: '/bd/08-mongodb',
+  },
+  {
+    id: 'bd/praktikum',
+    block: 'bd',
+    num: 9,
+    title: 'Практикум: фича через API и БД',
+    link: '/bd/09-praktikum',
   },
 ]
 
