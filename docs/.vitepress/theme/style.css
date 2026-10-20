@@ -339,3 +339,7 @@ a.course-block:hover { border-color: var(--vp-c-brand-1); }
 .course-block.soon { opacity: .6; }
 /* Тренажёр: темы, сгруппированные по блокам */
 .tq-topic-group h4 { margin: 20px 0 4px; font-size: 15px; color: var(--vp-c-text-2); }
+
+.web-arch { margin: 16px auto; max-width: 440px; }
+.web-arch svg { width: 100%; height: auto; display: block; }
+.web-arch text { font-family: var(--vp-font-family-base); }
