@@ -242,6 +242,13 @@ export const TOPICS: Topic[] = [
     title: 'Redis: кэш и не только',
     link: '/bd/07-redis',
   },
+  {
+    id: 'bd/mongodb',
+    block: 'bd',
+    num: 8,
+    title: 'MongoDB и нереляционные базы',
+    link: '/bd/08-mongodb',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
