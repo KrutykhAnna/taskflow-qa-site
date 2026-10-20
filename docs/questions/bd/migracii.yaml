@@ -96,7 +96,7 @@
     прошла на стейдже и упала на проде. Почему?
   options:
     - "На проде другая версия PostgreSQL — `NOT NULL` там работает иначе"
-    - "На стейдже таблица была пустой, на проде у курьеров нет значения"
+    - "На стейдже таблица пустая, на проде у курьеров нет значения"
     - "Столбец `transport` уже был на проде, а на стейдже — нет"
     - "Миграции нельзя применять дважды — на стейдже она уже прошла"
   correct: 1
@@ -136,15 +136,16 @@
     Перед миграцией «телефон клиента уникален» тестировщик хочет понять,
     пройдёт ли она на живых данных. Какой запрос ему нужен?
   options:
-    - "`SELECT phone, COUNT(*) FROM customers GROUP BY phone HAVING COUNT(*) > 1`"
-    - "`SELECT COUNT(*), COUNT(phone), COUNT(DISTINCT id) FROM customers WHERE phone IS NOT NULL`"
+    - "`SELECT phone, COUNT(*) FROM customers WHERE phone IS NOT NULL GROUP BY phone HAVING COUNT(*) > 1`"
+    - "`SELECT COUNT(*), COUNT(phone), COUNT(DISTINCT id) FROM customers WHERE phone IS NOT NULL AND phone <> ''`"
     - "`SELECT COUNT(DISTINCT id) FROM customers`"
-    - "`SELECT phone, created_at FROM customers ORDER BY phone, created_at DESC LIMIT 100`"
+    - "`SELECT phone, created_at FROM customers WHERE phone IS NOT NULL ORDER BY phone, created_at DESC LIMIT 100`"
   correct: 0
   explanation: |
     Ограничение `UNIQUE` не создастся, если повторы уже есть:
     `could not create unique index … Key (phone)=(…) is duplicated`.
-    Запрос с `GROUP BY` и `HAVING COUNT(*) > 1` находит повторы.
+    Запрос с `GROUP BY` и `HAVING COUNT(*) > 1` находит повторы,
+    а `WHERE phone IS NOT NULL` убирает пустые телефоны.
     Если он что-то вернул — сначала решение бизнеса о повторах,
     потом миграция.
 
@@ -218,7 +219,7 @@
   options:
     - "Есть ли товары с названием длиннее 100 символов"
     - "Сколько товаров с пустым названием"
-    - "Какая максимальная длина названия разрешена в API"
+    - "Сколько товаров добавили в каталог за последнюю неделю"
     - "Сколько всего товаров в таблице"
   correct: 0
   explanation: |
@@ -296,10 +297,10 @@
     У тебя новая страница работает, у коллеги — `500`. Код одинаковый,
     стенды разные. Что сравнить первым?
   options:
-    - "Версии браузеров — скорее всего, дело в кэше"
-    - "Логи сервера за последнюю неделю у обоих"
+    - "Версии браузеров у обоих: скорее всего, виноват кэш"
+    - "Логи сервера у обоих за последнюю неделю целиком"
     - "Версию схемы базы на обоих стендах"
-    - "Тестовые данные: у коллеги их больше"
+    - "Тестовые данные: у коллеги их намного больше"
   correct: 2
   explanation: |
     Код одинаковый, а схема может быть разной: стенд коллеги
