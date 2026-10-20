@@ -288,6 +288,13 @@
 .mig-history text,
 .mig-test text { font-family: var(--vp-font-family-base); }
 
+.redis-cache,
+.redis-stale { margin: 16px auto; max-width: 440px; }
+.redis-cache svg,
+.redis-stale svg { width: 100%; height: auto; display: block; }
+.redis-cache text,
+.redis-stale text { font-family: var(--vp-font-family-base); }
+
 .integ-axes { margin: 16px auto; max-width: 440px; }
 .integ-axes svg { width: 100%; height: auto; display: block; }
 .integ-axes text { font-family: var(--vp-font-family-base); }
