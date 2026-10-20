@@ -281,6 +281,13 @@
 .dbt-tx text,
 .dbt-cascade text { font-family: var(--vp-font-family-base); }
 
+.mig-history,
+.mig-test { margin: 16px auto; max-width: 440px; }
+.mig-history svg,
+.mig-test svg { width: 100%; height: auto; display: block; }
+.mig-history text,
+.mig-test text { font-family: var(--vp-font-family-base); }
+
 .integ-axes { margin: 16px auto; max-width: 440px; }
 .integ-axes svg { width: 100%; height: auto; display: block; }
 .integ-axes text { font-family: var(--vp-font-family-base); }
