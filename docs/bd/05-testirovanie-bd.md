@@ -1664,7 +1664,7 @@ FROM audit_log
 WHERE entity_type = 'project' AND entity_id = 5
 ORDER BY id;
 ```
-Ожидаю: название и описание как в запросе, `status = 'ACTIVE'`, `owner_id` — мой `id`, `deleted_at` — `NULL`, `created_at` — только что, в UTC. В `project_members` — одна строка: я, `OWNER`. В журнале — одна запись `project.create` от меня, `details` — `NULL`: при создании детали не пишутся.
+Ожидаю: название и описание как в запросе, `status = 'ACTIVE'`, `owner_id` — мой `id`, `deleted_at` — `NULL`, `created_at` — только что, в UTC. В `project_members` — одна строка: я, `OWNER`. В журнале — одна запись `project.create` от меня, `details` пустой: при создании детали не пишутся. В базе это JSON-значение `null`, а не SQL `NULL` — DBeaver покажет `null`, а `WHERE details IS NULL` такую строку не найдёт.
 
 Багом будет: нет строки владельца в участниках — проект «без хозяина», в списке «мои проекты» его не будет; две записи в журнале; `created_at` в другом поясе.
 :::

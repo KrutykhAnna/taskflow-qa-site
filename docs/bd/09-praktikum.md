@@ -78,37 +78,37 @@
   <text x="20" y="30" font-size="15" font-weight="700" fill="#1f2937">Жизненный цикл задачи: что меняется в базе</text>
   <rect x="16" y="48" width="408" height="88" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
   <text x="28" y="69" font-size="14" font-weight="700" fill="#1f2937">1. Создать задачу — MANAGER+</text>
-  <text x="28" y="88" font-size="13" fill="#334155" font-family="monospace">POST /api/v1/tasks → 201</text>
+  <text x="28" y="88" font-size="13" fill="#334155" class="code">POST /api/v1/tasks → 201</text>
   <text x="28" y="107" font-size="14" fill="#1f2937">tasks: новая строка, TODO, deleted_at — NULL</text>
   <text x="28" y="126" font-size="14" fill="#475569">audit_log: task.create</text>
   <text x="220" y="152" font-size="14" fill="#64748b" text-anchor="middle">↓</text>
   <rect x="16" y="158" width="408" height="88" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
   <text x="28" y="179" font-size="14" font-weight="700" fill="#1f2937">2. Изменить — MANAGER+; исполнитель — status</text>
-  <text x="28" y="198" font-size="13" fill="#334155" font-family="monospace">PATCH /api/v1/tasks/{id} → 200</text>
+  <text x="28" y="198" font-size="13" fill="#334155" class="code">PATCH /api/v1/tasks/{id} → 200</text>
   <text x="28" y="217" font-size="14" fill="#1f2937">tasks: только переданные поля</text>
   <text x="28" y="236" font-size="14" fill="#475569">audit_log: task.update, в details — что менял</text>
   <text x="220" y="262" font-size="14" fill="#64748b" text-anchor="middle">↓</text>
   <rect x="16" y="268" width="408" height="88" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
   <text x="28" y="289" font-size="14" font-weight="700" fill="#1f2937">3. Комментарий — любой с доступом к задаче</text>
-  <text x="28" y="308" font-size="13" fill="#334155" font-family="monospace">POST /api/v1/tasks/{id}/comments → 201</text>
+  <text x="28" y="308" font-size="13" fill="#334155" class="code">POST /api/v1/tasks/{id}/comments → 201</text>
   <text x="28" y="327" font-size="14" fill="#1f2937">comments: новая строка → commentsCount +1</text>
   <text x="28" y="346" font-size="14" fill="#475569">audit_log: comment.create, id комментария</text>
   <text x="220" y="372" font-size="14" fill="#64748b" text-anchor="middle">↓</text>
   <rect x="16" y="378" width="408" height="88" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
   <text x="28" y="399" font-size="14" font-weight="700" fill="#1f2937">4. Удалить комментарий — автор или MANAGER+</text>
-  <text x="28" y="418" font-size="13" fill="#334155" font-family="monospace">DELETE …/comments/{commentId} → 204</text>
+  <text x="28" y="418" font-size="13" fill="#334155" class="code">DELETE …/comments/{commentId} → 204</text>
   <text x="28" y="437" font-size="14" fill="#1f2937">comments: deleted_at → commentsCount −1</text>
   <text x="28" y="456" font-size="14" fill="#475569">audit_log: comment.delete</text>
   <text x="220" y="482" font-size="14" fill="#64748b" text-anchor="middle">↓</text>
   <rect x="16" y="488" width="408" height="88" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
   <text x="28" y="509" font-size="14" font-weight="700" fill="#1f2937">5. Удалить задачу — MANAGER+</text>
-  <text x="28" y="528" font-size="13" fill="#334155" font-family="monospace">DELETE /api/v1/tasks/{id} → 204</text>
+  <text x="28" y="528" font-size="13" fill="#334155" class="code">DELETE /api/v1/tasks/{id} → 204</text>
   <text x="28" y="547" font-size="14" fill="#1f2937">tasks и её комментарии: deleted_at, одно время</text>
   <text x="28" y="566" font-size="14" fill="#475569">audit_log: task.delete</text>
   <text x="220" y="592" font-size="14" fill="#64748b" text-anchor="middle">↓</text>
   <rect x="16" y="598" width="408" height="88" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
   <text x="28" y="619" font-size="14" font-weight="700" fill="#1f2937">6. Удалить проект — OWNER</text>
-  <text x="28" y="638" font-size="13" fill="#334155" font-family="monospace">DELETE /api/v1/projects/{id} → 204</text>
+  <text x="28" y="638" font-size="13" fill="#334155" class="code">DELETE /api/v1/projects/{id} → 204</text>
   <text x="28" y="657" font-size="14" fill="#1f2937">проект, его задачи и комментарии — одно время</text>
   <text x="28" y="676" font-size="14" fill="#475569">audit_log: project.delete, cascadedTasks</text>
 </svg>
@@ -121,7 +121,7 @@
 
 - **`commentsCount` в базе не хранится.** Его считают в момент запроса: число комментариев задачи, у которых `deleted_at` пустой. Значит, сверять его надо с `COUNT(*)` по `comments` с условием `deleted_at IS NULL`.
 - **В журнале у комментария — свой `id`.** Записи `comment.create`, `comment.update`, `comment.delete` пишутся с `entity_type = 'comment'` и `entity_id` — номером **комментария**, а не задачи. Чтобы найти все записи о комментариях задачи, нужен `JOIN` журнала с `comments`.
-- **В `details` пишется не всегда.** У `task.update` и `project.update` — переданные поля и их новые значения. У создания, удаления и изменения комментария `details` пустой.
+- **В `details` пишется не всегда.** У `task.update` и `project.update` — переданные поля и их новые значения. У создания, удаления и изменения комментария `details` пустой — но в базе это JSON-значение `null`, а не SQL `NULL`: DBeaver покажет `null`, а `WHERE details IS NULL` такие строки не найдёт.
 - **Журнал пишется в той же транзакции, что и действие.** Нет изменения — нет записи. Отказ `403`, `404` или `422` в журнал не попадает. Чтение — `GET` — тоже.
 - **Мягкое удаление.** Задача, комментарий и проект при удалении остаются в таблице, им заполняется `deleted_at`. Через API они после этого — `404`.
 - **Каскад — одним моментом.** При удалении задачи её действующие комментарии получают **то же** время `deleted_at`, что и задача. Уже удалённые комментарии сохраняют своё, более раннее время. С проектом — так же: его действующие задачи и их комментарии получают время проекта.
@@ -409,7 +409,7 @@ ORDER BY id;
 
 Ожидаю: `project_id = 5`, `assignee_id = 10`, имя и фамилия исполнителя — как в ответе, `title` и `description` — как в запросе, без обрезки и лишних пробелов, `status = 'TODO'`, `priority = 'HIGH'`, `created_at` — только что, в UTC, `deleted_at` — `NULL`.
 
-В журнале — одна запись: `task.create`, `user_id` — менеджер, `entity_id = 8`, `details` — `NULL`.
+В журнале — одна запись: `task.create`, `user_id` — менеджер, `entity_id = 8`, `details` пустой — в базе это JSON-значение `null`, DBeaver покажет `null`; `WHERE details IS NULL` такую строку не найдёт.
 
 Багом будет: поле в базе отличается от ответа; в `user_id` журнала не тот, кто создал; две записи `task.create`.
 :::
@@ -617,7 +617,7 @@ ORDER BY id;
 
 После первого: текст прежний, в журнале по комментарию 6 — только `comment.create`.
 
-После второго: новый текст, `created_at` — прежний, `author_id` — прежний. В журнале — `comment.update` от исполнителя, `details` — `NULL`. Остальные комментарии не изменились.
+После второго: новый текст, `created_at` — прежний, `author_id` — прежний. В журнале — `comment.update` от исполнителя, `details` пустой — JSON-значение `null`, как у `task.create`. Остальные комментарии не изменились.
 
 Заметь: у `comments` нет `updated_at`. Когда комментарий меняли — только по журналу.
 :::
