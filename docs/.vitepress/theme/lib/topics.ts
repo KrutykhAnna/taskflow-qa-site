@@ -214,6 +214,13 @@ export const TOPICS: Topic[] = [
     title: 'JOIN: соединение таблиц',
     link: '/bd/03-join',
   },
+  {
+    id: 'bd/agregaty',
+    block: 'bd',
+    num: 4,
+    title: 'Агрегаты, GROUP BY, HAVING',
+    link: '/bd/04-agregaty',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)

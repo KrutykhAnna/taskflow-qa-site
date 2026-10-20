@@ -255,6 +255,19 @@
 .join-dup svg { width: 100%; height: auto; display: block; }
 .join-dup text { font-family: var(--vp-font-family-base); }
 
+.agg-group,
+.agg-where-having,
+.agg-null,
+.agg-left-count { margin: 16px auto; max-width: 440px; }
+.agg-group svg,
+.agg-where-having svg,
+.agg-null svg,
+.agg-left-count svg { width: 100%; height: auto; display: block; }
+.agg-group text,
+.agg-where-having text,
+.agg-null text,
+.agg-left-count text { font-family: var(--vp-font-family-base); }
+
 .integ-axes { margin: 16px auto; max-width: 440px; }
 .integ-axes svg { width: 100%; height: auto; display: block; }
 .integ-axes text { font-family: var(--vp-font-family-base); }
