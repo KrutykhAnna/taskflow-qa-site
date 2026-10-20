@@ -221,6 +221,13 @@ export const TOPICS: Topic[] = [
     title: 'Агрегаты, GROUP BY, HAVING',
     link: '/bd/04-agregaty',
   },
+  {
+    id: 'bd/testirovanie-bd',
+    block: 'bd',
+    num: 5,
+    title: 'Как тестировать базу данных',
+    link: '/bd/05-testirovanie-bd',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)

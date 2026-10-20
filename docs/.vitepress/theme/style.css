@@ -268,6 +268,19 @@
 .agg-null text,
 .agg-left-count text { font-family: var(--vp-font-family-base); }
 
+.dbt-api-db,
+.dbt-constraints,
+.dbt-tx,
+.dbt-cascade { margin: 16px auto; max-width: 440px; }
+.dbt-api-db svg,
+.dbt-constraints svg,
+.dbt-tx svg,
+.dbt-cascade svg { width: 100%; height: auto; display: block; }
+.dbt-api-db text,
+.dbt-constraints text,
+.dbt-tx text,
+.dbt-cascade text { font-family: var(--vp-font-family-base); }
+
 .integ-axes { margin: 16px auto; max-width: 440px; }
 .integ-axes svg { width: 100%; height: auto; display: block; }
 .integ-axes text { font-family: var(--vp-font-family-base); }
