@@ -7,7 +7,7 @@ export const BLOCKS: Block[] = [
   { id: 'api', title: 'Клиент-сервер и API', status: 'done' },
   { id: 'bd', title: 'Базы данных и SQL', status: 'done' },
   { id: 'web', title: 'Web', status: 'done' },
-  { id: 'mobile', title: 'Мобильное через web', status: 'soon' },
+  { id: 'mobile', title: 'Мобильное тестирование', status: 'progress' },
 ]
 
 export const TOPICS: Topic[] = [
@@ -367,6 +367,13 @@ export const TOPICS: Topic[] = [
     num: 16,
     title: 'Практикум: веб-фича',
     link: '/web/16-praktikum-veb-fichi',
+  },
+  {
+    id: 'mobile/mobilnoe-vs-veb',
+    block: 'mobile',
+    num: 1,
+    title: 'Мобильное и веб',
+    link: '/mobile/01-mobilnoe-vs-veb',
   },
 ]
 
