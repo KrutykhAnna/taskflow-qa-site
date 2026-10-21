@@ -429,7 +429,7 @@ http://localhost:3000/projects/2?status=TODO&page=2#comments
 
 ## Подготовка
 
-1. Стенд TaskFlow запущен на ветке `web` (как — в [уроке 1](/web/01-kak-ustroen-veb), раздел «Где практиковаться»). Открой `http://localhost:3000` в Chrome и войди как Иван (`ivan@example.com`). Пароли всех учётных записей — в `README.md` репозитория.
+1. Стенд TaskFlow запущен на ветке `web` (как — в [уроке 1](/web/01-kak-ustroen-veb), раздел «Где практиковаться»). Открой `http://localhost:3000` в Chrome и войди как Иван (`ivan@example.com`). Пароли Ивана и администратора — в `README.md`, раздел 8; у Анны (`anna@example.com`) пароль такой же, как у Ивана.
 2. Второй браузер (Firefox, Safari, Edge) или второй профиль Chrome — там понадобится Анна (`anna@example.com`) и администратор (`admin@example.com`). Плюс окно **инкогнито** — для проверок «без входа».
 3. DevTools (**F12**) → Network → поставь галочку **Preserve log**. Фильтры понадобятся два: **Fetch/XHR** (запросы к API) и **Doc** (загрузка самой страницы).
 4. Под рукой `docs/WEB_SPEC.md` из репозитория TaskFlow: раздел 2 «Технические вводные», раздел 4 «Карта экранов», раздел 5 «Экраны подробно».
