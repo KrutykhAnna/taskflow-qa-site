@@ -382,6 +382,13 @@ export const TOPICS: Topic[] = [
     title: 'Устройства и сборки',
     link: '/mobile/02-ustrojstva-i-sborki',
   },
+  {
+    id: 'mobile/zhiznennyj-cikl',
+    block: 'mobile',
+    num: 3,
+    title: 'Жизненный цикл и прерывания',
+    link: '/mobile/03-zhiznennyj-cikl',
+  },
 ]
 
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id)
