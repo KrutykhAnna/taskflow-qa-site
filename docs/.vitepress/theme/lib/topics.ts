@@ -7,7 +7,7 @@ export const BLOCKS: Block[] = [
   { id: 'api', title: 'Клиент-сервер и API', status: 'done' },
   { id: 'bd', title: 'Базы данных и SQL', status: 'done' },
   { id: 'web', title: 'Web', status: 'done' },
-  { id: 'mobile', title: 'Мобильное тестирование', status: 'progress' },
+  { id: 'mobile', title: 'Мобильное тестирование', status: 'done' },
 ]
 
 export const TOPICS: Topic[] = [
