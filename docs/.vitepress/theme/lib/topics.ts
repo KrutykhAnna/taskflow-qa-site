@@ -6,7 +6,7 @@ export const BLOCKS: Block[] = [
   { id: 'osnovy', title: 'Основы тестирования', status: 'done' },
   { id: 'api', title: 'Клиент-сервер и API', status: 'done' },
   { id: 'bd', title: 'Базы данных и SQL', status: 'done' },
-  { id: 'web', title: 'Web', status: 'progress' },
+  { id: 'web', title: 'Web', status: 'done' },
   { id: 'mobile', title: 'Мобильное через web', status: 'soon' },
 ]
 
