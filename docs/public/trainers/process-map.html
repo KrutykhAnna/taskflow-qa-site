@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карта процесса</title>
+<meta name="description" content="Интерактивная карта: как фича проходит путь от требований до прода, какие жизненные циклы, документы и роли участвуют и что на каждом шаге делает тестировщик.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Карта процесса — эстетика схемы метро: этапы как станции, фича как поезд */
+:root{
+  --bg:#f4f1ea; --paper:#fffdf8; --ink:#16171b; --muted:#5b5d66; --line:#dcd4c4; --soft:#ece7dc; --grid:rgba(22,23,27,.045);
+  --p0:#cf3f2a; --p1:#c97c00; --p2:#2360cc; --p3:#15845a; --p4:#0d7787; --p5:#666a75;
+  --ok:#16794a; --okbg:#e0f1e7; --bad:#b42318; --badbg:#fbe5e1; --warn:#935600; --warnbg:#fcefd6; --info:#2360cc; --infobg:#e3ebfb;
+  --f-disp:"Unbounded","Golos Text","Segoe UI",sans-serif;
+  --f-body:"Golos Text","Segoe UI",-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 0 rgba(22,23,27,.04),0 8px 24px -14px rgba(22,23,27,.25);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111215; --paper:#1a1c21; --ink:#ecebe6; --muted:#a3a4ac; --line:#2e3139; --soft:#24262c; --grid:rgba(236,235,230,.035);
+  --p0:#ff7d66; --p1:#f2b33f; --p2:#76a2ff; --p3:#4cc98f; --p4:#3cc3d2; --p5:#a5a8b2;
+  --ok:#5fd19a; --okbg:#173326; --bad:#ff8a7a; --badbg:#3a1c18; --warn:#f2b860; --warnbg:#3a2b12; --info:#8fb0ff; --infobg:#1d2740;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.7); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#111215; --paper:#1a1c21; --ink:#ecebe6; --muted:#a3a4ac; --line:#2e3139; --soft:#24262c; --grid:rgba(236,235,230,.035);
+  --p0:#ff7d66; --p1:#f2b33f; --p2:#76a2ff; --p3:#4cc98f; --p4:#3cc3d2; --p5:#a5a8b2;
+  --ok:#5fd19a; --okbg:#173326; --bad:#ff8a7a; --badbg:#3a1c18; --warn:#f2b860; --warnbg:#3a2b12; --info:#8fb0ff; --infobg:#1d2740;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.7); color-scheme:dark }
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  background:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px}
+h1,h2,h3,h4{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:2px}
+.mono{font-family:var(--f-mono)}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top */
+header.top{border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(6px);position:sticky;top:0;z-index:30}
+.top-in{display:flex;align-items:center;gap:14px 24px;padding-block:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px;min-width:0;text-decoration:none;color:inherit}
+.logo-mark{width:38px;height:38px;flex:none}
+.logo b{font-family:var(--f-disp);font-weight:700;font-size:1.05rem;letter-spacing:-.01em;display:block}
+.logo span{color:var(--muted);font-size:.82rem}
+.top-r{margin-left:auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.prog{display:flex;align-items:center;gap:10px}
+.prog-bar{width:140px;height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+.prog-bar i{display:block;height:100%;width:0;background:var(--p3);transition:width .4s}
+.prog span{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.iconbtn{border:1px solid var(--line);background:var(--paper);border-radius:9px;height:34px;padding:0 10px;cursor:pointer;font-size:.85rem;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.iconbtn:hover{color:var(--ink);border-color:var(--ink)}
+
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding-block:0 10px;scrollbar-width:thin}
+nav.tabs button{flex:none;border:0;background:none;padding:8px 13px;border-radius:99px;cursor:pointer;font-weight:600;font-size:.92rem;color:var(--muted);display:flex;align-items:center;gap:8px;white-space:nowrap}
+nav.tabs button .n{font-family:var(--f-mono);font-size:.72rem;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;border:1.5px solid currentColor}
+nav.tabs button:hover{color:var(--ink);background:var(--soft)}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+
+main{padding-block:26px 80px}
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:end;margin-bottom:22px}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(1.55rem,3.6vw,2.5rem);letter-spacing:-.02em;margin-top:6px}
+.hero p.lead{color:var(--muted);margin-top:10px;max-width:62ch}
+.feature{background:var(--paper);border:1.5px dashed var(--ink);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;box-shadow:var(--shadow)}
+.feature .tag{flex:none;width:40px;height:40px}
+.feature b{display:block;font-size:.95rem}
+.feature span{font-size:.88rem;color:var(--muted)}
+h2.sec{font-family:var(--f-disp);font-weight:700;font-size:clamp(1.25rem,2.6vw,1.7rem);letter-spacing:-.015em}
+.sec-lead{color:var(--muted);margin-top:8px;max-width:70ch}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:18px}
+.howto div{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:var(--muted)}
+.howto b{color:var(--ink)}
+.howto .k{flex:none;font-family:var(--f-mono);font-size:.75rem;width:24px;height:24px;border-radius:7px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+
+/* controls */
+.ctrl{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ctrl-l{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--paper);padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.primary:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn svg{width:15px;height:15px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;cursor:pointer;user-select:none;color:var(--muted)}
+.switch input{appearance:none;width:34px;height:20px;border-radius:99px;background:var(--soft);border:1px solid var(--line);position:relative;cursor:pointer;margin:0;transition:background .2s}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch input:checked{background:var(--p0);border-color:var(--p0)}
+.switch input:checked::after{transform:translateX(14px);background:#fff}
+.layers{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0}
+.layers small{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chipbtn{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:4px 11px;font-size:.84rem;cursor:pointer;color:var(--muted)}
+.chipbtn[aria-pressed="true"]{background:var(--soft);color:var(--ink);border-color:var(--ink)}
+
+/* track (metro map) */
+.mapbox{position:relative;margin-top:14px;padding:6px 4px 4px}
+.phases{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:0;margin-bottom:2px}
+.phase{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--pc);border-top:3px solid var(--pc);padding:6px 6px 0;margin:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{position:relative;display:grid;grid-template-columns:repeat(9,minmax(0,1fr))}
+.st{position:relative;border:0;background:none;cursor:pointer;padding:18px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:var(--ink);min-width:0}
+.st::before{content:"";position:absolute;top:27px;left:0;right:0;height:6px;background:var(--pc)}
+.st:first-child::before{left:50%}
+.st:last-child::before{right:50%}
+.st .dot{position:relative;z-index:1;width:24px;height:24px;border-radius:50%;background:var(--paper);border:5px solid var(--pc);transition:transform .25s,background .25s}
+.st:hover .dot{transform:scale(1.15)}
+.st[aria-current="true"] .dot{background:var(--pc);transform:scale(1.25);box-shadow:0 0 0 5px color-mix(in srgb,var(--pc) 25%,transparent)}
+.st.visited .dot{background:color-mix(in srgb,var(--pc) 35%,var(--paper))}
+.st .nm{font-weight:600;font-size:.86rem;line-height:1.25}
+.st .sm{font-size:.74rem;color:var(--muted);line-height:1.25}
+.st .num{font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.st .txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.st .ph{display:none}
+.envbar{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));margin-top:6px}
+.envseg{margin:0 3px;font-family:var(--f-mono);font-size:.7rem;text-align:center;padding:3px 0;border-radius:6px;background:var(--soft);color:var(--muted)}
+.envseg.empty{background:none}
+
+.train{position:absolute;left:0;top:0;width:40px;height:40px;z-index:5;pointer-events:none;transition:transform .8s cubic-bezier(.65,.05,.3,1)}
+.train .body{width:40px;height:40px;border-radius:12px;background:var(--ink);color:var(--paper);display:grid;place-items:center;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);transition:background .3s}
+.train .body svg{width:22px;height:22px}
+.train::after{content:"";position:absolute;inset:-6px;border-radius:16px;border:2px solid var(--ink);opacity:0;animation:ring 1.8s infinite}
+.train.bad .body{background:var(--bad)} .train.bad::after{border-color:var(--bad)}
+.train.ok .body{background:var(--ok)} .train.ok::after{border-color:var(--ok)}
+.train.bug .body{background:var(--warn)} .train.bug::after{border-color:var(--warn)}
+@keyframes ring{0%{opacity:.6;transform:scale(.85)}100%{opacity:0;transform:scale(1.35)}}
+.ret{position:absolute;z-index:4;pointer-events:none;border:2.5px dashed var(--bad);opacity:0;transition:opacity .3s}
+.ret.h{border-bottom:0;border-radius:14px 14px 0 0}
+.ret.v{border-right:0;border-radius:14px 0 0 14px}
+.ret.on{opacity:1}
+.ret::after{content:"";position:absolute;width:0;height:0;border:7px solid transparent}
+.ret.h::after{left:-8px;bottom:-12px;border-top-color:var(--bad)}
+.ret.v::after{right:-12px;bottom:-8px;border-left-color:var(--bad)}
+
+.event{margin-top:14px;min-height:48px;border-radius:12px;padding:11px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.93rem;background:var(--soft);color:var(--muted);transition:background .3s,color .3s}
+.event b{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;flex:none;padding-top:2px}
+.event.bad{background:var(--badbg);color:var(--bad)}
+.event.ok{background:var(--okbg);color:var(--ok)}
+.event.bug,.event.back{background:var(--warnbg);color:var(--warn)}
+.event.info{background:var(--infobg);color:var(--info)}
+.event.pop{animation:pop .45s}
+@keyframes pop{0%{transform:translateY(6px);opacity:.3}100%{transform:none;opacity:1}}
+
+/* detail */
+.detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;margin-top:16px}
+.dcard{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0;animation:pop .4s}
+.dcard.qa{border:2px solid var(--pc,var(--ink))}
+.dcard h3{font-size:.76rem;font-family:var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.dcard .big{font-family:var(--f-disp);font-weight:700;font-size:1.15rem;letter-spacing:-.01em;margin-bottom:8px}
+.dcard p+p{margin-top:8px}
+.who{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.who div{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;align-items:start;font-size:.9rem}
+.av{font-family:var(--f-mono);font-size:.68rem;font-weight:600;min-width:34px;height:24px;padding:0 6px;border-radius:7px;display:grid;place-items:center;background:var(--soft);border:1px solid var(--line);white-space:nowrap}
+.av.qa{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lgrid{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.lrow{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0;animation:pop .4s}
+.lrow h4{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:7px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.chip{font-size:.82rem;padding:3px 9px;border-radius:99px;background:var(--soft);border:1px solid var(--line)}
+.chip.strong{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.chip.bad{background:var(--badbg);color:var(--bad);border-color:transparent}
+.arrow{color:var(--muted);font-size:.85rem}
+.envs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.envs span{text-align:center;font-family:var(--f-mono);font-size:.78rem;padding:6px 0;border-radius:7px;background:var(--soft);color:var(--muted)}
+.envs span.on{background:var(--ink);color:var(--paper)}
+.skip{grid-column:1/-1;border-left:3px solid var(--bad);background:var(--badbg);color:var(--ink);border-radius:0 12px 12px 0;padding:11px 14px;font-size:.92rem}
+.skip b{color:var(--bad)}
+.ex{grid-column:1/-1;border-left:3px solid var(--p2);background:var(--infobg);border-radius:0 12px 12px 0;padding:11px 14px;font-size:.92rem}
+.ex b{color:var(--info)}
+
+/* doc chips, io row, modal */
+.dchip{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;padding:4px 6px 4px 10px;border-radius:99px;background:var(--paper);border:1px solid var(--line);cursor:pointer;transition:border-color .2s,transform .2s}
+.dchip:hover{border-color:var(--ink);transform:translateY(-1px)}
+.dchip{text-align:left}
+.dm-dl{margin:0;padding-left:18px}.dm-dl li+li{margin-top:4px}
+.dchip .ii{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-mono);font-size:.66rem;font-weight:700;background:var(--soft);color:var(--muted)}
+.dchip.strong{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dchip.strong .ii{background:var(--paper);color:var(--ink)}
+.docrow{grid-column:1/-1}
+.docrow h4 .tip{text-transform:none;letter-spacing:0;font-family:var(--f-body);font-weight:400;font-size:.8rem;margin-left:6px;color:var(--muted)}
+.io{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch}
+.io-b{border:1.5px dashed var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.io-b.out{border-style:solid;border-color:var(--ink)}
+.io-h{display:flex;flex-direction:column;gap:1px}
+.io-h b{font-size:.9rem}
+.io-h span{font-size:.78rem;color:var(--muted)}
+.io-ar{align-self:center;font-family:var(--f-disp);font-size:1.4rem;color:var(--muted)}
+@media (max-width:640px){.io{grid-template-columns:minmax(0,1fr)}.io-ar{transform:rotate(90deg);justify-self:center;line-height:1}}
+.doc[data-card]{cursor:pointer}
+.doc[data-card]:hover{border-color:var(--ink)}
+.doc .more{font-size:.82rem;font-weight:600;margin-top:auto}
+.docm{position:fixed;inset:0;z-index:60;background:rgba(10,11,14,.55);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s}
+.docm.on{opacity:1}
+.docm[hidden]{display:none}
+.docm-in{position:relative;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:18px;max-width:640px;width:100%;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;padding:22px 22px 20px;box-shadow:0 24px 60px -20px rgba(0,0,0,.6);transform:translateY(10px) scale(.98);transition:transform .25s}
+.docm.on .docm-in{transform:none}
+.docm-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:.9rem}
+.docm-x:hover{border-color:var(--ink)}
+#docm-b{display:flex;flex-direction:column;gap:14px}
+.dm-top{padding-right:40px}
+.dm-top .lvl{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.dm-top h2{font-family:var(--f-disp);font-weight:700;font-size:1.35rem;letter-spacing:-.01em;margin:4px 0 8px}
+#docm-b h5{margin:0 0 6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.dm-sec ul{margin:0;padding-left:18px}.dm-sec li+li{margin-top:3px}
+.dm-note{margin-top:8px;font-size:.88rem;color:var(--warn)}
+.dm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.dm-grid>div{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.dm-ex{border-left:3px solid var(--p2);background:var(--infobg);border-radius:0 10px 10px 0;padding:10px 12px;font-size:.9rem}
+.dm-ex b{color:var(--info)}
+.rp{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:.84rem;border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:2px 9px 2px 3px;cursor:pointer}
+.rp:hover{border-color:var(--ink)}
+.dm-steps{display:flex;flex-direction:column;gap:6px}
+.dm-steps>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.88rem}
+.dm-q{background:var(--soft);border-radius:10px;padding:9px 12px;font-size:.92rem}
+.muted{color:var(--muted)}
+.dchip.okc{background:var(--okbg);color:var(--ok);border-color:transparent}
+.dchip.okc .ii{background:var(--paper);color:var(--ok)}
+.who-b{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:start;text-align:left;border:1px solid transparent;background:none;padding:5px 7px;margin:0 -7px;border-radius:9px;cursor:pointer;font-size:.9rem;width:calc(100% + 14px)}
+.who-b:hover{background:var(--soft);border-color:var(--line)}
+.who-b .ii,.cardtip .ii{width:17px;height:17px;border-radius:50%;display:inline-grid;place-items:center;font-family:var(--f-mono);font-size:.66rem;font-weight:700;background:var(--soft);color:var(--muted);vertical-align:middle}
+.avb{border:0;background:none;padding:0;cursor:pointer}
+.cardtip{grid-column:1/-1;font-size:.84rem;color:var(--muted);margin:2px 0 -4px}
+.envs button{text-align:center;font-family:var(--f-mono);font-size:.78rem;padding:6px 0;border-radius:7px;background:var(--soft);color:var(--muted);border:1px solid transparent;cursor:pointer}
+.envs button:hover{border-color:var(--ink)}
+.envs button.on{background:var(--ink);color:var(--paper)}
+.flow button.fs{cursor:pointer;text-align:left}
+.flow button.fs:hover{border-color:var(--ink)}
+svg.bugsm .bn{cursor:pointer}
+svg.bugsm .bn:hover rect{stroke:var(--ink)}
+.cmp th .dchip{font-weight:600}
+
+/* test types */
+.pipe{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin-top:14px}
+.pipe::before{content:"";position:absolute;left:8%;right:8%;top:20px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--p0),var(--p1),var(--p2),var(--p3),var(--p4),var(--p5))}
+.stop{position:relative;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px 6px;text-align:center;min-width:0}
+.stop .pd{width:20px;height:20px;border-radius:50%;background:var(--paper);border:4px solid var(--ink);transition:transform .25s,background .25s;position:relative;z-index:1}
+.stop:hover .pd{transform:scale(1.15)}
+.stop.past .pd{background:var(--soft)}
+.stop[aria-current="true"] .pd{background:var(--ink);transform:scale(1.25)}
+.stop b{font-size:.9rem;margin-top:4px}
+.stop small{font-size:.74rem;color:var(--muted)}
+.pmark{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--p0);box-shadow:0 0 0 6px color-mix(in srgb,var(--p0) 25%,transparent);z-index:2;pointer-events:none;transition:transform .7s cubic-bezier(.65,.05,.3,1)}
+.stopd{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr);gap:16px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);animation:pop .35s}
+.stopd .big{font-family:var(--f-disp);font-weight:700;font-size:1.25rem}
+.stopd h5,.h5{margin:0 0 6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.axes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:12px;align-items:start}
+.axis{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.axis h4{font-size:.92rem}
+.axn{font-size:.8rem;color:var(--muted)}
+.ttab{margin-top:0}
+.ttab td{vertical-align:middle}
+.ttab td.tg{vertical-align:top;background:var(--soft)}
+.ttab td.tg{width:28%}
+.ttab td.tg b{display:block;font-size:.86rem}
+.ttab td.tg small{display:block;font-size:.76rem;color:var(--muted)}
+.ttab tr{animation:pop .35s both}
+.ttab tbody tr:nth-child(2){animation-delay:.04s}.ttab tbody tr:nth-child(3){animation-delay:.08s}.ttab tbody tr:nth-child(4){animation-delay:.12s}.ttab tbody tr:nth-child(5){animation-delay:.16s}.ttab tbody tr:nth-child(6){animation-delay:.2s}.ttab tbody tr:nth-child(7){animation-delay:.24s}.ttab tbody tr:nth-child(8){animation-delay:.28s}
+@media (max-width:640px){.cmp.ttab thead{display:none}.cmp.ttab,.cmp.ttab tbody,.cmp.ttab tr,.cmp.ttab td{display:block;width:100%}.cmp.ttab tr{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px}.cmp.ttab tr.gfirst{margin-top:12px}.cmp.ttab td{border:0;padding:3px 0}.cmp.ttab td.tg{width:100%;background:none;padding-bottom:6px;border-bottom:1px dashed var(--line);margin-bottom:4px}}
+.axis h4{display:flex;flex-direction:column;gap:1px}
+.axis h4 small{font-weight:400;font-size:.78rem;color:var(--muted)}
+.axis.appr{border-style:dashed}
+ul.tree{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+ul.tree ul.tree{margin:5px 0 0 12px;padding-left:14px;border-left:2px solid var(--line)}
+ul.tree ul.tree>li{position:relative}
+ul.tree ul.tree>li::before{content:"";position:absolute;left:-14px;top:13px;width:10px;height:2px;background:var(--line)}
+ul.tree li>.dchip{align-self:flex-start}
+.steps2{border-top:1px dashed var(--line);padding-top:8px;display:flex;flex-direction:column;gap:6px}
+.dchip.apc{border-style:dashed}
+.tlabel{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:2px 0}
+.tlabel.qa{color:var(--ink)}
+.tlabel .av{height:18px;min-width:24px;font-size:.6rem}
+.dm-tree{display:flex;flex-direction:column;gap:6px;font-size:.88rem}
+.dm-tree span{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dm-status{border-left:3px solid var(--warn);background:var(--warnbg);border-radius:0 10px 10px 0;padding:10px 12px;font-size:.9rem}
+.dchip.sub{font-size:.8rem;background:var(--soft)}
+.dchip.hl{border-color:var(--p3);box-shadow:0 0 0 2px color-mix(in srgb,var(--p3) 45%,transparent);background:var(--okbg);color:var(--ok)}
+.mtx td.c,.mtx th.c{text-align:center}
+.mtx td.yes{color:var(--ink);font-size:1.05rem}
+.mtx td.colon,.mtx .thl.colon{background:var(--okbg);color:var(--ok)}
+.thl{border:0;background:none;cursor:pointer;font-weight:600;font-size:.8rem;padding:2px 6px;border-radius:6px}
+.thl:hover{text-decoration:underline}
+@media (max-width:760px){.pipe{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:6px}.pipe::before,.pmark{display:none}.stopd{grid-template-columns:minmax(0,1fr)}}
+
+/* lifecycles */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.ring-wrap{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:18px;align-items:center}
+svg.ring{width:100%;height:auto;overflow:visible}
+svg.ring .node{cursor:pointer}
+svg.ring .node circle{transition:r .2s}
+svg.ring .node:hover circle.c{r:25}
+svg.ring .orbit{transform-origin:130px 130px;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stlc{display:flex;flex-direction:column;gap:6px}
+.stlc button{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 10px;cursor:pointer}
+.stlc button .i{font-family:var(--f-mono);font-size:.75rem;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--soft)}
+.stlc button .t{font-weight:600;font-size:.92rem}
+.stlc button .s{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.stlc button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink)}
+.stlc button[aria-pressed="true"] .i{background:var(--ink);color:var(--paper)}
+.stlc-d{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.stlc-d div{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:.88rem}
+.stlc-d h5{margin:0 0 4px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.note{border-left:3px solid var(--warn);background:var(--warnbg);padding:10px 14px;border-radius:0 10px 10px 0;font-size:.9rem;margin-top:12px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;position:relative}
+.flow .fs{border:1.5px solid var(--line);border-radius:10px;padding:7px 11px;font-size:.86rem;font-weight:600;background:var(--paper);transition:all .3s;position:relative}
+.flow .fs small{display:block;font-weight:400;font-size:.74rem;color:var(--muted)}
+.flow .fs.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.flow .fs.on small{color:var(--paper);opacity:.75}
+.flow .ar{color:var(--muted)}
+
+svg.bugsm{width:100%;height:auto;display:block}
+svg.bugsm .bn rect{transition:fill .3s,stroke .3s}
+svg.bugsm .bn text{font-family:var(--f-body);font-size:14px;font-weight:600}
+svg.bugsm .bn .sub{font-size:11px;font-weight:400}
+svg.bugsm .edge{stroke:var(--line);stroke-width:2;fill:none;transition:stroke .3s}
+svg.bugsm .edge.avail{stroke:var(--ink);stroke-dasharray:5 5;animation:dash 1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-20}}
+svg.bugsm .bug-token{transition:transform .7s cubic-bezier(.65,.05,.3,1)}
+.bug-ctrl{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;margin-top:14px}
+.trans{display:flex;flex-direction:column;gap:6px}
+.trans button{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:9px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.trans button:hover{border-color:var(--ink)}
+.trans button b{font-size:.92rem}
+.trans button span{font-size:.8rem;color:var(--muted)}
+.hist{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.7}
+.missions{display:flex;flex-direction:column;gap:6px}
+.mission{display:flex;gap:9px;align-items:flex-start;font-size:.88rem;padding:8px 10px;border-radius:10px;border:1px dashed var(--line)}
+.mission i{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);margin-top:2px;display:grid;place-items:center;font-style:normal;font-size:.7rem}
+.mission.done{border-style:solid;border-color:transparent;background:var(--okbg)}
+.mission.done i{background:var(--ok);border-color:var(--ok);color:var(--paper)}
+
+/* docs & roles */
+.roles{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.roles button{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:7px 11px;cursor:pointer;font-size:.88rem;display:flex;align-items:center;gap:8px}
+.roles button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.roles button[aria-pressed="true"] .av{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.role-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:14px}
+.role-info>div{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:.9rem;animation:pop .35s}
+.role-info h5{margin:0 0 4px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.role-info ul{margin:0;padding-left:18px}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.doc{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;transition:opacity .3s,border-color .3s,transform .3s;position:relative;overflow:hidden}
+.doc::before{content:"";position:absolute;right:-14px;top:-14px;width:44px;height:44px;background:var(--soft);transform:rotate(45deg)}
+.doc h4{font-size:.98rem;padding-right:20px}
+.doc p{font-size:.86rem;color:var(--muted)}
+.doc .meta{display:flex;flex-direction:column;gap:4px;font-size:.8rem}
+.doc .meta span{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.doc .meta em{font-style:normal;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;min-width:66px}
+.doc .av{height:20px;min-width:28px;font-size:.62rem}
+.doc.dim{opacity:.32}
+.doc.writer{border:2px solid var(--ink);transform:translateY(-2px)}
+.doc.user{border-color:var(--ink);border-style:dashed}
+.doc .lvl{font-family:var(--f-mono);font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend i{width:18px;height:12px;border-radius:4px;border:2px solid var(--ink)}
+.legend i.d{border-style:dashed}
+
+/* change testing */
+.chg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px;margin-top:16px}
+.scen{display:flex;flex-direction:column;gap:6px}
+.scen button{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:.9rem}
+.scen button .i{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.scen button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink)}
+.scen button .ok{color:var(--ok);font-weight:700}
+svg.mods{width:100%;height:auto;display:block}
+svg.mods .m rect{fill:var(--paper);stroke:var(--line);stroke-width:1.5;transition:fill .35s,stroke .35s}
+svg.mods .m text{font-family:var(--f-body);font-size:13px;font-weight:600;fill:var(--ink);transition:fill .35s}
+svg.mods .m.src rect{fill:var(--bad);stroke:var(--bad)}
+svg.mods .m.src text{fill:#fff}
+svg.mods .m.hit rect{fill:var(--warnbg);stroke:var(--warn)}
+svg.mods .m.hit text{fill:var(--warn)}
+svg.mods .m.crit rect{stroke-dasharray:4 3}
+svg.mods .e{stroke:var(--line);stroke-width:1.6;fill:none;transition:stroke .35s}
+svg.mods .e.hit{stroke:var(--warn);stroke-width:2.2}
+svg.mods .pulse{fill:none;stroke:var(--bad);stroke-width:2;opacity:0}
+svg.mods .pulse.go{animation:pulse 1.2s ease-out}
+@keyframes pulse{0%{opacity:.8;r:20}100%{opacity:0;r:90}}
+.picks{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.picks button{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:6px 12px;cursor:pointer;font-size:.88rem}
+.picks button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.picks button.r{box-shadow:0 0 0 2px var(--ok)}
+.picks button.w{box-shadow:0 0 0 2px var(--bad)}
+.picks button.n{box-shadow:0 0 0 2px var(--warn)}
+.cmp{width:100%;border-collapse:collapse;font-size:.86rem;margin-top:8px}
+.cmp th,.cmp td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.cmp th{background:var(--soft);font-weight:600;font-size:.8rem}
+.tblw{overflow-x:auto;max-width:100%}
+
+/* quiz */
+.tasks{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.task{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.task.done{border-color:var(--ok)}
+.task-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.task-h .id{font-family:var(--f-mono);font-size:.72rem;padding:3px 7px;border-radius:6px;background:var(--soft);color:var(--muted);font-weight:600}
+.task-h h4{flex:1;min-width:180px;font-size:1rem}
+.badge{font-size:.74rem;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--muted)}
+.task.done .badge{background:var(--okbg);color:var(--ok)}
+.q{font-weight:500}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.fb{padding:10px 14px;border-radius:10px;font-size:.92rem}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.hintbox{background:var(--infobg);padding:10px 14px;border-radius:10px;font-size:.92rem}
+.solbox{border-top:1px dashed var(--line);padding-top:10px;font-size:.92rem}
+.pool,.seq{display:flex;flex-wrap:wrap;gap:6px;min-height:40px;align-items:center}
+.seq{border:1.5px dashed var(--line);border-radius:10px;padding:6px}
+.seq:empty::before{content:"Нажимай на карточки по порядку — они встанут сюда";color:var(--muted);font-size:.85rem;padding:0 6px}
+.pool button,.seq button{border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:6px 11px;cursor:pointer;font-size:.88rem}
+.seq button{background:var(--soft)}
+.seq button .o{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin-right:6px}
+.seq button.r{box-shadow:0 0 0 2px var(--ok)}
+.seq button.w{box-shadow:0 0 0 2px var(--bad)}
+.match{display:flex;flex-direction:column;gap:6px}
+.match .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;padding:6px 8px;border-radius:9px;border:1px solid transparent}
+.match .row.r{border-color:var(--ok);background:var(--okbg)}
+.match .row.w{border-color:var(--bad);background:var(--badbg)}
+.match .lbl{font-size:.9rem}
+select{padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:var(--paper);max-width:100%;min-width:0;width:100%}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:.92rem}
+.opts label:hover{background:var(--soft)}
+.opts input{margin-top:4px;accent-color:var(--ink)}
+.opts label.r{border-color:var(--ok);background:var(--okbg)}
+.opts label.w{border-color:var(--bad);background:var(--badbg)}
+.opts .why{display:block;font-size:.84rem;margin-top:3px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ok);color:var(--paper);padding:10px 16px;border-radius:12px;font-weight:600;font-size:.92rem;z-index:50;max-width:calc(100% - 32px);box-shadow:var(--shadow);animation:pop .3s}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.84rem;padding-block:18px}
+
+@media (max-width:900px){
+  .hero,.detail,.cols,.chg,.bug-ctrl{grid-template-columns:minmax(0,1fr)}
+  .ring-wrap{grid-template-columns:minmax(0,1fr)}
+  svg.ring{max-width:280px;margin:0 auto;display:block}
+}
+@media (max-width:760px){
+  .phases,.envbar{display:none}
+  .track{grid-template-columns:minmax(0,1fr)}
+  .st{flex-direction:row;align-items:center;text-align:left;padding:10px 6px 10px 6px;gap:14px}
+  .st::before{top:0;bottom:0;left:15px;right:auto;width:6px;height:auto}
+  .st:first-child::before{left:15px;top:50%}
+  .st:last-child::before{right:auto;bottom:50%}
+  .st .dot{flex:none}
+  .st .txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .st .ph{display:inline;font-family:var(--f-mono);font-size:.66rem;color:var(--pc);text-transform:uppercase;letter-spacing:.05em}
+  .st .num{display:none}
+  .prog-bar{width:90px}
+  .match .row{grid-template-columns:minmax(0,1fr)}
+  .panel{padding:14px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-in">
+      <div class="logo">
+        <svg class="logo-mark" viewBox="0 0 38 38" aria-hidden="true"><rect x="1" y="1" width="36" height="36" rx="10" fill="var(--ink)"/><path d="M8 25 H17 L21 13 H30" stroke="var(--p0)" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 13 H14 L24 25 H30" stroke="var(--p3)" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="19" r="3.4" fill="var(--paper)"/></svg>
+        <div><b>Карта процесса</b><span>Разработка × тестирование</span></div>
+      </div>
+      <div class="top-r">
+        <div class="prog" title="Сколько заданий решено"><div class="prog-bar"><i id="pbar"></i></div><span id="ptxt">0 / 0</span></div>
+        <button class="iconbtn" id="theme" type="button" aria-label="Сменить тему">◐ Тема</button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<footer class="wrap">
+  Учебный тренажёр: как устроены разработка и тестирование. Фича «Промокод в корзине» книжного магазина — учебный пример. Прогресс хранится только в этом браузере.
+</footer>
+<div id="docm" class="docm" hidden role="dialog" aria-modal="true" aria-labelledby="docm-t"><div class="docm-in"><button type="button" class="docm-x" id="docm-x" aria-label="Закрыть">✕</button><div id="docm-b"></div></div></div>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<script>
+/* ================= storage ================= */
+const KEY='qa-process-map-v1';
+let done=new Set();
+try{const s=localStorage.getItem(KEY);if(s)done=new Set(JSON.parse(s));}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(e){}};
+const $=id=>document.getElementById(id);
+const live=t=>{$('live').textContent=t};
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400);}
+function markDone(id,msg){if(done.has(id))return;done.add(id);save();updProg();if(msg)toast(msg);}
+
+/* theme */
+(function(){let t=null;try{t=localStorage.getItem(KEY+'-theme')}catch(e){}
+  if(t)document.documentElement.dataset.theme=t;
+  $('theme').onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    const n=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem(KEY+'-theme',n)}catch(e){}};})();
+
+/* ================= data ================= */
+const PHASES=[
+ {n:'Требования',c:'--p0',span:1},{n:'Проектирование',c:'--p1',span:1},{n:'Разработка',c:'--p2',span:1},
+ {n:'Тестирование',c:'--p3',span:4},{n:'Релиз',c:'--p4',span:1},{n:'Сопровождение',c:'--p5',span:1}];
+const ROLES={
+ po:{s:'PO',n:'PO / PM',what:'Решает, что и зачем делает команда. Если нигде не написано, как должно быть, последнее слово за ним.',get:'Приоритеты, ответы «как должно быть»',give:'Вопросы по требованиям, оценку рисков перед релизом'},
+ ba:{s:'BA',n:'Аналитик',what:'Превращает идею в подробные требования. BA больше думает о задачах пользователей, SA — о техническом устройстве.',get:'Требования, спецификации',give:'Неясные места и противоречия в требованиях'},
+ des:{s:'UX',n:'Дизайнер',what:'Рисует макеты — как должны выглядеть экраны, кнопки, сообщения об ошибках.',get:'Макеты',give:'Расхождения между макетом и реализацией'},
+ fe:{s:'FE',n:'Frontend',what:'Делает то, что пользователь видит в браузере или в приложении.',get:'Новые экраны и исправления',give:'Баг-репорты по интерфейсу'},
+ be:{s:'BE',n:'Backend',what:'Делает серверную часть: хранение данных, проверки, права доступа.',get:'Новые запросы API и исправления',give:'Баг-репорты по API и данным'},
+ tl:{s:'TL',n:'Тимлид',what:'Отвечает за технические решения: как всё устроено внутри.',get:'Объяснения, как работает система внутри',give:'Вопросы об устройстве системы, сигналы о повторяющихся проблемах'},
+ ops:{s:'OPS',n:'DevOps',what:'Отвечает за серверы и стенды, выкатывает на стенд новую сборку.',get:'Рабочий стенд, новую сборку',give:'Сообщения «стенд не работает»'},
+ qa:{s:'QA',n:'Тестировщик',what:'Проверяет качество на каждом шаге — от требований до прода. Чаще всего общается с разработчиками и владельцем продукта.',get:'—',give:'—'}
+};
+const STLC=[
+ {t:'Анализ требований',sd:'Требования',do:'Читает требования и макеты, выписывает неясные места, задаёт вопросы аналитику и владельцу продукта',out:'Вопросы с ответами, записанные в задаче или в требованиях',in:'Есть требования — хотя бы черновик',exit:'На все вопросы есть ответы, понятно, что проверять'},
+ {t:'Планирование тестирования',sd:'Проектирование',do:'Решает, что входит в проверку, а что нет, оценивает время, думает о рисках и о том, что нужно для проверки',out:'Тест-план или короткий план в задаче, оценка времени',in:'Требования разобраны',exit:'План согласован с командой'},
+ {t:'Проектирование тестов',sd:'Проектирование',do:'Придумывает проверки: обычные сценарии, ошибки пользователя, крайние случаи',out:'Чек-лист или тест-кейсы, список тестовых данных',in:'Есть план: понятно, что проверять',exit:'Проверки покрывают все требования, их посмотрел кто-то из команды'},
+ {t:'Подготовка окружения',sd:'Разработка',do:'Проверяет, что есть стенд, нужная сборка, тестовые данные, учётные записи, доступы',out:'Рабочий стенд и данные для проверок',in:'Понятно, что нужно для проверок',exit:'Стенд открывается, нужная сборка установлена, данные на месте'},
+ {t:'Выполнение тестов',sd:'Тестирование',do:'Проходит проверки, отмечает результат, заводит баги, перепроверяет исправления',out:'Результаты проверок, баг-репорты',in:'Сборка на стенде, проверки готовы',exit:'Все запланированные проверки пройдены, критичных открытых багов нет'},
+ {t:'Завершение тестирования',sd:'Тестирование',do:'Подводит итоги: что проверено, что нет, какие баги остались и чем они грозят',out:'Итоговый отчёт о тестировании',in:'Выполнение закончено',exit:'Отчёт отправлен, команда решила, выпускать ли фичу'}
+];
+const DOCS={
+ req:{n:'Требования / user story',lvl:'источник',w:['ba','po'],u:['qa','fe','be','des','tl'],st:[0],why:'Источник ожидаемого результата: с ним сверяют каждую проверку.',
+  what:'Описание того, что нужно сделать и зачем. В командах по Scrum требования часто пишут в виде user story — кто, что и зачем — и добавляют критерии приёмки.',
+  parts:['User story: «Как … я хочу … чтобы …» — главное в ней «зачем»','Критерии приёмки — условия, при которых история выполнена','Формат критериев: Дано / Когда / Тогда'],
+  when:'До разработки. Критерии приёмки обсуждают вместе с PO.',who:'Аналитик, в маленьких командах — сам PO',
+  ex:'«Как покупатель, я хочу ввести промокод в корзине, чтобы получить скидку». Критерий: Дано действующий промокод. Когда покупатель вводит его в корзине. Тогда сумма уменьшается на скидку.'},
+ q:{n:'Вопросы к требованиям',lvl:'тестирование требований',w:['qa'],u:['ba','po'],st:[0],why:'Неясные места и противоречия, найденные до кода — там, где исправление дешевле всего.',
+  what:'Неясные места, пропуски и противоречия в требованиях, оформленные так, чтобы на них было легко ответить.',
+  parts:['Что именно непонятно — цитата из требования','Почему это важно — какой риск','Какие варианты ответа возможны'],
+  when:'На этапе требований, до начала разработки. Ответы фиксируют письменно.',who:'Тестировщик',
+  ex:'«В требовании: скидка 10% новым пользователям. Не ясно, суммируется ли она с промокодом. Варианты: а) не суммируются, применяется большая; б) суммируются. Какой вариант?»',
+  where:'Комментарий в задаче, нумерованный список вопросов или готовое предложение формулировки.'},
+ mock:{n:'Макеты',lvl:'источник',w:['des'],u:['fe','qa'],st:[1],why:'Источник ожидаемого вида интерфейса. Расхождение с макетом — баг или вопрос.',
+  what:'Картинки того, как должны выглядеть экраны, кнопки и сообщения об ошибках.',
+  parts:['Экраны','Кнопки и поля','Сообщения об ошибках'],
+  when:'На проектировании, до разработки интерфейса.',who:'Дизайнер',
+  ex:'Где в корзине стоит поле промокода и как выглядит сообщение, если промокод не подошёл.'},
+ spec:{n:'Спецификация (в т. ч. API)',lvl:'источник',w:['ba'],u:['be','fe','qa'],st:[1],why:'Как система устроена: запросы, поля, ошибки. По ней проверяют API.',
+  what:'Подробное описание того, как устроена система. Например, спецификация API описывает запросы, поля и ответы. Это тоже требования: их можно и нужно тестировать.',
+  parts:['Запросы и их параметры','Поля и ограничения на них','Ответы и ошибки'],
+  when:'На проектировании, до или вместе с разработкой.',who:'Аналитик (чаще системный — SA)',
+  ex:'Какой запрос применяет промокод к корзине и что сервер отвечает, если промокод не подошёл.'},
+ plan:{n:'Тест-план',lvl:'высокий уровень',w:['qa'],u:['po','tl'],st:[1],why:'Что проверяем и что нет, сроки, риски, что нужно для проверки. Бывает коротким планом в задаче.',
+  what:'Документ, который пишут до начала проверки фичи или релиза. Заранее отвечает на вопросы, которые иначе решались бы на ходу: что проверяем, как, что может помешать.',
+  parts:['Объект тестирования','Что входит в проверку','Что не входит и почему','Подход: виды тестирования, какие документы пишем','Риски','Окружение и данные','Когда проверка закончена — критерии выхода'],
+  when:'До начала проверки — этап STLC «Планирование».',who:'Ведущий или старший тестировщик',
+  ex:'Объект — промокод в корзине. Риск — непонятно, суммируется ли промокод с другими скидками: нужен ответ аналитика до начала проверки.'},
+ check:{n:'Чек-лист',lvl:'средний уровень',w:['qa'],u:['qa'],st:[1,3,4,6],why:'Список проверок без подробных шагов: быстро писать, удобно для смоука и регресса.',
+  what:'Список коротких проверок. Одна строка — одна проверка: что проверить и что ожидаем.',
+  parts:['[ ] что проверить → что ожидаем','[x] — проверка пройдена, всё как ожидалось','Шагов и подробных данных нет — это уровень тест-кейса'],
+  when:'Заранее, а отметки ставят во время прогона.',who:'Тестировщик',
+  ex:'[ ] Действующий промокод → сумма в корзине уменьшилась на скидку'},
+ tc:{n:'Тест-кейсы',lvl:'низкий уровень',w:['qa'],u:['qa'],st:[1,4,6],why:'Шаги и ожидаемый результат: для важного и сложного, чтобы прогнать мог любой.',
+  what:'Подробное описание одной проверки: что должно быть готово, какие шаги сделать и что должно получиться. Его можно выполнить, ничего не переспрашивая.',
+  parts:['ID и название','Приоритет','Предусловия','Шаги с конкретными данными','Ожидаемый результат','Фактический результат — при прогоне','Статус: пройден / не пройден / заблокирован'],
+  when:'Заранее, а результат пишут во время прогона.',who:'Тестировщик',
+  ex:'Предусловия: в корзине есть книга, на стенде заведён действующий промокод. Шаги: ввести промокод, нажать «Применить». Ожидаемый результат: сумма уменьшилась на скидку.',
+  note:'Самое важное — предусловия, шаги и ожидаемый результат. Без них тест-кейса нет.'},
+ data:{n:'Тестовые данные',lvl:'подготовка',w:['qa'],u:['qa'],st:[1,2],why:'Учётные записи, промокоды, товары — всё, без чего проверки не начать.',
+  what:'Всё, что должно быть на стенде до начала проверок: учётные записи, доступы, подготовленные записи в системе.',
+  parts:['Учётные записи и доступы','Данные для каждой проверки','Откуда берут: руками, скриптом при подъёме стенда или генерацией'],
+  when:'Список — на проектировании тестов, сами данные — на подготовке окружения.',who:'Тестировщик, иногда с помощью разработчиков или DevOps',
+  ex:'Завести на test промокоды для проверок: действующий, истёкший, уже использованный.'},
+ matrix:{n:'Матрица трассируемости',lvl:'покрытие',w:['qa'],u:['qa','po'],st:[1,6],why:'Связь «требование ↔ проверки»: видно, что ничего не забыли. Нужна не всегда.',
+  what:'Таблица: в строках — требования или критерии приёмки, в столбцах — проверки. На пересечении — отметка, если проверка проверяет это требование.',
+  parts:['Пустая строка — требование без проверок, дыра в покрытии','Пустой столбец — лишняя проверка или повод спросить аналитика','Изменилось требование — по его строке видно, какие проверки устарели'],
+  when:'Когда важно показать покрытие требований и при изменении требований — для анализа влияния.',who:'Тестировщик',
+  ex:'Строка «Критерий 1: действующий промокод уменьшает сумму» и отметки в столбцах проверок, которые его проверяют.',
+  note:'100% покрытия не значит «багов нет» — только то, что у каждого требования есть хотя бы одна проверка.'},
+ bug:{n:'Баг-репорт',lvl:'низкий уровень',w:['qa'],u:['fe','be','tl','po'],st:[4,5,6,8],why:'Описание дефекта так, чтобы его можно было воспроизвести и исправить.',
+  what:'Описание найденного дефекта: что не так, где и как это повторить. Часто рождается из непройденного тест-кейса.',
+  parts:['ID и заголовок «что — где — когда»','Окружение: стенд, сборка, браузер или устройство','Предусловия и шаги воспроизведения','Фактический результат — только факт','Ожидаемый результат — со ссылкой на источник','Серьёзность и приоритет','Вложения: скриншот, видео, запрос и ответ, лог'],
+  when:'Во время проверки, сразу как нашли ошибку.',who:'Тестировщик',
+  ex:'Заголовок: «Корзина: промокод с пробелом в конце не применяется». Дальше статусы: New → В работе → Fixed → Retest → Closed.',
+  note:'Пароли и токены целиком в баг-репорт не вставляют.'},
+ report:{n:'Отчёт о тестировании',lvl:'высокий уровень',w:['qa'],u:['po','tl'],st:[6],why:'Что проверено, что нет, какие баги остались и чем грозят. По нему решают, выпускать ли.',
+  what:'Документ, который пишут после проверки. Тест-план — про намерение, отчёт — про факт: что получилось на самом деле.',
+  parts:['Что проверено — по факту, а не по плану','Что нашлось: сколько багов и насколько серьёзные','Что не проверено и почему — честная часть','Вывод: можно ли выпускать, а если нет — что мешает'],
+  when:'После проверки — этап STLC «Завершение тестирования».',who:'Тестировщик, иногда ведущий',
+  ex:'«Промокод в корзине проверен, критичных багов нет. Не проверено: промокод вместе с оплатой бонусами — риск. Вывод: можно выпускать».'}
+};
+const CHECKS={
+ static:{n:'Статическое тестирование',what:'Проверка без запуска программы: читаем требования, смотрим макеты, разработчики читают код друг друга. Анализ требований — это статическое тестирование.',q:'Нет ли ошибок ещё до того, как написан код?',when:'На этапах требований и проектирования.',who:'Тестировщик и аналитик; код друг друга читают разработчики.',ex:'Сверить макет корзины с требованием: есть ли на макете сообщение для промокода, который не подошёл.'},
+ unit:{n:'Модульные автотесты',what:'Проверка одной маленькой части кода отдельно от всего остального: одной функции, одного модуля.',q:'Эта функция сама по себе работает правильно?',when:'Автоматически при каждой сборке. Упал тест — правка возвращается разработчику.',who:'Разработчики, сами пишут такие тесты.',ex:'Функция, которая считает скидку, для суммы 1000 и скидки 10% возвращает 900.',note:'Низ пирамиды тестирования: модульных тестов много, они быстрые и дешёвые.'},
+ integ:{n:'Интеграционное',what:'Проверка того, как две и больше частей работают вместе.',q:'Части системы правильно передают друг другу данные?',when:'Автотестами при сборке. На stage — уже с настоящими внешними сервисами: на dev и test их обычно заменяют заглушками, поэтому какие-то баги видны только на stage.',who:'Разработчики, иногда тестировщики.',ex:'Сервис заказов правильно передаёт сумму со скидкой по промокоду в платёжный сервис, а тот правильно отвечает.'},
+ smoke:{n:'Смоук',aka:'дымовое тестирование (smoke testing)',step:1,what:'Быстрая и неглубокая проверка самых главных путей продукта.',q:'Есть ли вообще смысл тестировать эту сборку дальше?',when:'Сразу после новой сборки, до полной проверки.',who:'Тестировщик.',wide:'Широко: главные пути всего продукта',deep:'Неглубоко: каждый путь одним действием',ex:'За 10–15 минут: главная открывается, вход работает, книга кладётся в корзину, заказ доходит до оплаты. Вход не работает — сразу пишем разработчикам и возвращаем сборку.'},
+ new:{n:'Проверка нового',aka:'тестирование новой функциональности (new feature testing)',step:1,what:'Подробная проверка того, ради чего появилась сборка: новой фичи или изменения. Сверяемся с требованиями, проходим обычные сценарии, ошибки пользователя и крайние случаи.',q:'Новое работает так, как в требованиях?',when:'После того как смоук прошёл.',who:'Тестировщик.',ex:'Действующий промокод, промокод с пробелом в конце, пустое поле, повторное применение — всё по чек-листу.',note:'Проверка нового смотрит вглубь нового. Регресс смотрит вширь на старое.',status:'Отдельного вида с таким названием в стандартных классификациях (например, ISTQB) нет. Это шаг цепочки вокруг сборки, а по сути — функциональное тестирование того, что появилось в сборке. На практике и на собеседованиях говорят «тестирование новой функциональности».'},
+ pos:{n:'Позитивное',what:'Проверяем обычный путь с правильными данными. Ожидаем, что всё получится.',q:'Обычный сценарий работает?',when:'Во время проверки нового — обычно первым делом.',who:'Тестировщик.',ex:'Применить действующий промокод — сумма уменьшилась на скидку.'},
+ neg:{n:'Негативное',what:'Специально делаем что-то неправильно. Ожидаем понятный отказ, а не «падение» системы.',q:'Как система ведёт себя при ошибках пользователя?',when:'Во время проверки нового.',who:'Тестировщик.',ex:'Применить пустой промокод — система должна отказать и объяснить почему.',note:'Новички часто проверяют только позитивные сценарии. А пользователи ошибаются постоянно — негативных проверок обычно не меньше.'},
+ retest:{n:'Ретест',aka:'подтверждающее тестирование (confirmation testing, re-test)',what:'Проверка одного конкретного бага после исправления: повторяем те же шаги, что записали, когда нашли баг.',q:'Исправлен ли этот баг?',when:'После того как разработчик исправил баг и пришла новая сборка.',who:'Тестировщик.',wide:'Очень узко: один баг',deep:'Глубоко по одному сценарию',ex:'Тот же промокод с тем же пробелом в конце — скидка применилась, баг исправлен.',note:'Про остальной продукт ретест ничего не говорит. Ретест и регресс друг друга не заменяют.'},
+ sanity:{n:'Санити',aka:'проверка на здравый смысл (sanity testing)',step:1,what:'Короткая прицельная проверка одной области после небольшого изменения — того, что могла задеть именно эта правка.',q:'То, что задела правка, работает?',when:'После небольшого изменения или исправления.',who:'Тестировщик.',wide:'Узко: одна область',deep:'Чуть глубже смоука',ex:'После исправления промокода — корзина: итоговая сумма, доставка, смена количества. Каталог и личный кабинет не трогаем.',note:'Границу между смоуком и санити в командах проводят по-разному: смоук — широко по всему продукту, санити — узко по одной области.'},
+ regress:{n:'Регресс',aka:'регрессионное тестирование (regression testing)',what:'Проверка того, что изменения не сломали то, что уже работало: не то, что меняли нарочно, а всё остальное, что могло пострадать заодно.',q:'Старое не сломалось?',when:'После проверки нового, перед релизом.',who:'Тестировщик; большой регресс часто автоматизируют.',wide:'Широко: всё, что могло пострадать',deep:'Как позволяет время — от главного к второстепенному',ex:'Промокод меняет сумму заказа — проходим оплату картой, оплату бонусами, историю заказов, возврат.',note:'Обязательный минимум — критичные сценарии, затем связанное с изменением, затем остальное. Непроверенное явно перечисляют в отчёте как риск.'},
+ impact:{n:'Анализ влияния',aka:'impact analysis',approach:1,status:'Это не вид тестирования, а приём: он помогает выбрать, что проверять в регрессе.',what:'Ответ на вопрос «что могло задеть это изменение» — до прогона регресса.',q:'Что регрессить в первую очередь?',when:'Перед регрессом, когда полный регресс не помещается в сроки.',who:'Тестировщик вместе с разработчиком.',ex:'Правка в расчёте цены касается каталога, корзины, заказа, возврата и чеков — с них и начинаем.',list:['Что поменяли: задачи в сборке, разговор с разработчиком','Кто от этого зависит: какие функции используют изменённое место','Что важнее всего: вход, оплата, оформление заказа','Что ломалось раньше']},
+ accept:{n:'Приёмочное',what:'Проверка того, решает ли продукт задачу пользователя и бизнеса, а не только «работает без ошибок».',q:'Это то, что мы хотели?',when:'Перед решением о релизе.',who:'Владелец продукта, заказчик, иногда будущие пользователи — часто вместе с тестировщиком.',ex:'PO сам применяет промокод в корзине и решает: «Да, это то, что мы хотели».'},
+ prodsmoke:{n:'Смоук на проде',step:1,what:'Быстрый смоук сразу после релиза — уже на настоящем продукте.',q:'Продукт работает там, где сейчас настоящие пользователи?',when:'Сразу после выкатки на прод.',who:'Тестировщик, под специальной тестовой учётной записью.',wide:'Широко: главные пути',deep:'Неглубоко',ex:'Открыть настоящий сайт, войти под тестовой учётной записью, найти книгу.',note:'На проде живые данные: не создавать настоящих заказов и не менять чужое.'},
+ shiftleft:{n:'Shift-left',aka:'«сдвиг влево», ранний старт тестирования',approach:1,status:'Это не вид тестирования, а подход: когда подключаться к проверке.',what:'Тестировщик подключается, когда фичу только обсуждают, и ищет ошибки ещё в требованиях — там, где они дешевле всего. Если нарисовать этапы слева направо, тестирование сдвигается левее, ближе к началу.',q:'Можно ли найти ошибку ещё до того, как написан код?',when:'С этапа требований — на обсуждении фичи и критериев приёмки.',who:'Тестировщик вместе с аналитиком и PO.',ex:'Ещё до разработки спросить аналитика: суммируется ли промокод со скидкой для новых пользователей?',list:['В требованиях ошибку исправляют одной правкой текста','В макете или устройстве системы — нужно перерисовать и заново согласовать','В коде — переписать код и то, что построили поверх ошибки','У пользователей — ещё и обращения в поддержку, срочный выпуск исправления'],note:'Условная цена одного дефекта: в требованиях ×1, на тестировании ×20, у пользователей ×100. Противоположный подход — shift-right — не заменяет, а дополняет его.'},
+ shiftright:{n:'Shift-right',aka:'«сдвиг вправо»; противоположный подход — shift-left, ранний старт тестирования',approach:1,status:'Это не вид тестирования, а подход: проверка качества продолжается после релиза.',what:'Работа с качеством уже после релиза, на реальных пользователях. Не заменяет проверки до релиза, а добавляется к ним.',q:'Как продукт ведёт себя на настоящих данных и нагрузке?',when:'На релизе и сопровождении.',who:'Вся команда; тестировщик заранее договаривается, по каким признакам релиз считается плохим и кто его откатит.',ex:'Пользователь пишет: «промокод из рассылки не работает». Воспроизвести, завести баг — и он пройдёт весь путь заново.',list:['Постепенный выпуск: сначала 1–5% пользователей','Мониторинг: ошибки сервера, падения, скорость, оплаченные заказы','Логи и отчёты о падениях','Проверка на проде после выкатки','Разбор и воспроизведение багов от пользователей']}
+};
+Object.assign(CHECKS,{
+ func:{n:'Функциональное',what:'Проверяет, что делает система: правильный ли результат. Сверяемся с требованиями: как должно быть — и как есть.',q:'Система делает то, что должна?',ex:'Промокод применяется, и сумма заказа уменьшается на скидку.'},
+ nonfunc:{n:'Нефункциональное',what:'Проверяет, как система делает свою работу: быстро ли, удобно ли, безопасно ли, везде ли одинаково. Функциональное отвечает на вопрос «что делает», нефункциональное — «как».',q:'Как система это делает?',ex:'Промокод не только применяется (это функциональное), но и делает это быстро, понятно, в любом браузере и на телефоне.',groups:[['Чаще всего делает ручной тестировщик',[['UI — сверка с макетом','совпадает ли экран с макетом: тексты, шрифты, цвета, отступы, кнопки'],['UX / удобство','найдёт ли человек кнопку, поймёт ли из сообщения об ошибке, что исправить'],['Кроссбраузерное','работает и выглядит как задумано в браузерах наших пользователей — по матрице браузеров'],['Кроссплатформенное','работает на всех наших платформах, например iOS и Android: у них разные правила и жесты'],['Адаптивность','удобно на экране любой ширины — от телефона до большого монитора'],['Установка, обновление, удаление','данные пользователя переживают обновление; обновляют с данными, а не на пустом приложении'],['Локализация','переводы, форматы дат и денег, длинные слова не вылезают за кнопку'],['Доступность','можно пользоваться с клавиатуры, со скринридером, при плохом зрении'],['Производительность глазами пользователя','появилось ли главное, отвечает ли кнопка — замеры в браузере на подготовленных данных']]],['Обычно берут отдельные специалисты',[['Нагрузочное','выдержит ли система много пользователей сразу — нужны специальные инструменты'],['Безопасность','глубокий аудит. Базовые проверки прав — нельзя увидеть чужое и сделать запрещённое — делает тестировщик']]]],note:'Где выполнять нагрузочное, решают в команде: на тестовом стенде результаты не показательны, а на проде можно уронить живой сервис.'},
+ system:{n:'Системное',what:'Проверка всего продукта целиком — так, как им пользуется человек.',q:'Продукт работает как единое целое?',who:'Тестировщик — это его основной уровень.',ex:'Найти книгу, положить в корзину, применить промокод, оплатить.'},
+ black:{n:'Чёрный ящик',what:'Не смотрим, как продукт устроен внутри: подаём что-то на вход и смотрим, что получилось на выходе. Так проверяет большинство ручных тестировщиков.',ex:'Ввели промокод — смотрим только на сумму в корзине.'},
+ white:{n:'Белый ящик',what:'Знаем код и проверяем, как он работает: например, что сработает каждая ветка условия. Так обычно работают разработчики, когда пишут модульные тесты.',ex:'Разработчик проверяет, что код расчёта скидки проходит каждую ветку: промокод действует, истёк, уже использован.'},
+ grey:{n:'Серый ящик',what:'Проверяем через интерфейс, но частично знаем устройство.',ex:'Применили промокод в интерфейсе — и заглянули в базу данных: как сохранилась скидка в заказе.'},
+ dynamic:{n:'Динамическое',what:'Запускаем программу и смотрим, как она себя ведёт. Всё, что происходит на стендах, — динамическое тестирование.',ex:'Открыть корзину на test и применить промокод.'},
+ manual:{n:'Ручное',what:'Проверки выполняет человек. Он незаменим там, где нужно думать: новая фича, непонятное поведение, удобство.',ex:'Впервые проверить новую фичу промокода по чек-листу.'},
+ auto:{n:'Автоматизированное',what:'Проверки выполняет программа — автотест, который заранее написали. Хорошо там, где одно и то же нужно повторять много раз.',ex:'Автотест при каждой сборке проверяет расчёт скидки.',note:'Регресс повторяется перед каждым релизом, поэтому его чаще всего автоматизируют.'}
+});
+const TREE=[
+ {t:'По объекту',q:'что проверяем',nodes:[['func'],['nonfunc']],n:'Внутри «Нефункционального» — UI, удобство, кроссбраузерность и другие проверки. Открой карточку, чтобы увидеть, что из этого делает тестировщик.'},
+ {t:'По уровню',q:'на каком масштабе',nodes:[['unit'],['integ'],['system'],['accept']],n:'Пирамида: внизу много быстрых модульных тестов, наверху немного проверок всего продукта.'},
+ {t:'По знанию кода',q:'видим ли устройство',nodes:[['black'],['white'],['grey']]},
+ {t:'По сценарию',q:'правильные данные или ошибки',nodes:[['pos'],['neg']]},
+ {t:'По запуску',q:'запускаем ли программу',nodes:[['static'],['dynamic']]},
+ {t:'По исполнителю',q:'кто выполняет',nodes:[['manual'],['auto']]},
+ {t:'Связанное с изменениями',q:'что проверяем после правки',nodes:[['retest'],['regress']],n:'В классификации ISTQB — «тестирование, связанное с изменениями»: подтверждающее (ретест) и регрессионное.',
+  steps:{t:'Шаги цепочки вокруг сборки и релиза',nodes:[['smoke',[['prodsmoke']]],['new'],['sanity']],n:'Это названия шагов, которыми пользуется команда: новая сборка → смоук → проверка нового → ретест → санити → регресс → релиз → смоук на проде.'}},
+ {t:'Приёмы и подходы',q:'не виды, а помощь в выборе проверок',approach:1,nodes:[['shiftleft'],['impact'],['shiftright']],n:'Это не виды тестирования: они помогают решить, что и когда проверять.'}];
+const PARENT={},GROUP={};
+(function walk(){const f=(nodes,par,g)=>nodes.forEach(([k,kids])=>{if(k[0]==='#'){f(kids,par,g);return;}PARENT[k]=par;GROUP[k]=g;if(kids)f(kids,k,g);});TREE.forEach(g=>{f(g.nodes,null,g.t);if(g.steps)f(g.steps.nodes,null,g.t+' · шаги цепочки');});})();
+const SUBNF=[];
+const STOPS=[
+ {t:'До кода',s:'требования, макеты',who:'Тестировщик и аналитик; код друг друга читают разработчики',rows:[[['static'],'Программу ещё не запускают: читаем требования и макеты, ищем неясности.'],[['shiftleft'],'Подключаемся с требований: ошибку здесь исправить дешевле всего.']],txt:'Программу ещё не запускают — проверяют требования и макеты. Ошибку здесь исправить дешевле всего.'},
+ {t:'Сборка и автотесты',s:'автоматически',who:'Автоматика. Тесты пишут разработчики или автоматизаторы',rows:[[['unit','integ'],'Быстрые проверки отдельных частей кода и того, как они работают вместе.'],[['auto'],'Запускаются сами при каждой сборке. Упал тест — правка возвращается разработчику.']],txt:'Упала сборка или хотя бы один автотест — правка возвращается разработчику. Тестировщик такую сборку просто не увидит.'},
+ {t:'Dev',s:'стенд разработчиков',who:'Разработчики',rows:[],env:'dev',txt:'Разработчики смотрят, что всё запускается. Стенд часто ломается — это нормально. Тестировщик здесь обычно не работает.'},
+ {t:'Test',s:'стенд тестировщиков',who:'Тестировщик',rows:[[['func'],'Сверяем с требованиями: делает ли фича то, что должна.'],[['system'],'Проверяем продукт целиком — так, как им пользуется покупатель.'],[['black'],'Подаём данные на вход и смотрим на результат, не заглядывая в код.'],[['pos','neg'],'Обычный путь с правильными данными — и ошибки пользователя.'],[['dynamic'],'Программа запущена на стенде, смотрим, как она себя ведёт.'],[['manual'],'Новую фичу проверяет человек: здесь нужно думать.'],[['retest'],'Пришло исправление — повторяем шаги из баг-репорта.'],[['smoke','new','sanity'],'Сначала смоук: жива ли сборка. Потом проверка нового. После небольших правок — санити области вокруг.'],[['nonfunc'],'Вместе с проверкой нового: сверка с макетом, удобство, браузеры, платформы и экраны, локализация, доступность, установка мобильной сборки.']],env:'test',txt:'Полная свобода: неправильные данные, граничные значения, сотни тестовых записей — для этого стенд и нужен.'},
+ {t:'Stage',s:'копия прода',who:'Тестировщик, иногда владелец продукта',rows:[[['integ'],'На stage подключены настоящие внешние сервисы — какие-то баги видны только здесь.'],[['system'],'Весь продукт в условиях, похожих на прод.'],[['accept'],'Владелец продукта решает: «это то, что мы хотели?»'],[['dynamic'],'Программа запущена, проверяем её поведение.'],[['regress'],'Перед релизом убеждаемся, что изменения не сломали то, что уже работало.'],[['impact'],'Полный регресс не помещается в сроки — выбираем, что проверить в первую очередь.'],[['nonfunc'],'Перед релизом ещё раз сверяем экраны с макетом и ставим новую версию поверх старой — так её получат почти все пользователи.']],env:'stage',txt:'Последняя проверка в условиях, похожих на прод: подключены настоящие внешние сервисы. Стенд один на всех — не стирать данные коллег, сначала договориться.'},
+ {t:'Prod',s:'настоящие пользователи',who:'Тестировщик — под тестовой учётной записью',rows:[[['prodsmoke'],'Сам выпуск может пройти с ошибкой — быстро проверяем главные пути под тестовой учётной записью.'],[['shiftright'],'Мониторинг, логи и обращения пользователей: то, что видно только на настоящих данных.']],env:'prod',txt:'Живые данные: не создавать настоящих заказов и не менять чужое.'}];
+STOPS.forEach(x=>{x.types=x.rows.flatMap(r=>r[0]);});
+const GORDER=TREE.flatMap(g=>g.steps?[g.t,g.t+' · шаги цепочки']:[g.t]);
+const glabel=g=>{const t=TREE.find(x=>x.t===g);if(t)return`<b>${t.t}</b><small>${t.q}</small>`;return`<b>Шаги цепочки</b><small>вокруг сборки и релиза</small>`;};
+const ENVD={
+ dev:{t:'Dev',what:'Стенд разработчиков. Сюда попадает свежий код, который ещё дописывают. Часто ломается — и это нормально.',who:'Разработчики',data:'Тестовые',stab:'Ломается часто',dep:'Разработчики',brk:'Да'},
+ test:{t:'Test (QA-стенд)',what:'Стенд тестировщиков. Сюда выкладывают то, что разработчик считает готовым к проверке. Обновляется порциями, а не каждую минуту.',who:'Тестировщики',data:'Тестовые',stab:'Стабильнее',dep:'Разработчики, DevOps',brk:'Да: неправильные данные, граничные значения — для этого стенд и нужен'},
+ stage:{t:'Stage',what:'Копия прода: те же настройки, те же подключения к внешним сервисам, похожий объём данных. Последняя проверка перед выпуском.',who:'Тестировщики, иногда владелец продукта',data:'Похожие на настоящие, но без личных данных',stab:'Почти как прод',dep:'DevOps',brk:'Осторожно: стенд один на всех. Не стирать данные, на которые опираются коллеги, — сначала договориться'},
+ prod:{t:'Prod',what:'То, чем пользуются настоящие люди. Здесь всё по-настоящему.',who:'Настоящие пользователи',data:'Настоящие',stab:'Обязан работать',dep:'DevOps, по согласованию',brk:'Нет'}
+};
+const TASKS={
+ todo:{n:'To Do',what:'Задача описана и ждёт, когда её возьмут в работу.',who:'Ставит PO или аналитик',qa:'Тестирует требования задачи, задаёт вопросы, готовит проверки.'},
+ prog:{n:'In Progress',what:'Разработчик пишет код.',who:'Разработчик',qa:'Готовит окружение и тестовые данные, отвечает на вопросы по проверкам.'},
+ review:{n:'Code Review',what:'Другой разработчик смотрит код перед тем, как его примут.',who:'Разработчик, тимлид',qa:'Ждёт сборку; проверяет, что стенд и данные готовы.'},
+ rqa:{n:'Ready for QA',what:'Сборка с задачей выложена на test — можно проверять.',who:'Разработчик или DevOps',qa:'Начинает со смоука.'},
+ testing:{n:'In Testing',what:'Тестировщик проверяет задачу.',who:'Тестировщик',qa:'Проверка нового, баг-репорты, ретест, регресс, отчёт.'},
+ done:{n:'Done',what:'Задача проверена и выпущена.',who:'Тестировщик или PO — по правилам команды',qa:'Смоук на проде после релиза.'}
+};
+const BUGI={
+ new:{what:'Баг-репорт заведён.',who:'Тестировщик'},
+ work:{what:'Баг назначили разработчику, и он им занимается.',who:'Разработчик'},
+ fixed:{what:'Разработчик говорит: «Починил». Это ещё не конец — это только его мнение.',who:'Разработчик'},
+ retest:{what:'Тестировщик повторяет шаги из баг-репорта на новой сборке. И помнит про регресс: исправление могло задеть соседние функции.',who:'Тестировщик'},
+ closed:{what:'Ретест прошёл — баг закрыт.',who:'Обычно тестировщик, а не разработчик'},
+ reop:{what:'На ретесте баг повторился и возвращается разработчику. В комментарии — на какой сборке проверяли и что увидели.',who:'Тестировщик'},
+ rej:{what:'Команда считает, что это не баг: так и задумано. Есть возражения — приведи источник: раздел требований или макет. Нет источника — это вопрос к аналитику, а не спор с разработчиком.',who:'Команда'},
+ dup:{what:'Такой баг уже заведён. Этот закрывают со ссылкой на первый, а всё полезное дописывают туда.',who:'Команда'},
+ def:{what:'Баг настоящий, но чинить его будут позже — например, в следующем релизе. Он не закрыт, а ждёт своей очереди.',who:'Владелец продукта'}
+};
+const STATIONS=[
+ {t:'Требования',s:'идея → требования',ph:0,env:null,
+  roles:[['po','решает, что и зачем делать'],['ba','расписывает требования подробно'],['des','набрасывает, как это будет выглядеть']],
+  qa:'Тестирование требований: читает требования и макеты, ищет неясные места и противоречия, задаёт вопросы аналитику и PO. Код ещё не написан — а тестирование уже идёт.',
+  stlc:[0],din:['req'],dout:['q'],checks:['static','shiftleft'],task:['todo'],
+  ex:'Вопросы аналитику: можно ли применить два промокода сразу? Что, если в конце промокода случайно стоит пробел? Что показываем, если срок промокода истёк?',
+  skip:'Ошибка в требованиях доедет до кода. Условная цена: исправить в требованиях — ×1, на тестировании — ×20, у пользователей — ×100.'},
+ {t:'Проектирование',s:'как устроено и как выглядит',ph:1,env:null,
+  roles:[['tl','продумывает устройство системы'],['be','продумывает API и данные, оценивает задачу'],['fe','оценивает интерфейсную часть'],['des','рисует макеты']],
+  qa:'Планирование и тест-дизайн: решает, что проверять и что нет, оценивает время и риски, придумывает проверки — обычные сценарии, ошибки пользователя, крайние случаи.',
+  stlc:[1,2],din:['req','mock','spec'],dout:['plan','check','tc','data','matrix'],checks:['static'],task:['todo'],
+  ex:'Чек-лист промокода: действующий код, истёкший, с пробелом, в другом регистре, пустое поле, повторное применение.',
+  skip:'Проверки придумываются на ходу: что-то забудут, оценки времени нет, риски никто не обдумал.'},
+ {t:'Разработка',s:'код, сборка, автотесты',ph:2,env:'dev',
+  roles:[['fe','делает поле промокода в корзине'],['be','делает расчёт скидки на сервере'],['tl','отвечает за технические решения'],['ops','настраивает автоматическую сборку']],
+  qa:'Подготовка окружения: проверяет, что будет стенд, доступы, учётные записи и тестовые данные. Отвечает разработчикам на вопросы по проверкам.',
+  stlc:[3],din:['req','spec'],dout:['data'],checks:['unit','integ'],task:['prog','review'],
+  ex:'Завести на test промокоды для проверок: действующий, истёкший, уже использованный.',
+  skip:'В день, когда придёт сборка, окажется, что нет данных и доступов, — время тестирования уйдёт на подготовку.'},
+ {t:'Сборка на test',s:'смоук',ph:3,env:'test',
+  roles:[['ops','выкладывает сборку на test-стенд'],['be','выкладывает сборку, если так принято в команде']],
+  qa:'Смоук: за 10–15 минут проверяет главные пути — сайт открывается, вход работает, книга кладётся в корзину, заказ доходит до оплаты. Отвечает на вопрос «есть ли смысл тестировать дальше?»',
+  stlc:[4],din:['check'],dout:[],res:'вердикт: принять сборку или вернуть',checks:['smoke'],task:['rqa'],
+  ex:'Вход не работает → сразу пишем разработчикам и возвращаем сборку. Всё живо → начинаем полную проверку.',
+  skip:'Можно потратить день на подробную проверку сборки, в которую нельзя даже войти.'},
+ {t:'Проверка нового',s:'фича вглубь',ph:3,env:'test',
+  roles:[['po','отвечает «как должно быть», если нигде не написано'],['fe','отвечает на вопросы, берёт баги по интерфейсу'],['be','берёт баги по API и данным']],
+  qa:'Подробно проверяет то, ради чего появилась сборка: сверяется с требованиями, проходит обычные сценарии, ошибки пользователя и крайние случаи. Находит баги и заводит баг-репорты.',
+  stlc:[4],din:['req','check','tc','data'],dout:['bug'],checks:['new','pos','neg'],task:['testing'],
+  ex:'Промокод с пробелом в конце не применяется → баг-репорт, статус New.',
+  skip:'Фича уйдёт к пользователям непроверенной: всё, что найдено не здесь, найдут они.'},
+ {t:'Исправление',s:'ретест, санити',ph:3,env:'test',
+  roles:[['fe','исправляет баги интерфейса'],['be','исправляет баги сервера'],['ops','выкладывает новую сборку с исправлениями']],
+  qa:'Ретест: повторяет шаги из баг-репорта на новой сборке. Санити: коротко проверяет область, которую могла задеть правка. Закрывает или переоткрывает баг.',
+  stlc:[4],din:['bug'],dout:['bug'],checks:['retest','sanity'],task:['testing'],
+  ex:'Тот же промокод с тем же пробелом — скидка применилась. Баг: Fixed → Retest → Closed. Заодно корзина: итог, доставка, смена количества.',
+  skip:'«Исправил» — это только мнение разработчика. Без ретеста баг может вернуться к пользователям.'},
+ {t:'Stage',s:'регресс, отчёт',ph:3,env:'stage',
+  roles:[['ops','переносит сборку на stage — копию прода'],['po','приёмка: «это то, что мы хотели?»; решает, выпускать ли']],
+  qa:'Анализ влияния и регресс: проверяет, что изменения не сломали то, что уже работало. На stage подключены настоящие внешние сервисы — проверяет связку с ними. Пишет итоговый отчёт: что проверено, что нет, какие риски.',
+  stlc:[4,5],din:['check','tc','matrix'],dout:['report','bug'],checks:['impact','regress','integ','accept'],task:['testing'],
+  ex:'Промокод меняет сумму заказа → регресс: оплата картой, оплата бонусами, история заказов, возврат.',
+  skip:'Регресс без анализа влияния не влезет в сроки, а без регресса старое сломается незаметно — например, оплата бонусами.'},
+ {t:'Релиз',s:'выкатка на прод',ph:4,env:'prod',
+  roles:[['po','принимает решение «выпускаем»'],['ops','выкатывает новую версию на прод']],
+  qa:'Смоук на проде: короткий прогон главных сценариев на настоящем сайте под тестовой учётной записью. Осторожно: это живые данные — никаких настоящих заказов.',
+  stlc:[5],din:['report','check'],dout:[],res:'подтверждение: релиз работает',checks:['prodsmoke'],task:['done'],
+  ex:'Открыть настоящий сайт, войти под тестовой учётной записью, найти книгу, применить тестовый промокод.',
+  skip:'Сам выпуск может пройти с ошибкой: другая база, другие настройки. Узнаем об этом от пользователей.'},
+ {t:'Сопровождение',s:'отзывы, баги, идеи',ph:5,env:'prod',
+  roles:[['po','собирает отзывы, решает о доработках'],['fe','исправляет баги от пользователей'],['be','исправляет баги от пользователей']],
+  qa:'Shift-right: мониторинг, логи, обращения пользователей. Воспроизводит баги от пользователей, заводит баг-репорты. Новые идеи — это новые требования, и цикл начинается снова.',
+  stlc:[],din:['bug'],dout:['bug','req'],checks:['shiftright'],task:['todo'],
+  ex:'Пользователь пишет: «промокод из рассылки не работает в приложении». Воспроизвести, завести баг — и он пройдёт тот же путь.',
+  skip:'Проблемы, которые видны только на настоящих данных и нагрузке, останутся незамеченными.'}
+];
+const ENVS=['dev','test','stage','prod'];
+const STORY=[
+ {s:0},{s:1},{s:2},
+ {s:3,ev:['bad','Смоук упал: в новой сборке не открывается корзина. Дальше тестировать бессмысленно — сборку возвращают разработчикам.']},
+ {s:2,ev:['back','Разработчик чинит. Собирается новая сборка, автотесты проходят.']},
+ {s:3,ev:['ok','Новая сборка: смоук прошёл — можно проверять фичу.']},
+ {s:4,ev:['bug','Нашли баг: промокод с пробелом в конце не применяется. Заведён баг-репорт — статус New.']},
+ {s:5,ev:['ok','Fixed → Retest: тот же промокод с тем же пробелом — скидка применилась. Баг закрыт (Closed).']},
+ {s:6,ev:['bad','Регресс: сломалась оплата бонусами. Её не трогали, но она использует ту же сумму заказа.']},
+ {s:5,ev:['back','Исправление → ретест бага с бонусами и санити корзины.']},
+ {s:6,ev:['ok','Повторный регресс прошёл. Отчёт о тестировании отправлен, PO решает: выпускаем.']},
+ {s:7,ev:['ok','Релиз. Смоук на проде под тестовой учётной записью: всё работает.']},
+ {s:8,ev:['info','Пользователь пишет в поддержку. Новая идея или баг — и цикл начинается с требований.']}
+];
+const EVLBL={bad:'стоп',ok:'дальше',bug:'баг',back:'возврат',info:'цикл'};
+
+/* ================= helpers ================= */
+const pc=i=>`var(${PHASES[i].c})`;
+const av=(k,cls='')=>`<span class="av ${k==='qa'?'qa':''} ${cls}" title="${ROLES[k].n}">${ROLES[k].s}</span>`;
+const ICON_TAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>';
+const ICON={play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',pause:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>',prev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg>',next:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>',reset:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5"/></svg>'};
+const cbtn=(kind,k,label,cls='')=>`<button type="button" class="dchip ${cls}" data-card="${kind}:${k}">${label}<span class="ii" aria-hidden="true">i</span></button>`;
+const dchip=(k,strong)=>cbtn('doc',k,DOCS[k].n,strong?'strong':'');
+const stChip=i=>`<button type="button" class="dchip" data-gost="${i}" style="border-color:${pc(STATIONS[i].ph)}">${String(i+1).padStart(2,'0')} · ${STATIONS[i].t}</button>`;
+const roleChip=x=>`<button type="button" class="rp" data-card="role:${x}">${av(x)}${ROLES[x].n}</button>`;
+const sec=(h,b)=>`<div class="dm-sec"><h5>${h}</h5>${b}</div>`;
+const grid=a=>`<div class="dm-grid">${a.filter(Boolean).map(([h,b])=>`<div><h5>${h}</h5>${b}</div>`).join('')}</div>`;
+const exb=t=>t?`<div class="dm-ex"><b>На примере промокода.</b> ${t}</div>`:'';
+const ul=a=>`<ul>${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+const chipsOr=(a,f)=>a.length?`<div class="chips">${a.map(f).join('')}</div>`:'<p class="muted">—</p>';
+const CARD={
+ doc:k=>{const d=DOCS[k];return{lvl:'документ · '+d.lvl,t:d.n,b:`<p>${d.what}</p>${sec('Из чего состоит',ul(d.parts)+(d.note?`<p class="dm-note">${d.note}</p>`:''))}
+   ${grid([['Когда',d.when],['Кто пишет',d.who+`<div class="chips" style="margin-top:6px">${d.w.map(roleChip).join('')}</div>`],['Кто пользуется',`<div class="chips">${d.u.map(roleChip).join('')}</div>`],d.where&&['Где хранят',d.where]])}
+   ${sec('Зачем тестировщику',`<p>${d.why}</p>`)}${exb(d.ex)}${sec('Где встречается на пути фичи',chipsOr(d.st,stChip))}`};},
+ role:k=>{const R=ROLES[k];const sts=STATIONS.map((s,i)=>i).filter(i=>k==='qa'||STATIONS[i].roles.some(x=>x[0]===k));
+   const wr=Object.keys(DOCS).filter(d=>DOCS[d].w.includes(k)),rd=Object.keys(DOCS).filter(d=>DOCS[d].u.includes(k)&&!DOCS[d].w.includes(k));
+   return{lvl:'роль · '+R.s,t:R.n,b:`<p>${R.what}</p>${k!=='qa'?grid([['Тестировщик от него получает',R.get],['Тестировщик ему отдаёт',R.give]]):''}
+   ${sec('Что делает на пути фичи',`<div class="dm-steps">${sts.map(i=>`<div>${stChip(i)}<span>${k==='qa'?STATIONS[i].qa.split(/[:.]/)[0]:STATIONS[i].roles.find(x=>x[0]===k)[1]}</span></div>`).join('')}</div>`)}
+   ${sec('Пишет',chipsOr(wr,x=>dchip(x,true)))}${sec('Пользуется',chipsOr(rd,x=>dchip(x)))}`};},
+ sdlc:k=>{k=+k;const p=SDLC[k],st=STLC.map((s,i)=>i).filter(i=>STLC[i].sd===PHASES[k].n),sts=STATIONS.map((s,i)=>i).filter(i=>STATIONS[i].ph===k);
+   return{lvl:`SDLC · этап ${k+1} из 6`,t:p[0],b:`<p>${p[1]}</p>${sec('В это время в STLC',st.length?chipsOr(st,i=>cbtn('stlc',i,`${i+1}. ${STLC[i].t}`)):`<p>${k===4?'Смоук на проде.':'Shift-right: мониторинг, логи, баги от пользователей.'}</p>`)}${sec('Станции на пути фичи',chipsOr(sts,stChip))}`};},
+ stlc:k=>{k=+k;const s=STLC[k],sts=STATIONS.map((x,i)=>i).filter(i=>STATIONS[i].stlc.includes(k)),ph=PHASES.findIndex(p=>p.n===s.sd);
+   return{lvl:`STLC · этап ${k+1} из 6`,t:s.t,b:`${grid([['Что делает тестировщик',s.do],['Что получается на выходе',s.out],['Критерий входа',s.in],['Критерий выхода',s.exit]])}
+   ${sec('Этап SDLC',cbtn('sdlc',ph,PHASES[ph].n))}${sec('Станции на пути фичи',chipsOr(sts,stChip))}`};},
+ check:k=>{const c=CHECKS[k],sts=STATIONS.map((x,i)=>i).filter(i=>STATIONS[i].checks.includes(k));
+   const stp=STOPS.map((x,i)=>i).filter(i=>STOPS[i].types.includes(k)),gr=GROUP[k]||'',par=PARENT[k],kids=Object.keys(PARENT).filter(x=>PARENT[x]===k);
+   const kind=c.approach?'приём / подход':(c.step?'шаг цепочки':(par?'подвид':'вид тестирования'));
+   return{lvl:kind+(gr?' · '+gr.toLowerCase():''),t:c.n,b:`${c.aka?`<p class="muted" style="margin-top:-6px">Другое название: ${c.aka}</p>`:''}${par||kids.length?`<div class="dm-tree">${par?`<span>Входит в: ${cbtn('check',par,CHECKS[par].n)}</span>`:''}${kids.length?`<span>Подвиды: ${kids.map(x=>cbtn('check',x,CHECKS[x].n)).join(' ')}</span>`:''}</div>`:''}${c.status?`<div class="dm-status">${c.status}</div>`:''}<p>${c.what}</p>${c.q?`<div class="dm-q">Вопрос: <b>${c.q}</b></div>`:''}${c.list?sec('По шагам',ul(c.list)):''}${c.groups?c.groups.map(([h,items])=>sec(h,`<ul class="dm-dl">${items.map(([a,b])=>`<li><b>${a}</b> — ${b}</li>`).join('')}</ul>`)).join(''):''}
+   ${grid([c.when&&['Когда',c.when],c.who&&['Кто',c.who],c.wide&&['Широта',c.wide],c.deep&&['Глубина',c.deep]])}${c.note?`<p class="dm-note">${c.note}</p>`:''}${exb(c.ex)}
+   ${sec('Где выполняют',stp.length?`<div class="chips">${stp.map(i=>`<button type="button" class="dchip" data-gostop="${i}">${STOPS[i].t}</button>`).join('')}</div>`:`<p class="muted">${kids.length?'Выполняют через подвиды — открой их, чтобы увидеть стенды.':k==='load'?'Стенд для нагрузки выбирают в команде: на тестовом стенде результаты не показательны, а на проде можно уронить живой сервис.':SUBNF.includes(k)?'Где выполнять, решают в команде.':'Это не отдельный этап, а взгляд на проверку: одна и та же проверка попадает сразу в несколько осей.'}</p>`)}
+   ${sts.length?sec('Станции на пути фичи',chipsOr(sts,stChip)):''}`};},
+ env:k=>{const e=ENVD[k],sts=STATIONS.map((x,i)=>i).filter(i=>STATIONS[i].env===k),ch=[...new Set(sts.flatMap(i=>STATIONS[i].checks))];
+   return{lvl:'окружение',t:e.t,b:`<p>${e.what}</p>${grid([['Кто пользуется',e.who],['Данные',e.data],['Стабильность',e.stab],['Кто выкладывает новую версию',e.dep],['Можно ломать?',e.brk]])}
+   ${sec('Какие проверки здесь идут',chipsOr(ch,c=>cbtn('check',c,CHECKS[c].n,'okc')))}${sec('Станции на пути фичи',chipsOr(sts,stChip))}<p class="dm-note">Названия окружений бывают разными — спрашивай, для чего нужен стенд и что на нём можно делать.</p>`};},
+ task:k=>{const t=TASKS[k],sts=STATIONS.map((x,i)=>i).filter(i=>STATIONS[i].task.includes(k));
+   return{lvl:'статус задачи · типовой пример',t:t.n,b:`<p>${t.what}</p>${grid([['Кто переводит задачу',t.who],['Что делает тестировщик',t.qa]])}${sec('Станции на пути фичи',chipsOr(sts,stChip))}<p class="dm-note">Названия статусов в командах разные — уточни правила своей команды.</p>`};},
+ bug:k=>{const n=BUGN[k],i=BUGI[k],tr=BUGT[k];
+   return{lvl:'статус бага',t:`${n.t} · ${n.r}`,b:`<p>${i.what}</p>${grid([['Кто',i.who]])}${sec('Куда дальше',tr.length?`<div class="dm-steps">${tr.map(([to,l,w])=>`<div>${cbtn('bug',to,BUGN[to].t)}<span>${l}. ${w}</span></div>`).join('')}</div>`:'<p>Это конечный статус.</p>')}<p class="dm-note">В каждом баг-трекере свой набор статусов. Важно понимать путь: нашли → чинят → починили → проверили → закрыли.</p>`};}
+};
+let docReturn=null;
+function openCard(kind,k){
+  const f=CARD[kind];if(!f)return;const c=f(k);if(!c)return;
+  const m=$('docm');if(m.hidden)docReturn=document.activeElement;
+  $('docm-b').innerHTML=`<div class="dm-top"><span class="lvl">${c.lvl}</span><h2 id="docm-t">${c.t}</h2></div>${c.b}`;
+  $('docm').querySelector('.docm-in').scrollTop=0;
+  m.hidden=false;document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>{m.classList.add('on');$('docm-x').focus();});
+}
+function closeDoc(){const m=$('docm');m.classList.remove('on');m.hidden=true;document.body.style.overflow='';if(docReturn&&docReturn.focus)docReturn.focus();}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-gost]');if(g){const i=+g.dataset.gost;closeDoc();stopPlay();curEv=null;cur=i;if(!story)storyPos=i;if(curTab!=='path')go('path');else{setStation(i,true);setEvent(null);}setTimeout(()=>{const mb=$('mapbox');if(mb)mb.scrollIntoView({behavior:'smooth',block:'center'});},60);return;}
+  const gs=e.target.closest('[data-gostop]');if(gs){closeDoc();stopSel=+gs.dataset.gostop;if(curTab!=='types')go('types');else drawStops();return;}
+  const b=e.target.closest('[data-card]');if(b){const v=b.dataset.card,x=v.indexOf(':');openCard(v.slice(0,x),v.slice(x+1));return;}
+  if(e.target.id==='docm'||e.target.closest('#docm-x'))closeDoc();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!$('docm').hidden)closeDoc();
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-card]:not(button)')){e.preventDefault();const v=e.target.dataset.card,x=v.indexOf(':');openCard(v.slice(0,x),v.slice(x+1));}
+  if(e.key==='Tab'&&!$('docm').hidden){const f=[...$('docm').querySelectorAll('button,a')];if(!f.length)return;const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* ================= tabs ================= */
+const TABS=[['path','Путь фичи'],['cycles','Жизненные циклы'],['docs','Документы и роли'],['types','Виды тестирования'],['change','Тестирование изменений'],['quiz','Проверь себя']];
+let curTab='path';
+try{const t=localStorage.getItem(KEY+'-tab');if(t&&TABS.some(x=>x[0]===t))curTab=t;}catch(e){}
+{const h=location.hash.slice(1);if(TABS.some(x=>x[0]===h))curTab=h;}
+function drawTabs(){
+  $('tabs').innerHTML=TABS.map(([id,n],i)=>`<button role="tab" type="button" data-tab="${id}" aria-selected="${id===curTab}"><span class="n">${i+1}</span>${n}</button>`).join('');
+}
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;go(b.dataset.tab);});
+function go(id){stopPlay();curTab=id;try{localStorage.setItem(KEY+'-tab',id)}catch(e){};try{history.replaceState(null,'','#'+id)}catch(e){};drawTabs();render();window.scrollTo({top:0,behavior:'smooth'});}
+function render(){const m=$('main');({path:renderPath,cycles:renderCycles,docs:renderDocs,types:renderTypes,change:renderChange,quiz:renderQuiz})[curTab](m);}
+
+/* ================= 1. path ================= */
+let cur=0,visited=new Set([0]),story=false,storyPos=0,playing=null,curEv=null;
+const layers={roles:true,stlc:true,docs:true,env:true,checks:true,task:true};
+const LAYER_N={roles:'Роли',stlc:'STLC',docs:'Документы',env:'Окружение',checks:'Проверки',task:'Статус задачи'};
+
+function renderPath(m){
+  m.innerHTML=`
+  <div class="hero">
+    <div><div class="eyebrow">Слой за слоем · 9 станций</div>
+      <h1>Путь фичи от идеи до прода</h1>
+      <p class="lead">Сверху — что делает вся команда, снизу — что в этот момент делает тестировщик. Тестирование начинается не после разработки, а с первой станции.</p></div>
+    <div class="feature"><div class="tag" style="color:var(--p0)">${ICON_TAG.replace('<svg','<svg width="40" height="40"')}</div>
+      <div><b>Фича: промокод в корзине</b><span>Книжный магазин. Покупатель вводит промокод в корзине — сумма заказа уменьшается на скидку. Учебный пример.</span></div></div>
+  </div>
+  <div class="panel">
+    <div class="howto">
+      <div><span class="k">1</span><span><b>Запусти</b> — фича поедет по станциям сама. Или кликай по станциям.</span></div>
+      <div><span class="k">2</span><span><b>Включи «Сюжет»</b> — будут повороты: упавший смоук, баг, сломанный регресс.</span></div>
+      <div><span class="k">3</span><span><b>Слои</b> — оставь только то, что сейчас изучаешь.</span></div>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-l">
+        <button class="btn primary" id="play" type="button">${ICON.play}Запустить</button>
+        <button class="btn" id="prev" type="button" aria-label="Назад">${ICON.prev}</button>
+        <button class="btn" id="next" type="button" aria-label="Вперёд">${ICON.next}</button>
+        <button class="btn" id="rst" type="button" aria-label="Сначала">${ICON.reset}</button>
+      </div>
+      <label class="switch"><input type="checkbox" id="story" ${story?'checked':''}> Сюжет с поворотами</label>
+    </div>
+    <div class="layers" id="layers"><small>Слои</small>${Object.keys(layers).map(k=>`<button class="chipbtn" type="button" data-l="${k}" aria-pressed="${layers[k]}">${LAYER_N[k]}</button>`).join('')}</div>
+    <div class="mapbox" id="mapbox">
+      <div class="phases">${PHASES.map((p,i)=>`<div class="phase" style="--pc:var(${p.c});grid-column:span ${p.span}">${p.n}</div>`).join('')}</div>
+      <div class="track" id="track">${STATIONS.map((s,i)=>`<button class="st" type="button" data-st="${i}" style="--pc:${pc(s.ph)}"><span class="dot"></span><span class="txt"><span class="ph">${PHASES[s.ph].n}</span><span class="nm">${s.t}</span><span class="sm">${s.s}</span></span><span class="num">${String(i+1).padStart(2,'0')}</span></button>`).join('')}
+        <div class="train" id="train"><div class="body">${ICON_TAG}</div></div>
+        <div class="ret" id="ret"></div>
+      </div>
+      <div class="envbar">${STATIONS.map(s=>`<div class="envseg ${s.env?'':'empty'}">${s.env||''}</div>`).join('')}</div>
+    </div>
+    <div class="event" id="event" role="status"><b>старт</b><span>Нажми «Запустить» или выбери станцию.</span></div>
+  </div>
+  <div class="detail" id="detail"></div>`;
+  $('track').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;stopPlay();curEv=null;setStation(+b.dataset.st,true);});
+  $('layers').addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(!b)return;layers[b.dataset.l]=!layers[b.dataset.l];b.setAttribute('aria-pressed',layers[b.dataset.l]);drawDetail();});
+  $('play').onclick=()=>playing?stopPlay():startPlay();
+  $('next').onclick=()=>{stopPlay();step(1)};
+  $('prev').onclick=()=>{stopPlay();step(-1)};
+  $('rst').onclick=()=>{stopPlay();storyPos=0;visited=new Set([0]);curEv=null;$('ret').classList.remove('on');setStation(0,false);setEvent(null);};
+  $('story').onchange=e=>{story=e.target.checked;stopPlay();storyPos=0;visited=new Set([0]);curEv=null;setStation(0,false);setEvent(story?['info','Сюжет включён: в пути будут повороты. Нажми «Запустить».']:null);};
+  requestAnimationFrame(()=>{setStation(cur,false,true);});
+}
+function seqLen(){return story?STORY.length:STATIONS.length}
+function step(d){
+  const n=Math.max(0,Math.min(seqLen()-1,storyPos+d));
+  if(n===storyPos&&d>0){finishPath();return false;}
+  const prev=story?STORY[storyPos].s:storyPos;
+  storyPos=n;
+  if(story){const it=STORY[n];curEv=it.ev||null;setStation(it.s,true,false,prev);setEvent(it.ev||null);}
+  else{curEv=null;setStation(n,true,false,prev);setEvent(null);}
+  if(storyPos===seqLen()-1)finishPath();
+  return true;
+}
+function finishPath(){markDone('path-'+(story?'story':'plain'),story?'Сюжет пройден целиком':'Путь пройден целиком');}
+function startPlay(){
+  if(storyPos>=seqLen()-1){storyPos=0;visited=new Set([0]);setStation(story?STORY[0].s:0,false);setEvent(story?STORY[0].ev||null:null);}
+  $('play').innerHTML=ICON.pause+'Пауза';
+  playing=setInterval(()=>{if(!step(1)||storyPos>=seqLen()-1)stopPlay();},story?3200:2300);
+}
+function stopPlay(){stopTypes();if(playing){clearInterval(playing);playing=null;}const p=$('play');if(p)p.innerHTML=ICON.play+'Запустить';}
+function setStation(i,manual,instant,from){
+  cur=i;visited.add(i);
+  if(manual&&!story){storyPos=i;}
+  document.querySelectorAll('.st').forEach((b,k)=>{b.setAttribute('aria-current',k===i);b.classList.toggle('visited',visited.has(k)&&k!==i);});
+  moveTrain(instant);
+  const ret=$('ret');
+  if(from!=null&&from>i)drawReturn(from,i);else ret.classList.remove('on');
+  drawDetail();
+  live(`Станция ${i+1}: ${STATIONS[i].t}`);
+}
+function dotPos(i){
+  const tr=$('track');const d=tr.querySelectorAll('.st .dot')[i];if(!d)return{x:0,y:0};
+  const r=tr.getBoundingClientRect(),q=d.getBoundingClientRect();
+  return{x:q.left-r.left+q.width/2,y:q.top-r.top+q.height/2};
+}
+function moveTrain(instant){
+  const t=$('train');if(!t)return;const p=dotPos(cur);
+  if(instant)t.style.transition='none';
+  t.style.transform=`translate(${p.x-20}px,${p.y-20}px)`;
+  t.className='train'+(curEv?' '+({bad:'bad',ok:'ok',bug:'bug',back:'bad',info:''}[curEv[0]]):'');
+  if(instant){t.offsetHeight;t.style.transition='';}
+}
+function drawReturn(a,b){
+  const r=$('ret'),pa=dotPos(a),pb=dotPos(b);
+  const horiz=Math.abs(pa.y-pb.y)<5;
+  r.className='ret '+(horiz?'h':'v');
+  if(horiz){r.style.left=pb.x+'px';r.style.width=(pa.x-pb.x)+'px';r.style.top=(pa.y-34)+'px';r.style.height='22px';}
+  else{r.style.left=(pa.x-38)+'px';r.style.width='22px';r.style.top=pb.y+'px';r.style.height=(pa.y-pb.y)+'px';}
+  requestAnimationFrame(()=>r.classList.add('on'));
+  setTimeout(()=>r.classList.remove('on'),2600);
+}
+function setEvent(ev){
+  const e=$('event');if(!e)return;
+  if(!ev){e.className='event';e.innerHTML=`<b>станция ${cur+1}</b><span>${STATIONS[cur].t}: ${STATIONS[cur].s}.</span>`;return;}
+  e.className='event '+ev[0];e.innerHTML=`<b>${EVLBL[ev[0]]}</b><span>${ev[1]}</span>`;
+  void e.offsetWidth;e.classList.add('pop');
+}
+function drawDetail(){
+  const s=STATIONS[cur],d=$('detail');if(!d)return;
+  const roleList=s.roles.map(([k,a])=>`<button type="button" class="who-b" data-card="role:${k}">${av(k)}<span><b>${ROLES[k].n}</b> — ${a}</span><span class="ii" aria-hidden="true">i</span></button>`).join('');
+  let L='';
+  if(layers.stlc)L+=`<div class="lrow"><h4>Этап STLC</h4><div class="chips">${s.stlc.length?s.stlc.map(i=>cbtn('stlc',i,`${i+1}. ${STLC[i].t}`,'strong')).join(''):'<span class="chip">STLC фичи завершён — дальше shift-right</span>'}</div></div>`;
+  if(layers.docs)L+=`<div class="lrow docrow"><h4>Документы на этой станции</h4>
+    <div class="io"><div class="io-b"><div class="io-h"><b>Нужно на входе</b><span>на что опирается работа</span></div><div class="chips">${s.din.length?s.din.map(k=>dchip(k)).join(''):'<span class="chip">—</span>'}</div></div>
+    <div class="io-ar" aria-hidden="true">→</div>
+    <div class="io-b out"><div class="io-h"><b>Получается на выходе</b><span>результат станции</span></div><div class="chips">${s.dout.length?s.dout.map(k=>dchip(k,true)).join(''):`<span class="chip">${s.res||'результат в задаче'}</span>`}</div></div></div></div>`;
+  if(layers.env)L+=`<div class="lrow"><h4>Окружение</h4><div class="envs">${ENVS.map(e=>`<button type="button" data-card="env:${e}" class="${s.env===e?'on':''}">${e}</button>`).join('')}</div>${s.env?'':'<p style="font-size:.82rem;color:var(--muted);margin-top:6px">Стенд ещё не нужен — работа с документами.</p>'}</div>`;
+  if(layers.checks)L+=`<div class="lrow"><h4>Виды проверок</h4><div class="chips">${s.checks.map(c=>cbtn('check',c,CHECKS[c].n,'okc')).join('')}</div></div>`;
+  if(layers.task)L+=`<div class="lrow"><h4>Статус задачи в трекере</h4><div class="chips">${s.task.map((t,i)=>(i?'<span class="arrow">→</span>':'')+cbtn('task',t,TASKS[t].n,'strong')).join('')}</div><p style="font-size:.78rem;color:var(--muted);margin-top:6px">Типовые названия — в каждой команде свои.</p></div>`;
+  d.innerHTML=`
+   ${layers.roles?`<div class="dcard"><h3>Команда делает</h3><div class="big">${s.t}</div><div class="who">${roleList}</div></div>`:''}
+   <div class="dcard qa" style="--pc:${pc(s.ph)};${layers.roles?'':'grid-column:1/-1'}"><h3><button type="button" class="avb" data-card="role:qa">${av('qa')}</button> Тестировщик делает</h3><div class="big" style="color:${pc(s.ph)}">${String(cur+1).padStart(2,'0')} · ${PHASES[s.ph].n}</div><p>${s.qa}</p></div>
+   ${L?`<p class="cardtip">Всё со значком <span class="ii">i</span> открывается — нажми, чтобы прочитать подробнее.</p><div class="lgrid">${L}</div>`:''}
+   <div class="ex"><b>На примере промокода.</b> ${s.ex}</div>
+   <div class="skip"><b>Что будет, если пропустить.</b> ${s.skip}</div>`;
+}
+window.addEventListener('resize',()=>{if(curTab==='path')moveTrain(true);});
+
+/* ================= 2. cycles ================= */
+let sdlcSel=0,stlcSel=0;
+const SDLC=[
+ ['Сбор и анализ требований','Выясняют, что нужно сделать и зачем, и записывают это подробно. Главные — владелец продукта и аналитик.'],
+ ['Проектирование','Решают, как продукт будет устроен внутри и как будет выглядеть. Тимлид и разработчики продумывают устройство, дизайнер рисует макеты.'],
+ ['Разработка','Пишут код. Работают frontend- и backend-разработчики.'],
+ ['Тестирование','Проверяют, что продукт работает так, как задумано. Главный — тестировщик, исправляют найденное разработчики.'],
+ ['Релиз','Выпускают новую версию к пользователям. Выкатывает DevOps, решение «выпускаем» принимает владелец продукта.'],
+ ['Сопровождение','Продукт работает: приходят отзывы и баги от пользователей, их исправляют, появляются идеи доработок — и снова требования.']];
+const TASKFLOW=[['todo','PO / аналитик: задача описана'],['prog','разработчик пишет код'],['review','другой разработчик смотрит код'],['rqa','сборка на test'],['testing','тестировщик проверяет'],['done','проверено и выпущено']];
+const BUGN={
+ new:{t:'New',r:'Новый',x:90,y:60},work:{t:'В работе',r:'Assigned / In progress',x:280,y:60},fixed:{t:'Fixed',r:'Исправлен',x:470,y:60},retest:{t:'Retest',r:'Ретест',x:640,y:60},
+ closed:{t:'Closed',r:'Закрыт',x:640,y:200},reop:{t:'Reopened',r:'Переоткрыт',x:470,y:200},def:{t:'Deferred',r:'Отложен',x:280,y:200},
+ rej:{t:'Rejected',r:'Отклонён',x:90,y:200},dup:{t:'Duplicate',r:'Дубликат',x:90,y:300}};
+const BUGT={
+ new:[['work','Взять в работу','Тимлид назначает, разработчик берёт'],['rej','Отклонить: так задумано','Команда. Есть возражения — приведи источник: требования или макет'],['dup','Это дубликат','Команда — со ссылкой на первый баг'],['def','Отложить','PO: баг настоящий, чинить будем в следующем релизе']],
+ work:[['fixed','Исправил','Разработчик. Это пока только его мнение']],
+ fixed:[['retest','Ретест на новой сборке','Тестировщик повторяет шаги из баг-репорта']],
+ retest:[['closed','Ретест прошёл','Тестировщик закрывает баг — не разработчик'],['reop','Баг повторился','Тестировщик: в комментарии сборка и что увидел']],
+ reop:[['work','Вернуть разработчику','Разработчик снова берёт баг']],
+ def:[['work','Пришла очередь — в работу','Разработчик берёт баг в новом релизе']],
+ closed:[],rej:[],dup:[]};
+const BUGE=[['new','work'],['work','fixed'],['fixed','retest'],['retest','closed'],['retest','reop'],['reop','work'],['new','rej'],['new','dup'],['new','def'],['def','work']];
+const MISSIONS=[
+ {id:'bm1',t:'Классика: доведи баг от New до Closed',ok:h=>h.at(-1)==='closed'&&!h.includes('reop')},
+ {id:'bm2',t:'Ретест не прошёл: доведи баг до Closed через Reopened',ok:h=>h.at(-1)==='closed'&&h.includes('reop')},
+ {id:'bm3',t:'Такой баг уже заведён другим тестировщиком — куда его?',ok:h=>h.at(-1)==='dup'},
+ {id:'bm4',t:'PO решил чинить в следующем релизе, а потом баг всё-таки починили и проверили',ok:h=>h.at(-1)==='closed'&&h.includes('def')}];
+let bugH=['new'];
+let tfI=0,tfTimer=null;
+
+function renderCycles(m){
+  m.innerHTML=`
+  <h2 class="sec">Четыре жизненных цикла</h2>
+  <p class="sec-lead">SDLC — путь продукта. STLC — путь работы тестировщика. У задачи и у бага в трекере свои статусы. Все четыре идут одновременно и цепляются друг за друга.</p>
+  <div class="cols" style="margin-top:16px">
+    <div class="panel"><div class="eyebrow">SDLC · жизненный цикл разработки</div>
+      <div class="ring-wrap" style="margin-top:10px"><div id="ring"></div><div id="sdlcD"></div></div></div>
+    <div class="panel"><div class="eyebrow">STLC · жизненный цикл тестирования</div>
+      <div class="stlc" id="stlcL" style="margin-top:10px"></div>
+      <div id="stlcD"></div>
+      <div class="note">Четыре из шести этапов STLC идут ещё <b>до</b> этапа SDLC «Тестирование». Это и есть ранний старт — shift-left.</div></div>
+  </div>
+  <div class="panel" style="margin-top:16px"><div class="eyebrow">Жизненный цикл задачи в трекере · типовой пример</div>
+    <p class="sec-lead" style="margin-top:6px">Названия статусов в командах разные — важно понимать путь. Смотри, на каком статусе задача ждёт тестировщика. Нажми на статус — откроется карточка.</p>
+    <div class="flow" id="tflow" style="margin-top:12px"></div>
+    <div class="note">Если при проверке нашли баги, в одних командах задача возвращается в In Progress, в других остаётся In Testing, а баги заводятся отдельно. Уточни правила своей команды.</div></div>
+  <div class="panel" style="margin-top:16px"><div class="eyebrow">Жизненный цикл бага · проведи баг сам</div>
+    <p class="sec-lead" style="margin-top:6px">Баг: «Промокод с пробелом в конце не применяется». Выбирай переходы — жетон поедет по схеме. Нажми на любой статус на схеме — откроется карточка. Выполни миссии справа.</p>
+    <div id="bugsvg" style="margin-top:12px"></div>
+    <div class="bug-ctrl"><div><b id="bugCur"></b><div class="trans" id="bugT" style="margin-top:8px"></div><div class="hist" id="bugHist"></div></div>
+      <div><div class="eyebrow" style="margin-bottom:8px">Миссии</div><div class="missions" id="miss"></div></div></div>
+  </div>`;
+  drawRing();drawSdlc();drawStlc();drawTaskFlow();drawBugSvg();drawBug();
+}
+function drawRing(){
+  const R=95,c=130;let h=`<svg class="ring" viewBox="-10 -10 280 280" role="img" aria-label="Цикл SDLC из шести этапов">
+   <circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="var(--line)" stroke-width="10"/>
+   <g class="orbit"><circle cx="${c}" cy="${c-R}" r="7" fill="var(--ink)"/></g>
+   <text x="${c}" y="${c-4}" text-anchor="middle" font-family="Unbounded,sans-serif" font-weight="700" font-size="22" fill="var(--ink)">SDLC</text>
+   <text x="${c}" y="${c+18}" text-anchor="middle" font-size="11" fill="var(--muted)">и снова по кругу</text>`;
+  SDLC.forEach((p,i)=>{const a=-Math.PI/2+i*Math.PI/3,x=c+R*Math.cos(a),y=c+R*Math.sin(a);
+    h+=`<g class="node" data-i="${i}" tabindex="0" role="button" aria-label="${p[0]}"><circle class="c" cx="${x}" cy="${y}" r="${i===sdlcSel?25:21}" fill="${i===sdlcSel?pc(i):'var(--paper)'}" stroke="${pc(i)}" stroke-width="5"/><text x="${x}" y="${y+5}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="600" font-size="14" fill="${i===sdlcSel?'var(--paper)':'var(--ink)'}">${i+1}</text></g>`;});
+  $('ring').innerHTML=h+'</svg>';
+  $('ring').querySelectorAll('.node').forEach(n=>{const f=()=>{sdlcSel=+n.dataset.i;drawRing();drawSdlc();};n.onclick=f;n.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};});
+}
+function drawSdlc(){
+  const p=SDLC[sdlcSel],st=STLC.map((s,i)=>[s,i]).filter(([s])=>s.sd===PHASES[sdlcSel].n);
+  $('sdlcD').innerHTML=`<div class="dcard" style="border-color:${pc(sdlcSel)}"><h3>Этап ${sdlcSel+1} из 6</h3><div class="big" style="color:${pc(sdlcSel)}">${p[0]}</div><p>${p[1]}</p>
+   <button type="button" class="btn" style="margin-top:10px" data-card="sdlc:${sdlcSel}">Открыть карточку этапа</button><p style="margin-top:10px;font-size:.86rem"><b>В это время в STLC:</b> ${st.length?st.map(([s,i])=>`${i+1}. ${s.t}`).join(', '):(sdlcSel===4?'смоук на проде':'shift-right: мониторинг, логи, баги от пользователей')}</p></div>`;
+}
+function drawStlc(){
+  $('stlcL').innerHTML=STLC.map((s,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===stlcSel}"><span class="i">${i+1}</span><span class="t">${s.t}</span><span class="s">${s.sd}</span></button>`).join('');
+  $('stlcL').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;stlcSel=+b.dataset.i;drawStlc();};
+  const s=STLC[stlcSel];
+  $('stlcD').innerHTML=`<div class="stlc-d"><div><h5>Что делает</h5>${s.do}</div><div><h5>На выходе</h5>${s.out}</div><div><h5>Критерий входа</h5>${s.in}</div><div><h5>Критерий выхода</h5>${s.exit}</div></div><button type="button" class="btn" style="margin-top:8px" data-card="stlc:${stlcSel}">Открыть карточку этапа</button>`;
+}
+function drawTaskFlow(){
+  const f=$('tflow');if(!f)return;
+  f.innerHTML=TASKFLOW.map((t,i)=>(i?'<span class="ar">→</span>':'')+`<button type="button" class="fs ${i===tfI?'on':''}" data-card="task:${t[0]}">${TASKS[t[0]].n}<small>${t[1]}</small></button>`).join('');
+  clearTimeout(tfTimer);tfTimer=setTimeout(()=>{if(curTab!=='cycles')return;tfI=(tfI+1)%TASKFLOW.length;drawTaskFlow();},1600);
+}
+function edgePt(a,b,w,h){const dx=b.x-a.x,dy=b.y-a.y;const t=Math.min(dx?Math.abs((w/2)/dx):1e9,dy?Math.abs((h/2)/dy):1e9);return{x:a.x+dx*t,y:a.y+dy*t};}
+function drawBugSvg(){
+  const W=150,H=50;let h=`<svg class="bugsm" viewBox="-40 0 770 345" role="img" aria-label="Схема статусов бага"><defs><marker id="bar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>`;
+  BUGE.forEach(([a,b])=>{const A=BUGN[a],B=BUGN[b];
+    if(a==='new'&&b==='dup'){h+=`<path class="edge" data-e="${a}-${b}" d="M${A.x-W/2+10},${A.y+H/2} C${A.x-W/2-30},${A.y+120} ${B.x-W/2-30},${B.y-40} ${B.x-W/2},${B.y-6}" marker-end="url(#bar)"/>`;return;}
+    if(a==='reop'&&b==='work'){const p=edgePt({x:A.x-30,y:A.y},{x:B.x+30,y:B.y},W,H),q=edgePt({x:B.x+30,y:B.y},{x:A.x-30,y:A.y},W,H);h+=`<line class="edge" data-e="${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" marker-end="url(#bar)"/>`;return;}
+    const p=edgePt(A,B,W,H),q=edgePt(B,A,W+8,H+8);h+=`<line class="edge" data-e="${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" marker-end="url(#bar)"/>`;});
+  Object.entries(BUGN).forEach(([k,n])=>{h+=`<g class="bn" data-n="${k}" data-card="bug:${k}" role="button" tabindex="0" aria-label="Статус ${n.t}"><rect x="${n.x-W/2}" y="${n.y-H/2}" width="${W}" height="${H}" rx="12" fill="var(--paper)" stroke="var(--line)" stroke-width="1.5"/><text x="${n.x}" y="${n.y-2}" text-anchor="middle" fill="var(--ink)">${n.t}</text><text class="sub" x="${n.x}" y="${n.y+14}" text-anchor="middle" fill="var(--muted)">${n.r}</text></g>`;});
+  h+=`<g class="bug-token" id="btok"><circle r="13" fill="var(--warn)"/><circle r="17" fill="none" stroke="var(--warn)" stroke-width="2" opacity=".4"/><text y="4.5" text-anchor="middle" font-size="12" font-weight="700" fill="var(--paper)" font-family="JetBrains Mono,monospace">B</text></g></svg>`;
+  $('bugsvg').innerHTML=h;
+}
+function drawBug(){
+  const s=bugH.at(-1),n=BUGN[s];
+  const tok=$('btok');tok.style.transform=`translate(${n.x+75-6}px,${n.y-25+6}px)`;
+  document.querySelectorAll('#bugsvg .bn').forEach(g=>{const r=g.querySelector('rect'),k=g.dataset.n,on=k===s,was=bugH.includes(k);
+    r.setAttribute('fill',on?'var(--ink)':(was?'var(--soft)':'var(--paper)'));r.setAttribute('stroke',on?'var(--ink)':'var(--line)');
+    g.querySelectorAll('text').forEach((t,i)=>t.setAttribute('fill',on?'var(--paper)':(i?'var(--muted)':'var(--ink)')));});
+  document.querySelectorAll('#bugsvg .edge').forEach(e=>{e.classList.toggle('avail',e.dataset.e.startsWith(s+'-'));});
+  const tr=BUGT[s];
+  $('bugCur').innerHTML=`Сейчас: <span class="chip strong mono">${n.t}</span> <span style="color:var(--muted);font-size:.88rem">${n.r}</span>`;
+  $('bugT').innerHTML=tr.length?tr.map(([to,l,w])=>`<button type="button" data-to="${to}"><b>→ ${BUGN[to].t}: ${l}</b><span>${w}</span></button>`).join(''):
+    `<div class="fb ${s==='closed'?'ok':'bad'}" style="${s==='closed'?'':'background:var(--soft);color:var(--ink)'}">${s==='closed'?'Баг закрыт. Не забудь и про регресс: исправление могло задеть соседние функции.':s==='dup'?'Баг закрыт как дубликат. Всё полезное из своего репорта допиши в первый.':'Команда считает, что так задумано. Если источника нет — это вопрос к аналитику, а не спор с разработчиком.'}</div><button class="btn" type="button" id="bugNew" style="margin-top:8px">${ICON.reset}Новый баг</button>`;
+  $('bugT').onclick=e=>{const b=e.target.closest('[data-to]');if(b){bugH.push(b.dataset.to);drawBug();checkMissions();}if(e.target.closest('#bugNew')){bugH=['new'];drawBug();}};
+  $('bugHist').textContent='История: '+bugH.map(k=>BUGN[k].t).join(' → ');
+  $('miss').innerHTML=MISSIONS.map(m=>`<div class="mission ${done.has(m.id)?'done':''}"><i>${done.has(m.id)?'✓':''}</i><span>${m.t}</span></div>`).join('');
+}
+function checkMissions(){MISSIONS.forEach(m=>{if(!done.has(m.id)&&m.ok(bugH)){markDone(m.id,'Миссия выполнена');}});drawBug();}
+
+/* ================= 3. docs & roles ================= */
+let roleSel=null;
+function renderDocs(m){
+  m.innerHTML=`<h2 class="sec">Документы и роли: кто что делает</h2>
+  <p class="sec-lead">Выбери роль — подсветятся документы, которые она пишет (сплошная рамка) и которыми пользуется (пунктир), и станции, где она участвует. Нажми на документ, чтобы открыть его карточку.</p>
+  <div class="roles" id="roles">${Object.keys(ROLES).map(k=>`<button type="button" data-r="${k}" aria-pressed="${roleSel===k}">${av(k)}${ROLES[k].n}</button>`).join('')}</div>
+  <div id="rinfo"></div>
+  <div class="legend"><span><i></i>пишет</span><span><i class="d"></i>пользуется</span></div>
+  <div class="docs" id="docs"></div>`;
+  $('roles').onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;roleSel=roleSel===b.dataset.r?null:b.dataset.r;renderDocs(m);if(roleSel){const seen=new Set(JSON.parse(sessionGet('roles')||'[]'));seen.add(roleSel);sessionSet('roles',JSON.stringify([...seen]));if(seen.size>=Object.keys(ROLES).length)markDone('roles-all','Все роли просмотрены');}};
+  drawDocs();
+}
+function sessionGet(k){try{return localStorage.getItem(KEY+'-'+k)}catch(e){return null}}
+function sessionSet(k,v){try{localStorage.setItem(KEY+'-'+k,v)}catch(e){}}
+function drawDocs(){
+  const r=roleSel;
+  if(r){const R=ROLES[r];const sts=STATIONS.map((s,i)=>[s,i]).filter(([s])=>r==='qa'||s.roles.some(x=>x[0]===r));
+    $('rinfo').innerHTML=`<div class="role-info"><div><h5>Что делает</h5>${R.what}</div>
+     ${r!=='qa'?`<div><h5>Тестировщик от него получает</h5>${R.get}</div><div><h5>Тестировщик ему отдаёт</h5>${R.give}</div>`:''}
+     <div><h5>Где на пути фичи</h5><ul>${sts.map(([s,i])=>`<li><b>${s.t}</b> — ${r==='qa'?s.qa.split(':')[0].split('.')[0]:s.roles.find(x=>x[0]===r)[1]}</li>`).join('')}</ul></div></div>`;}
+  else $('rinfo').innerHTML='';
+  $('docs').innerHTML=Object.values(DOCS).map(d=>{const cls=!r?'':(d.w.includes(r)?'writer':(d.u.includes(r)?'user':'dim'));
+    const key=Object.keys(DOCS).find(k=>DOCS[k]===d);return `<div class="doc ${cls}" role="button" tabindex="0" data-card="doc:${key}"><span class="lvl">${d.lvl}</span><h4>${d.n}</h4><p>${d.why}</p>
+     <div class="meta"><span><em>Пишет</em>${d.w.map(k=>av(k)).join('')}</span><span><em>Читает</em>${d.u.map(k=>av(k)).join('')}</span>
+     <span><em>Станция</em>${d.st.map(i=>`<span class="chip" style="font-size:.74rem;padding:1px 7px;border-color:${pc(STATIONS[i].ph)}">${STATIONS[i].t}</span>`).join('')}</span></div><span class="more">Подробнее →</span></div>`;}).join('');
+}
+
+/* ================= 3b. test types ================= */
+let stopSel=3,typesTimer=null,stopsSeen=new Set();
+function stopTypes(){if(typesTimer){clearInterval(typesTimer);typesTimer=null;}const b=$('tplay');if(b)b.innerHTML=ICON.play+'Пройти все стенды';}
+function treeHtml(nodes){return `<ul class="tree">${nodes.map(([k,kids,cls])=>k[0]==='#'?`<li><span class="tlabel ${cls||''}">${cls==='qa'?av('qa'):''}${k.slice(1)}</span>${treeHtml(kids)}</li>`:`<li><button type="button" class="dchip ${CHECKS[k].approach?'apc':''}" data-card="check:${k}" data-k="${k}">${CHECKS[k].n}<span class="ii" aria-hidden="true">i</span></button>${kids?treeHtml(kids):''}</li>`).join('')}</ul>`;}
+function renderTypes(m){
+  const inMatrix=[...new Set(STOPS.flatMap(x=>x.types))];
+  m.innerHTML=`<h2 class="sec">Виды тестирования и где их используют</h2>
+  <p class="sec-lead">Сборка идёт от документов до прода, и на каждой остановке — свои проверки. Выбери остановку: справа появится, кто и что там проверяет, а в каталоге ниже подсветятся эти виды. Нажми на любой вид — откроется карточка.</p>
+  <div class="panel" style="margin-top:16px">
+    <div class="ctrl"><div class="eyebrow">Где что проверяют</div><button class="btn primary" type="button" id="tplay">${ICON.play}Пройти все стенды</button></div>
+    <div class="pipe" id="pipe">${STOPS.map((x,i)=>`<button type="button" class="stop" data-stop="${i}"><span class="pd"></span><b>${x.t}</b><small>${x.s}</small></button>`).join('')}<span class="pmark" id="pmark"></span></div>
+    <div id="stopD"></div>
+  </div>
+  <div class="panel" style="margin-top:16px"><div class="eyebrow">Каталог видов · признак → вид → подвид</div>
+    <p class="sec-lead" style="margin-top:6px">Виды делят по разным признакам — это разные вопросы к одной и той же проверке. У каждого признака свои виды, у некоторых видов есть подвиды. Ретест на test — это одновременно функциональное, системное, ручное и динамическое тестирование.</p>
+    <div class="axes" id="axes">${TREE.map(g=>`<div class="axis ${g.approach?'appr':''}"><h4>${g.t}<small>${g.q}</small></h4>${treeHtml(g.nodes)}${g.n?`<p class="axn">${g.n}</p>`:''}${g.steps?`<div class="steps2"><h5 class="h5">${g.steps.t}</h5>${treeHtml(g.steps.nodes)}<p class="axn">${g.steps.n}</p></div>`:''}</div>`).join('')}</div>
+  </div>
+  <div class="panel" style="margin-top:16px"><div class="eyebrow">Матрица «вид × стенд»</div>
+    <div class="tblw" style="margin-top:8px"><table class="cmp mtx"><tr><th>Вид</th>${STOPS.map((x,i)=>`<th class="c"><button type="button" class="thl" data-stop2="${i}">${x.t}</button></th>`).join('')}</tr>
+    ${inMatrix.map(k=>`<tr><th>${cbtn('check',k,CHECKS[k].n)}</th>${STOPS.map((x,i)=>`<td class="c ${x.types.includes(k)?'yes':''}" data-col="${i}">${x.types.includes(k)?'●':''}</td>`).join('')}</tr>`).join('')}</table></div>
+    <p class="note">Оси вроде «белый / серый ящик» — это взгляд на проверку, а не отдельный этап, поэтому к стенду не привязаны.</p>
+  </div>`;
+  $('pipe').onclick=e=>{const b=e.target.closest('[data-stop]');if(!b)return;stopTypes();stopSel=+b.dataset.stop;drawStops();};
+  m.querySelector('.mtx').addEventListener('click',e=>{const b=e.target.closest('[data-stop2]');if(!b)return;stopTypes();stopSel=+b.dataset.stop2;drawStops();$('pipe').scrollIntoView({behavior:'smooth',block:'center'});});
+  $('tplay').onclick=()=>{if(typesTimer){stopTypes();return;}stopSel=0;drawStops();$('tplay').innerHTML=ICON.pause+'Пауза';typesTimer=setInterval(()=>{if(stopSel>=STOPS.length-1){stopTypes();return;}stopSel++;drawStops();},2600);};
+  drawStops();
+}
+function stopRows(x){
+  const rows=x.rows.slice().sort((a,b)=>GORDER.indexOf(GROUP[a[0][0]])-GORDER.indexOf(GROUP[b[0][0]]));
+  return rows.map(([ks,why],i)=>{const g=GROUP[ks[0]],first=i===0||GROUP[rows[i-1][0][0]]!==g,span=rows.filter(r=>GROUP[r[0][0]]===g).length;
+    return `<tr class="${first?'gfirst':''}">${first?`<td class="tg" rowspan="${span}">${glabel(g)}</td>`:''}<td><div class="chips">${ks.map(k=>cbtn('check',k,CHECKS[k].n,'okc')).join('')}</div></td><td>${why}</td></tr>`;}).join('');
+}
+function drawStops(){
+  const x=STOPS[stopSel];if(!$('pipe'))return;
+  stopsSeen.add(stopSel);if(stopsSeen.size>=STOPS.length)markDone('types-all','Все стенды просмотрены');
+  document.querySelectorAll('#pipe .stop').forEach((b,i)=>{b.setAttribute('aria-current',i===stopSel);b.classList.toggle('past',i<stopSel);});
+  const pm=$('pmark'),bt=document.querySelectorAll('#pipe .stop')[stopSel];
+  if(pm&&bt){pm.style.transform=`translate(${bt.offsetLeft+bt.offsetWidth/2-9}px,${bt.offsetTop+13}px)`;}
+  $('stopD').innerHTML=`<div class="stopd"><div><div class="big">${x.t}</div><p class="muted" style="margin-top:2px">${x.s}</p>
+    <div class="dm-grid" style="margin-top:10px"><div><h5>Кто проверяет</h5>${x.who}</div><div><h5>Что здесь можно</h5>${x.txt}</div></div>
+    ${x.env?`<button type="button" class="btn" style="margin-top:10px" data-card="env:${x.env}">Карточка окружения ${x.t}</button>`:''}</div>
+    <div><h5 class="h5">Какие виды используют</h5>${x.rows.length?`<div class="tblw"><table class="cmp ttab"><thead><tr><th>Признак</th><th>Вид</th><th>Зачем здесь</th></tr></thead><tbody>${stopRows(x)}</tbody></table></div>`:'<p class="muted">Отдельных проверок тестировщика здесь нет — разработчики только смотрят, что всё запускается.</p>'}</div></div>`;
+  document.querySelectorAll('#axes [data-k]').forEach(b=>b.classList.toggle('hl',x.types.includes(b.dataset.k)));
+  document.querySelectorAll('.mtx [data-col]').forEach(td=>td.classList.toggle('colon',+td.dataset.col===stopSel));
+  document.querySelectorAll('.mtx [data-stop2]').forEach(b=>b.classList.toggle('colon',+b.dataset.stop2===stopSel));
+  live('Остановка: '+x.t);
+}
+window.addEventListener('resize',()=>{if(curTab==='types')drawStops();});
+
+/* ================= 4. change testing ================= */
+const MODS={
+ promo:{t:'Промокод',x:80,y:40},cat:{t:'Каталог книг',x:250,y:40},price:{t:'Расчёт цены',x:420,y:40},login:{t:'Вход',x:590,y:40,crit:1},
+ cart:{t:'Корзина',x:250,y:150,crit:1},order:{t:'Оформление заказа',x:420,y:150,crit:1},acc:{t:'Личный кабинет',x:590,y:150},
+ pay:{t:'Оплата картой',x:80,y:260,crit:1},bonus:{t:'Оплата бонусами',x:250,y:260},ret:{t:'Возврат',x:420,y:260},mail:{t:'Чеки и письма',x:590,y:260}};
+const MDEP=[['price','cat'],['price','cart'],['price','order'],['promo','cart'],['cart','order'],['order','pay'],['order','bonus'],['order','ret'],['order','mail'],['login','acc']];
+const CHK=['Смоук','Проверка нового','Ретест','Санити','Регресс','Анализ влияния','Смоук на проде'];
+const SCEN=[
+ {id:'sc1',t:'Утром на test пришла новая сборка с фичей промокода',src:null,need:['Смоук'],neut:[],
+  why:'Сначала смоук: есть ли смысл тестировать сборку дальше. Проверка нового — после того, как смоук прошёл.'},
+ {id:'sc2',t:'Разработчик исправил баг «промокод с пробелом не применяется», на test новая сборка',src:'promo',depth:1,need:['Ретест','Санити'],neut:['Регресс','Смоук'],
+  why:'Ретест — тот же промокод с тем же пробелом. Санити — коротко по корзине: итог, доставка, количество. Широкий регресс будет перед релизом на stage; смоук новой сборки — тоже не ошибка.'},
+ {id:'sc3',t:'Поправили общий расчёт цены. Сборка переезжает на stage перед релизом',src:'price',depth:3,need:['Анализ влияния','Регресс'],neut:['Смоук','Санити'],
+  why:'Правка в расчёте цены касается каталога, корзины, заказа, возврата и чеков. Анализ влияния выбирает, что регрессить в первую очередь, регресс проверяет, что старое не сломалось. Ретестить нечего — бага не было.'},
+ {id:'sc4',t:'Релиз выкатили на прод',src:null,need:['Смоук на проде'],neut:[],
+  why:'Смоук на проде: главные сценарии под тестовой учётной записью. Регресс и подробные проверки на живых данных не проводят.'},
+ {id:'sc5',t:'Новую «Подарочную упаковку» спрятали за фича-флаг',src:'order',depth:1,need:['Проверка нового','Регресс'],neut:['Анализ влияния','Смоук'],
+  why:'Флаг включён — проверка нового: фича работает целиком. Флаг выключен — регресс: продукт работает ровно как раньше, следов фичи не видно.'}];
+let scSel=0,scPick=new Set(),scChecked=false;
+function renderChange(m){
+  m.innerHTML=`<h2 class="sec">Тестирование, связанное с изменениями</h2>
+  <p class="sec-lead">Любая правка — новая фича, исправление бага, новая сборка — запускает свою цепочку проверок. Выбери ситуацию и отметь, какие проверки нужны. Схема покажет, куда «расходится волна» от изменения.</p>
+  <div class="chg"><div class="panel"><div class="eyebrow" style="margin-bottom:8px">Ситуации</div><div class="scen" id="scen"></div></div>
+   <div class="panel"><div id="mods"></div><div id="scBody"></div></div></div>
+  <div class="panel" style="margin-top:16px"><div class="eyebrow">Шпаргалка · четыре похожих вида</div><div class="tblw"><table class="cmp">
+   <tr><th></th>${['smoke','sanity','retest','regress'].map(k=>`<th>${cbtn('check',k,CHECKS[k].n)}</th>`).join('')}</tr>
+   <tr><th>Вопрос</th><td>Сборка вообще живая?</td><td>То, что задела правка, работает?</td><td>Этот баг исправлен?</td><td>Старое не сломалось?</td></tr>
+   <tr><th>Когда</th><td>Сразу после новой сборки и сразу после релиза — на проде</td><td>После небольшого изменения или исправления</td><td>После того как баг исправили</td><td>После проверки нового, перед релизом</td></tr>
+   <tr><th>Широта</th><td>Широко: главные пути</td><td>Узко: одна область</td><td>Очень узко: один баг</td><td>Широко: всё, что могло пострадать</td></tr>
+   <tr><th>Глубина</th><td>Неглубоко</td><td>Чуть глубже смоука</td><td>Глубоко по одному сценарию</td><td>От главного к второстепенному</td></tr></table></div></div>`;
+  drawScen();
+}
+function drawScen(){
+  $('scen').innerHTML=SCEN.map((s,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===scSel}"><span class="i">${String(i+1).padStart(2,'0')}</span><span>${s.t}</span><span class="ok">${done.has(s.id)?'✓':''}</span></button>`).join('');
+  $('scen').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;scSel=+b.dataset.i;scPick=new Set();scChecked=false;drawScen();};
+  drawMods(false);drawScBody();
+}
+function drawMods(ripple){
+  const W=140,H=40,s=SCEN[scSel];
+  let h=`<svg class="mods" viewBox="0 0 670 300" role="img" aria-label="Схема модулей магазина"><defs><marker id="mar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>`;
+  MDEP.forEach(([a,b])=>{const A=MODS[a],B=MODS[b],p=edgePt(A,B,W,H),q=edgePt(B,A,W+6,H+6);h+=`<line class="e" data-e="${a}-${b}" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" marker-end="url(#mar)"/>`;});
+  Object.entries(MODS).forEach(([k,n])=>{h+=`<g class="m ${n.crit?'crit':''}" data-m="${k}"><rect x="${n.x-W/2}" y="${n.y-H/2}" width="${W}" height="${H}" rx="10"/><text x="${n.x}" y="${n.y+4.5}" text-anchor="middle">${n.t}</text></g>`;});
+  if(s.src){const n=MODS[s.src];h+=`<circle class="pulse" id="pl" cx="${n.x}" cy="${n.y}" r="20"/>`;}
+  h+=`</svg><div class="legend" style="margin-top:6px"><span><i style="border-color:var(--bad);background:var(--bad)"></i>изменили</span><span><i style="border-color:var(--warn);background:var(--warnbg)"></i>может пострадать</span><span><i class="d"></i>критичный сценарий</span></div>`;
+  $('mods').innerHTML=h;
+  if(ripple&&s.src)runRipple(s.src,s.depth||9);
+}
+function runRipple(src,maxD){
+  const depth={[src]:0},q=[src];
+  while(q.length){const a=q.shift();MDEP.filter(e=>e[0]===a).forEach(([,b])=>{if(depth[b]==null&&depth[a]<maxD){depth[b]=depth[a]+1;q.push(b);}});}
+  const g=k=>document.querySelector(`#mods [data-m="${k}"]`);
+  g(src).classList.add('src');const pl=$('pl');if(pl){pl.classList.remove('go');void pl.getBoundingClientRect();pl.classList.add('go');}
+  Object.entries(depth).forEach(([k,d])=>{if(!d)return;setTimeout(()=>{g(k).classList.add('hit');MDEP.forEach(([a,b])=>{if(b===k&&depth[a]===d-1){const e=document.querySelector(`#mods [data-e="${a}-${b}"]`);e&&e.classList.add('hit');}});},d*450);});
+}
+function drawScBody(){
+  const s=SCEN[scSel];
+  $('scBody').innerHTML=`<p class="q" style="margin-top:12px">${s.t}. <b>Какие проверки нужны?</b> ${s.need.length>1?'Выбери все нужные.':'Выбери одну.'}</p>
+   <div class="picks" id="picks">${CHK.map(c=>{let cls='';if(scChecked){cls=s.need.includes(c)?(scPick.has(c)?'r':'w'):(scPick.has(c)?(s.neut.includes(c)?'n':'w'):'');}return `<button type="button" data-c="${c}" aria-pressed="${scPick.has(c)}" class="${cls}">${c}</button>`;}).join('')}</div>
+   <div class="actions"><button class="btn primary" type="button" id="scCheck">Проверить</button></div><div id="scFb"></div>`;
+  $('picks').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;const c=b.dataset.c;scPick.has(c)?scPick.delete(c):scPick.add(c);scChecked=false;drawScBody();};
+  $('scCheck').onclick=()=>{
+    scChecked=true;const miss=s.need.filter(c=>!scPick.has(c)),wrong=[...scPick].filter(c=>!s.need.includes(c)&&!s.neut.includes(c)),ok=!miss.length&&!wrong.length;
+    drawScBody();drawMods(true);
+    $('scFb').innerHTML=`<div class="fb ${ok?'ok':'bad'}" style="margin-top:10px">${ok?'Верно. ':''}${miss.length?`Не хватает: ${miss.join(', ')}. `:''}${wrong.length?`Лишнее: ${wrong.join(', ')}. `:''}${s.why}</div>`;
+    if(ok){markDone(s.id,'Ситуация разобрана');$('scen').querySelectorAll('.ok')[scSel].textContent='✓';}
+  };
+}
+
+/* ================= 5. quiz ================= */
+const QUIZ=[
+ {id:'q1',type:'order',title:'Этапы STLC по порядку',q:'Расставь этапы жизненного цикла тестирования по порядку.',items:STLC.map(s=>s.t),
+  hint:'Сначала понять, что проверять, потом решить, как, подготовить всё нужное — и только потом проверять и подводить итоги.',sol:'Анализ требований → Планирование → Проектирование тестов → Подготовка окружения → Выполнение → Завершение.'},
+ {id:'q2',type:'order',title:'Путь сборки до прода',q:'Как правка разработчика попадает к пользователям?',items:['Коммит','Сборка и автотесты','Dev','Test','Stage','Prod'],
+  hint:'Сначала правку сохраняют в общее хранилище кода, потом она проходит стенды от самого «сырого» к настоящему.',sol:'Коммит → сборка и автотесты (автоматически) → dev → test → stage → prod. Упала сборка или автотест — правка возвращается разработчику.'},
+ {id:'q3',type:'match',title:'Где это происходит',q:'Сопоставь проверку с окружением.',opts:['При сборке (автоматически)','test','stage','prod'],
+  rows:[['Модульные автотесты',0],['Смоук новой сборки',1],['Ретест исправленного бага',1],['Регресс и финальная проверка перед релизом',2],['Проверка с настоящими внешними сервисами (оплата)',2],['Смоук после релиза',3]],
+  hint:'На test работает тестировщик с новым и с ретестом. Stage — копия прода с настоящими внешними сервисами.',sol:'Автотесты — при сборке. Смоук и ретест — test. Регресс и проверка с настоящими сервисами — stage. Смоук после релиза — prod.'},
+ {id:'q4',type:'match',title:'Документ → этап STLC',q:'На каком этапе STLC получается этот результат?',opts:STLC.map(s=>s.t),
+  rows:[['Вопросы с ответами в задаче',0],['Тест-план, оценка времени',1],['Чек-лист и тест-кейсы',2],['Рабочий стенд и тестовые данные',3],['Баг-репорты',4],['Итоговый отчёт о тестировании',5]],
+  hint:'Посмотри колонку «На выходе» во вкладке «Жизненные циклы».',sol:'Вопросы — анализ требований; тест-план — планирование; чек-лист и кейсы — проектирование тестов; стенд и данные — подготовка окружения; баг-репорты — выполнение; отчёт — завершение.'},
+ {id:'q5',type:'match',title:'К кому за чем',q:'Что тестировщик получает от каждой роли?',opts:['Приоритеты и ответы «как должно быть»','Требования и спецификации','Макеты','Рабочий стенд и новую сборку','Новые запросы API и исправления'],
+  rows:[['PO / PM',0],['Аналитик',1],['Дизайнер',2],['DevOps',3],['Backend-разработчик',4]],
+  hint:'Вспомни, кто за что отвечает: решает «что и зачем», пишет требования, рисует, следит за стендами, делает сервер.',sol:'PO — приоритеты и ответы; аналитик — требования; дизайнер — макеты; DevOps — стенд и сборка; backend — API и исправления.'},
+ {id:'q6',type:'choice',title:'Смоук упал',q:'Новая сборка на test: не работает вход. Что делаешь?',
+  opts:[['Сразу пишу разработчикам и возвращаю сборку, полную проверку не начинаю',1,'Да. Смоук отвечает на вопрос «есть ли смысл тестировать дальше» — здесь нет.'],['Завожу баг и продолжаю проверять промокод по чек-листу',0,'Без входа нельзя проверить почти ничего — день уйдёт впустую.'],['Жду до вечера: может, само починится',0,'Разработчики узнают о проблеме поздно, и время тестирования пропадёт.'],['Начинаю регресс, раз новое проверить нельзя',0,'Регресс — после проверки нового и тоже требует живой сборки.']]},
+ {id:'q7',type:'choice',title:'Fixed — и что дальше',q:'Разработчик перевёл твой баг в Fixed. Кто и что делает дальше?',
+  opts:[['Разработчик сам закрывает баг',0,'Fixed — только мнение разработчика. Закрывает обычно тестировщик.'],['Тестировщик делает ретест на новой сборке и, если баг не повторился, закрывает его',1,'Верно. И помнит про регресс: исправление могло задеть соседние функции.'],['Баг сразу уходит в Closed автоматически',0,'Без ретеста никто не знает, исправлен ли баг на самом деле.'],['Тестировщик переоткрывает баг, чтобы проверить ещё раз',0,'Reopened — когда ретест уже показал, что баг повторился.']]},
+ {id:'q8',type:'choice',title:'Зачем так рано',q:'Зачем тестировщик подключается уже на этапе требований, когда кода ещё нет?',
+  opts:[['Чтобы быстрее написать автотесты',0,'Автотесты тут ни при чём: на этапе требований тестируют сами требования.'],['Ошибку в требованиях исправить дешевле всего — одной правкой текста',1,'Да. Условно: в требованиях ×1, на тестировании ×20, у пользователей ×100. Это shift-left.'],['Так положено по Waterfall',0,'Ранний старт полезен в любой модели разработки.'],['Чтобы проконтролировать аналитика',0,'Цель — не контроль, а найти неясности до того, как по ним напишут код.']]}
+];
+const qState={};
+function renderQuiz(m){
+  m.innerHTML=`<h2 class="sec">Проверь себя</h2><p class="sec-lead">Задания проверяются сразу. Если не получается — подсказка, потом разбор. Решённые задания засчитываются в прогресс вверху.</p><div class="tasks" id="tasks"></div>`;
+  $('tasks').innerHTML=QUIZ.map((t,i)=>`<div class="task ${done.has(t.id)?'done':''}" id="t-${t.id}"><div class="task-h"><span class="id">${String(i+1).padStart(2,'0')}</span><h4>${t.title}</h4><span class="badge">${done.has(t.id)?'решено':'не решено'}</span></div><p class="q">${t.q}</p><div class="tb"></div>
+   <div class="actions"><button class="btn primary" type="button" data-a="check">Проверить</button>${t.hint?'<button class="btn" type="button" data-a="hint">Подсказка</button>':''}${t.sol?'<button class="btn" type="button" data-a="sol">Разбор</button>':''}<button class="btn" type="button" data-a="reset">Сбросить</button></div><div class="out"></div></div>`).join('');
+  QUIZ.forEach(t=>{qState[t.id]=qState[t.id]||{};drawTask(t);const el=$('t-'+t.id);
+    el.querySelector('.actions').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,out=el.querySelector('.out');
+      if(a==='hint')out.innerHTML=`<div class="hintbox">${t.hint}</div>`;
+      if(a==='sol')out.innerHTML=`<div class="solbox">${t.sol}</div>`;
+      if(a==='reset'){qState[t.id]={};out.innerHTML='';drawTask(t);}
+      if(a==='check')checkTask(t,el,out);};});
+}
+function drawTask(t){
+  const el=$('t-'+t.id),tb=el.querySelector('.tb'),st=qState[t.id];
+  if(t.type==='order'){st.pool=st.pool||shuffle(t.items.map((x,i)=>i));st.seq=st.seq||[];
+    tb.innerHTML=`<div class="seq">${st.seq.map((i,k)=>`<button type="button" data-s="${k}" class="${st.res?(st.res[k]?'r':'w'):''}"><span class="o">${k+1}</span>${t.items[i]}</button>`).join('')}</div><div class="pool" style="margin-top:8px">${st.pool.filter(i=>!st.seq.includes(i)).map(i=>`<button type="button" data-p="${i}">${t.items[i]}</button>`).join('')}</div>`;
+    tb.onclick=e=>{const p=e.target.closest('[data-p]'),s=e.target.closest('[data-s]');st.res=null;if(p)st.seq.push(+p.dataset.p);if(s)st.seq.splice(+s.dataset.s,1);drawTask(t);};}
+  if(t.type==='match'){st.v=st.v||{};
+    tb.innerHTML=`<div class="match">${t.rows.map((r,k)=>`<div class="row ${st.res?(st.res[k]?'r':'w'):''}"><span class="lbl">${r[0]}</span><select data-k="${k}" aria-label="${r[0]}"><option value="">— выбери —</option>${t.opts.map((o,j)=>`<option value="${j}" ${st.v[k]==j&&st.v[k]!==''?'selected':''}>${o}</option>`).join('')}</select></div>`).join('')}</div>`;
+    tb.onchange=e=>{const s=e.target.closest('select');if(!s)return;st.v[s.dataset.k]=s.value;st.res=null;s.closest('.row').className='row';};}
+  if(t.type==='choice'){
+    tb.innerHTML=`<div class="opts">${t.opts.map((o,k)=>`<label class="${st.checked&&st.sel==k?(o[1]?'r':'w'):''}"><input type="radio" name="${t.id}" value="${k}" ${st.sel==k?'checked':''}><span>${o[0]}${st.checked&&st.sel==k?`<span class="why">${o[2]}</span>`:''}</span></label>`).join('')}</div>`;
+    tb.onchange=e=>{st.sel=+e.target.value;st.checked=false;drawTask(t);};}
+}
+function checkTask(t,el,out){
+  const st=qState[t.id];let ok=false,msg='';
+  if(t.type==='order'){if(st.seq.length<t.items.length){out.innerHTML='<div class="fb bad">Расставь все карточки.</div>';return;}
+    st.res=st.seq.map((v,k)=>v===k);ok=st.res.every(Boolean);msg=ok?'Верно!':`На своих местах: ${st.res.filter(Boolean).length} из ${t.items.length}. Нажми на карточку, чтобы вернуть её назад.`;}
+  if(t.type==='match'){const filled=t.rows.every((r,k)=>st.v[k]!==undefined&&st.v[k]!=='');if(!filled){out.innerHTML='<div class="fb bad">Заполни все строки.</div>';return;}
+    st.res=t.rows.map((r,k)=>+st.v[k]===r[1]);ok=st.res.every(Boolean);msg=ok?'Верно!':`Верно: ${st.res.filter(Boolean).length} из ${t.rows.length}.`;}
+  if(t.type==='choice'){if(st.sel==null){out.innerHTML='<div class="fb bad">Выбери вариант.</div>';return;}st.checked=true;ok=!!t.opts[st.sel][1];msg=ok?'Верно!':'Не совсем — прочитай пояснение под вариантом.';}
+  drawTask(t);out.innerHTML=`<div class="fb ${ok?'ok':'bad'}">${msg}</div>`;
+  if(ok){markDone(t.id,'Задание решено');el.classList.add('done');el.querySelector('.badge').textContent='решено';}
+}
+
+/* ================= progress ================= */
+const ALL=['path-plain','path-story','roles-all','types-all',...MISSIONS.map(m=>m.id),...SCEN.map(s=>s.id),...QUIZ.map(q=>q.id)];
+function updProg(){const n=ALL.filter(i=>done.has(i)).length;$('pbar').style.width=(n/ALL.length*100)+'%';$('ptxt').textContent=`${n} / ${ALL.length}`;}
+
+drawTabs();render();updProg();
+</script>
+</body>
+</html>
